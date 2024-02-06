@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-settings
+  namespace: flux-system
+data:
+  TIMEZONE: "Europe/Simferopol"
+  CLUSTER_CIDR: "10.111.0.0/16"
+  NODE_CIDR: "192.168.108.0/24"
