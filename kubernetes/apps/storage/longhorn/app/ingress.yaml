@@ -1,17 +1,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: longhorn-ingress-cilium
-  namespace: longhorn-system
+  name: longhorn-ingress
+  namespace: storage
 spec:
   ingressClassName: internal
   rules:
-  - host: "longhorn.${SECRET_DOMAIN}"
+  - host: &host "longhorn.${SECRET_DOMAIN}"
     http:
       paths:
       - backend:
           service:
-            name: "longhorn.${SECRET_DOMAIN}"
+            name: *host
             port:
               number: 80
         path: /
