@@ -65,3 +65,10 @@ spec:
           effect: "NoSchedule"
     longhornUI:
       replicas: 1
+    ingress:
+      enabled: true
+      ingressClassName: internal
+      host: "longhorn.${SECRET_DOMAIN}"
+      tls: true
+      secureBackends: false
+      path: /

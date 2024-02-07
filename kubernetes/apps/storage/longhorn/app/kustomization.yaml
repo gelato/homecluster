@@ -6,4 +6,3 @@ resources:
  - longhorn-sc-fast.yaml
  - longhorn-sc-ssd.yaml
  - longhorn-sc-storage.yaml
- - ingress.yaml
