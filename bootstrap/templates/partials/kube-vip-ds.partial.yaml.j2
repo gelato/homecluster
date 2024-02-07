@@ -22,6 +22,8 @@ spec:
           env:
             - name: address
               value: "{{ cluster.endpoint_vip }}"
+            - name: vip_interface
+              value: "{{ cluster.endpoint_interface }}"
             - name: vip_arp
               value: "true"
             - name: lb_enable

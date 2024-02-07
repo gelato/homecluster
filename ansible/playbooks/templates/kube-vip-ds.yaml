@@ -23,6 +23,8 @@ spec:
           env:
             - name: address
               value: "192.168.108.250"
+            - name: vip_interface
+              value: enp3s0
             - name: vip_arp
               value: "true"
             - name: lb_enable
