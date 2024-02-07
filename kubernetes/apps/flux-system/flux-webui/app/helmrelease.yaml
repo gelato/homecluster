@@ -1,0 +1,64 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: flux-webui
+  namespace: flux-system
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: weave-gitops
+#      version: 4.0.36
+      sourceRef:
+        kind: HelmRepository
+        name: weaveworks
+        namespace: flux-system
+  dependsOn:
+    - name: ingress-nginx
+      namespace: network
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    fullnameOverride: flux-webui
+    adminUser:
+      create: true
+      username: admin
+      passwordHash: ${WW_ADMIN_PASSWORD}
+    ingress:
+      className: internal
+      enabled: true
+      annotations:
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Infrastructure
+        gethomepage.dev/name: Flux
+        gethomepage.dev/icon: git.svg
+        # cert-manager.io/cluster-issuer: "letsencrypt-production"
+      hosts:
+        - host: &host "flux.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - *host
+          secretName: *host
+    rbac:
+      create: true
+      impersonationResourceNames: ["admin"]
+    resources:
+      requests:
+        cpu: 300m
+        memory: 80Mi
+        ephemeral-storage: 1Gi
+      limits:
+        memory: 120Mi
+        ephemeral-storage: 5Gi
