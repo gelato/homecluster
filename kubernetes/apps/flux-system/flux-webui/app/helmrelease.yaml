@@ -14,7 +14,7 @@ spec:
         name: weaveworks
         namespace: flux-system
   dependsOn:
-    - name: ingress-nginx
+    - name: ingress-nginx-internal
       namespace: network
   maxHistory: 3
   install:
