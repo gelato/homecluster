@@ -11,11 +11,11 @@ spec:
       paths:
       - backend:
           service:
-            name: *host
+            name: longhorn-frontend
             port:
               number: 80
         path: /
         pathType: Prefix
   tls:
   - hosts:
-    - longhorn.skynerv.com
+    - *host
