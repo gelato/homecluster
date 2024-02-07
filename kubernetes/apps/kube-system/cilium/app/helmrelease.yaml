@@ -77,6 +77,16 @@ spec:
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
     l2announcements:
       enabled: true
+    ipv4:
+      enabled: true
+    ipv6:
+      enabled: false
+    k8sClientRateLimit:
+      burst: 100
+      qps: 50
+    l2announcements.leaseDuration: 3s
+    l2announcements.leaseRenewDeadline: 1s
+    l2announcements.leaseRetryPeriod: 200ms
     loadBalancer:
       algorithm: maglev
       mode: dsr
