@@ -28,6 +28,7 @@ spec:
     keepHistory: false
   values:
     persistence:
+      defaultClass: true
       defaultClassReplicaCount: 1
       defaultFsType: ext4
       reclaimPolicy: Delete
@@ -45,12 +46,6 @@ spec:
           operator: Exists
           effect: NoExecute
     pspEnable: false
-    # ingress:
-    #   enabled: true
-    #   ingressClassName: internal
-    #   tls: true
-    #   host: "longhorn.${SECRET_DOMAIN}"
-    #   path: /
     longhornManager:
       tolerations:
         - key: "node-role.kubernetes.io/control-plane"
