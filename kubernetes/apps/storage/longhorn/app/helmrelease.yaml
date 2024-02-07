@@ -45,12 +45,12 @@ spec:
           operator: Exists
           effect: NoExecute
     pspEnable: false
-    ingress:
-      enabled: true
-      ingressClassName: internal
-      tls: true
-      host: "longhorn.${SECRET_DOMAIN}"
-      path: /
+    # ingress:
+    #   enabled: true
+    #   ingressClassName: internal
+    #   tls: true
+    #   host: "longhorn.${SECRET_DOMAIN}"
+    #   path: /
     longhornManager:
       tolerations:
         - key: "node-role.kubernetes.io/control-plane"
