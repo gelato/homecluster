@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: longhorn
-      version: 1.5.3
+      version: 1.6.0
       sourceRef:
         kind: HelmRepository
         name: longhorn
@@ -39,8 +39,8 @@ spec:
       snapshotterReplicaCount: 1
     defaultSettings:
       defaultReplicaCount: 1
-      backupTarget: s3://longhorn@us-east-1/
-      backupTargetCredentialSecret: minio-secret
+      backupTarget: s3://bkp-cluster@us-east-1/
+      backupTargetCredentialSecret: s3-secret
       taintToleration:
         - key: node-role.kubernetes.io/master
           operator: Exists
