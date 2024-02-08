@@ -71,7 +71,6 @@ spec:
               runAsGroup: 10007
               fsGroup: 10007
               fsGroupChangePolicy: OnRootMismatch
-              supplementalGroups: [10000]
     service:
       main:
         ports:
