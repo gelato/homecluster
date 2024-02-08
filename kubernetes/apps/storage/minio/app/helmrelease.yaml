@@ -109,9 +109,9 @@ spec:
           - hosts:
               - *host
               - *s3Host
-    persistence:
-      config:
-        enabled: true
-        existingClaim: minio
-        globalMounts:
-          - path: /data
+    # persistence:
+    #   config:
+    #     enabled: true
+    #     existingClaim: minio
+    #     globalMounts:
+    #       - path: /data
