@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: minio
+  name: minio-storage
 spec:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 1Gi
-  storageClassName: longhorn-fast
+      storage: 200Gi
+  storageClassName: longhorn-storage

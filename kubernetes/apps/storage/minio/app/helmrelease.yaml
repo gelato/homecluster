@@ -1,25 +1,25 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: minio
+  name: &app minio
 spec:
-  interval: 30m
+  interval: 60m
   chart:
     spec:
       chart: app-template
       version: 2.5.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bjw-s-charts
         namespace: flux-system
+      interval: 60m
+  maxHistory: 2
   install:
-    timeout: 25m
+    createNamespace: true
     remediation:
       retries: 3
   upgrade:
-    timeout: 25m
     cleanupOnFail: true
     remediation:
       retries: 3
@@ -28,13 +28,23 @@ spec:
   values:
     controllers:
       main:
+        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
+
+        pod:
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: "OnRootMismatch"
+            supplementalGroups:
+              - 10007
+
         containers:
           main:
             image:
               repository: quay.io/minio/minio
-              tag: RELEASE.2024-01-31T20-20-33Z@sha256:4092433a77e510826874b36f369696df43407a763d7f901a61d74e83e6fd95bc
+              tag: RELEASE.2024-02-06T21-36-22Z
+
             env:
               MINIO_API_CORS_ALLOW_ORIGIN: https://minio.${SECRET_DOMAIN},https://s3.${SECRET_DOMAIN}
               MINIO_BROWSER_REDIRECT_URL: https://minio.${SECRET_DOMAIN}
@@ -43,74 +53,67 @@ spec:
               MINIO_PROMETHEUS_AUTH_TYPE: public
               MINIO_SERVER_URL: https://s3.${SECRET_DOMAIN}
               MINIO_UPDATE: "off"
+
             envFrom:
               - secretRef:
                   name: minio-secret
-            args:
-              - server
-              - /data
-              - --console-address
-              - :9001
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /minio/health/live
-                    port: 9000
-                  initialDelaySeconds: 30
-                  periodSeconds: 30
-                  timeoutSeconds: 10
-                  failureThreshold: 6
-              readiness: *probes
-              startup:
-                enabled: false
-            securityContext:
-              runAsUser: 1007
-              runAsGroup: 10007
-              fsGroup: 10007
-              fsGroupChangePolicy: OnRootMismatch
+
+            args: ["server", "/data", "--console-address", ":9001"]
+
+            resources:
+              requests:
+                memory: 100Mi
+                cpu: 100m
+              limits:
+                memory: 2048Mi
+
     service:
       main:
+        enabled: true
         ports:
           http:
             port: 9001
-          s3:
+          api:
+            enabled: true
             port: 9000
-    serviceMonitor:
-      main:
-        enabled: true
-        endpoints:
-          - port: s3
-            scheme: http
-            path: /minio/v2/metrics/cluster
-            interval: 1m
-            scrapeTimeout: 10s
+
     ingress:
       main:
         enabled: true
-        className: internal
+        className: nginx
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - host: &console-host minio.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
                   name: main
                   port: http
-          - host: &s3Host s3.${SECRET_DOMAIN}
+        tls:
+          - hosts:
+              - *console-host
+      s3:
+        enabled: true
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
+          nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+          nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            chunked_transfer_encoding off;
+        hosts:
+          - host: &api-host s3.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
                   name: main
-                  port: s3
+                  port: api
         tls:
           - hosts:
-              - *host
-              - *s3Host
-    # persistence:
-    #   config:
-    #     enabled: true
-    #     existingClaim: minio
-    #     globalMounts:
-    #       - path: /data
+              - *api-host
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: minio-storage
+        globalMounts:
+          - path: /data
