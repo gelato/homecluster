@@ -74,8 +74,7 @@ spec:
         domains:
           minio:
             - &apiHost s3.${SECRET_DOMAIN}
-          console:
-            - &consoleHost minio.${SECRET_DOMAIN}
+          console: &consoleHost minio.${SECRET_DOMAIN}
         enableSFTP: false
       ingress:
         api:
