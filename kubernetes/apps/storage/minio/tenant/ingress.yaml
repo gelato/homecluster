@@ -1,0 +1,92 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "minio-s3-console-ingress"
+  namespace: storage
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      client_max_body_size 0;
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      chunked_transfer_encoding off;
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "minio.${SECRET_DOMAIN}"
+    http:
+      paths:
+      - backend:
+          service:
+            name: s3-console
+            port:
+              name: https-console
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - "minio.${SECRET_DOMAIN}"
+    secretName: "minio-s3-console-secret"
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "minio-s3-ingress"
+  namespace: storage
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      client_max_body_size 0;
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      chunked_transfer_encoding off;
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "s3.${SECRET_DOMAIN}"
+    http:
+      paths:
+      - backend:
+          service:
+            name: minio
+            port:
+              name: https-minio
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - "s3.${SECRET_DOMAIN}"
+    secretName: "minio-s3-secret"
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "minio-s3-wildcard-ingress"
+  namespace: storage
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      client_max_body_size 0;
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      chunked_transfer_encoding off;
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "*.s3.${SECRET_DOMAIN}"
+    http:
+      paths:
+      - backend:
+          service:
+            name: minio
+            port:
+              name: https-minio
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - "*.s3.${SECRET_DOMAIN}"
+    secretName: "minio-s3-wildcard-secret"
