@@ -40,16 +40,13 @@ spec:
         - name: MINIO_SERVER_URL
           value: https://minio.storage.svc
       buckets:
-        - name: loki-chunks
-          objectLock: false
-          region: us-east-1
-        - name: loki-ruler
-          objectLock: false
-          region: us-east-1
-        - name: loki-admin
+        - name: loki
           objectLock: false
           region: us-east-1
         - name: cloudnative-pg
+          objectLock: false
+          region: us-east-1
+        - name: thanos
           objectLock: false
           region: us-east-1
       pools:
@@ -83,6 +80,6 @@ spec:
         bucketDNS: true
         domains:
           minio:
-            - &apiHost "s3.${SECRET_DOMAIN}"
+            - &apiHost "*.s3.${SECRET_DOMAIN}"
           console: &consoleHost minio.${SECRET_DOMAIN}
         enableSFTP: false
