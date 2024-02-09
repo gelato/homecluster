@@ -81,7 +81,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: nginx
+        className: internal
         hosts:
           - host: &console-host minio.${SECRET_DOMAIN}
             paths:
@@ -94,7 +94,7 @@ spec:
               - *console-host
       s3:
         enabled: true
-        className: nginx
+        className: internal
         annotations:
           nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
           nginx.ingress.kubernetes.io/proxy-body-size: 1024m
