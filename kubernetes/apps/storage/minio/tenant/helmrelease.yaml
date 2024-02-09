@@ -7,6 +7,8 @@ metadata:
 spec:
   interval: 1h
   maxHistory: 3
+  driftDetection:
+    mode: enabled
   dependsOn:
     - name: minio-operator
       namespace: storage
