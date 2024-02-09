@@ -16,3 +16,4 @@ resources:
   - ./repos/grafana.yaml
   - ./repos/prometheus-community.yaml
   - ./repos/minio-operator-charts.yaml
+  - ./repos/bitnami.yaml
