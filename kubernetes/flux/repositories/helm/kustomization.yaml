@@ -12,3 +12,6 @@ resources:
   - ./repos/weaveworks.yaml
   - ./repos/stakater.yaml
   - ./repos/longhorn.yaml
+  - ./repos/cloudnative-pg.yaml
+  - ./repos/grafana.yaml
+  - ./repos/prometheus-community.yaml
