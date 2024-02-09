@@ -86,7 +86,7 @@ spec:
           - hosts:
             - *apiHost
             secretName: minio-api-tls
-        host: *apiHost
+        host: "s3.${SECRET_DOMAIN}"
         path: /
         pathType: Prefix
       console:
