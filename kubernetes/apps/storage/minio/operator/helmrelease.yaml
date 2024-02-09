@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: operator
-      version: 5.0.12
+      version: 5.0.11
       sourceRef:
         kind: HelmRepository
         name: minio-operator-charts
@@ -31,10 +31,6 @@ spec:
           value: "monitoring"
         - name: MINIO_PROMETHEUS_URL
           value: "http://kube-prometheus-stack-prometheus.monitoring:9090"
-      image:
-        repository: quay.io/minio/operator
-        tag: v5.0.12
-        pullPolicy: IfNotPresent
       imagePullSecrets: [ ]
       runtimeClassName: ~
       initContainers: [ ]
