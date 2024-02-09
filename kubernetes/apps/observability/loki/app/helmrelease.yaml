@@ -89,6 +89,7 @@ spec:
               s3: null
               insecure: false
               s3forcepathstyle: true
+              region: us-east-1
               http_config:
                 insecure_skip_verify: true
           ring:
