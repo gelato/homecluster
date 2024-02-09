@@ -84,9 +84,9 @@ spec:
         annotations: { }
         tls:
           - hosts:
-            - "*.s3.${SECRET_DOMAIN}"
+            - *apiHost
             secretName: minio-api-tls
-        host: "*.s3.${SECRET_DOMAIN}"
+        host: *apiHost
         path: /
         pathType: Prefix
       console:
