@@ -66,6 +66,7 @@ metadata:
   name: "minio-s3-wildcard-ingress"
   namespace: storage
   annotations:
+    external-dns.alpha.kubernetes.io/hostname: "*.s3.${SECRET_DOMAIN}"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
