@@ -73,31 +73,31 @@ spec:
         bucketDNS: true
         domains:
           minio:
-            - &apiHost s3.${SECRET_DOMAIN}
+            - &apiHost "*.s3.${SECRET_DOMAIN}"
           console: &consoleHost minio.${SECRET_DOMAIN}
         enableSFTP: false
-      ingress:
-        api:
-          enabled: true
-          ingressClassName: "internal"
-          labels: { }
-          annotations: { }
-          tls:
-            - hosts:
-              - *apiHost
-              secretName: minio-api-tls
-          host: *apiHost
-          path: /
-          pathType: Prefix
-        console:
-          enabled: true
-          ingressClassName: "internal"
-          labels: { }
-          annotations: { }
-          tls:
-            - hosts:
-              - *consoleHost
-              secretName: minio-console-tls
-          host: consoleHost
-          path: /
-          pathType: Prefix
+    ingress:
+      api:
+        enabled: true
+        ingressClassName: "internal"
+        labels: { }
+        annotations: { }
+        tls:
+          - hosts:
+            - "*.s3.${SECRET_DOMAIN}"
+            secretName: minio-api-tls
+        host: "*.s3.${SECRET_DOMAIN}"
+        path: /
+        pathType: Prefix
+      console:
+        enabled: true
+        ingressClassName: "internal"
+        labels: { }
+        annotations: { }
+        tls:
+          - hosts:
+            - *consoleHost
+            secretName: minio-console-tls
+        host: *consoleHost
+        path: /
+        pathType: Prefix
