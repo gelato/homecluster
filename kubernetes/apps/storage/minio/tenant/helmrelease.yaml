@@ -75,7 +75,7 @@ spec:
         bucketDNS: true
         domains:
           minio:
-            - &apiHost "*.s3.${SECRET_DOMAIN}"
+            - "s3.${SECRET_DOMAIN}"
           console: &consoleHost minio.${SECRET_DOMAIN}
         enableSFTP: false
     ingress:
@@ -83,19 +83,33 @@ spec:
         enabled: true
         ingressClassName: "internal"
         labels: { }
-        annotations: { }
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          nginx.ingress.kubernetes.io/rewrite-target: /
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          nginx.ingress.kubernetes.io/server-snippet: |
+            client_max_body_size 0;
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            chunked_transfer_encoding off;
         tls:
           - hosts:
-            - *apiHost
+            - "*.s3.${SECRET_DOMAIN}"
             secretName: minio-api-tls
-        host: "s3.${SECRET_DOMAIN}"
+        host: "*.s3.${SECRET_DOMAIN}"
         path: /
         pathType: Prefix
       console:
         enabled: true
         ingressClassName: "internal"
         labels: { }
-        annotations: { }
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          nginx.ingress.kubernetes.io/rewrite-target: /
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          nginx.ingress.kubernetes.io/server-snippet: |
+            client_max_body_size 0;
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            chunked_transfer_encoding off;
         tls:
           - hosts:
             - *consoleHost
