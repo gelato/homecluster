@@ -75,7 +75,7 @@ spec:
         bucketDNS: true
         domains:
           minio:
-            - "s3.${SECRET_DOMAIN}"
+            - &apiHost "s3.${SECRET_DOMAIN}"
           console: &consoleHost minio.${SECRET_DOMAIN}
         enableSFTP: false
     ingress:
@@ -95,7 +95,7 @@ spec:
           - hosts:
             - "*.s3.${SECRET_DOMAIN}"
             secretName: minio-api-tls
-        host: "*.s3.${SECRET_DOMAIN}"
+        host: '*.s3.${SECRET_DOMAIN}'
         path: /
         pathType: Prefix
       console:
