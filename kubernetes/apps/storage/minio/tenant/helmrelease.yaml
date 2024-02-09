@@ -30,6 +30,7 @@ spec:
   values:
     # for testing
     secrets:
+      name: minio-s3-env-configuration
       accessKey: ${MINIO_ROOT_USER}
       secretKey: ${MINIO_ROOT_PASSWORD}
     tenant:
@@ -41,9 +42,17 @@ spec:
           value: https://minio.storage.svc
       buckets:
         - name: loki-chunks
+          objectLock: false
+          region: us-east-1
         - name: loki-ruler
+          objectLock: false
+          region: us-east-1
         - name: loki-admin
+          objectLock: false
+          region: us-east-1
         - name: cloudnative-pg
+          objectLock: false
+          region: us-east-1
       pools:
         - name: pool
           servers: 1
