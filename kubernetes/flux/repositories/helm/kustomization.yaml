@@ -15,3 +15,4 @@ resources:
   - ./repos/cloudnative-pg.yaml
   - ./repos/grafana.yaml
   - ./repos/prometheus-community.yaml
+  - ./repos/minio-operator-charts.yaml
