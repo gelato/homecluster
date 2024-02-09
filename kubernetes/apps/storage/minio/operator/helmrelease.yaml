@@ -68,10 +68,6 @@ spec:
 
     console:
       enabled: true
-      image:
-        repository: quay.io/minio/operator
-        tag: v5.0.12
-        pullPolicy: IfNotPresent
       env: [ ]
       imagePullSecrets: [ ]
       runtimeClassName: ~
