@@ -38,7 +38,7 @@ spec:
         - name: MINIO_PROMETHEUS_URL
           value: "http://kube-prometheus-stack-prometheus.monitoring:9090"
         - name: MINIO_SERVER_URL
-          value: http://minio.storage.svc
+          value: https://minio.storage.svc
       buckets:
         - name: loki-chunks
         - name: loki-ruler
