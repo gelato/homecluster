@@ -59,6 +59,10 @@ spec:
       type: s3
       config:
         insecure: false
+        http_config:
+          insecure_skip_verify: true
+          tls_config:
+            insecure_skip_verify: true
     queryFrontend:
       enabled: true
       replicaCount: 2
