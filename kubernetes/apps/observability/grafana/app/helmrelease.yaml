@@ -66,7 +66,7 @@ spec:
       auth.generic_oauth.group_mapping:
         org_id: 1
         role_attribute_path: |
-          contains(info.groups[*], 'admins') && 'GrafanaAdmin' || contains(info.groups[*], 'editors') && 'Editor' || 'Viewer'
+          contains(groups[*], 'admins') && 'GrafanaAdmin' || contains(groups[*], 'editors') && 'Editor' || 'Viewer'
       auth.basic:
         enabled: false
       auth.anonymous:
@@ -272,7 +272,7 @@ spec:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
           datasource: Prometheus
       prometheus:
-        prometheus:
+        prometheus-dash:
           # renovate: depName="Prometheus"
           gnetId: 19105
           revision: 3
