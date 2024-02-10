@@ -70,14 +70,14 @@ spec:
                 cpu: 10m
               limits:
                 memory: 128Mi
-        pod:
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: *app
+        # pod:
+        #   topologySpreadConstraints:
+        #     - maxSkew: 1
+        #       topologyKey: kubernetes.io/hostname
+        #       whenUnsatisfiable: DoNotSchedule
+        #       labelSelector:
+        #         matchLabels:
+        #           app.kubernetes.io/name: *app
     service:
       main:
         ports:
