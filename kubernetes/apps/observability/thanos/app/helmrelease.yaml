@@ -70,7 +70,9 @@ spec:
         type: REDIS
         config:
           addr: >-
-            redis-node-0.redis-headless.database.svc.cluster.local:26379
+            redis-node-0.redis-headless.database.svc.cluster.local:26379,
+            redis-node-1.redis-headless.database.svc.cluster.local:26379,
+            redis-node-2.redis-headless.database.svc.cluster.local:26379
           db: 13
           master_name: redis-master
       ingress:
@@ -88,7 +90,7 @@ spec:
       dnsDiscovery:
         sidecarsService: kube-prometheus-stack-thanos-discovery
         sidecarsNamespace: observability
-      stores: ["thanos.${SECRET_DOMAIN}:10901"]
+      stores: ["thanos-storegateway:10901"]
     bucketweb:
       enabled: true
       replicaCount: 1
