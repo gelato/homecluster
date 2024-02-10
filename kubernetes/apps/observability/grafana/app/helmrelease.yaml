@@ -65,8 +65,7 @@ spec:
         auto_login: true
       auth.generic_oauth.group_mapping:
         org_id: 1
-        role_attribute_path: |
-          contains(groups[*], 'admins') && 'GrafanaAdmin' || contains(groups[*], 'editors') && 'Editor' || 'Viewer'
+        role_attribute_path: contains(groups[*], 'viewers') && 'Viewer' || contains(groups[*], 'editors') && 'Editor' || 'GrafanaAdmin'
       auth.basic:
         enabled: false
       auth.anonymous:
