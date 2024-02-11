@@ -20,3 +20,4 @@ resources:
   - ./repos/intel.yaml
   - ./repos/amd.yaml
   - ./repos/xenitab.yaml
+  - ./repos/node-feature-discovery.yaml
