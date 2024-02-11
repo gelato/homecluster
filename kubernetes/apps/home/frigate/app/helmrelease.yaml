@@ -28,10 +28,8 @@ spec:
       namespace: kube-system
     - name: mosquitto
       namespace: default
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-    - name: volsync
-      namespace: volsync-system
+    - name: longhorn
+      namespace: storage
   values:
     controllers:
       main:
@@ -43,8 +41,8 @@ spec:
               repository: ghcr.io/blakeblackshear/frigate
               tag: 0.13.1@sha256:ee3cd964f19f3b7aa48cc512423c4378478dd97214f66b16741ac3c1d799d407
             env:
-              TZ: America/New_York
-              LIBVA_DRIVER_NAME: i965
+              TZ: Europe/Simferopol
+              LIBVA_DRIVER_NAME: radeonsi
             envFrom:
               - secretRef:
                   name: frigate-secret
@@ -81,9 +79,9 @@ spec:
                         operator: In
                         values: ["plex"]
                   topologyKey: kubernetes.io/hostname
-          nodeSelector:
-            google.feature.node.kubernetes.io/coral: "true"
-            intel.feature.node.kubernetes.io/gpu: "true"
+          # nodeSelector:
+          #   google.feature.node.kubernetes.io/coral: "true"
+          #   intel.feature.node.kubernetes.io/gpu: "true"
     service:
       main:
         ports:
@@ -96,7 +94,7 @@ spec:
         enabled: true
         className: internal
         hosts:
-          - host: &host "{{ .Release.Name }}.devbu.io"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:
@@ -125,16 +123,21 @@ spec:
         sizeLimit: 4Gi
         globalMounts:
           - path: /dev/shm
-      usb:
+      # usb:
+      #   enabled: true
+      #   type: hostPath
+      #   hostPath: /dev/bus/usb
+      #   hostPathType: Directory
+      #   globalMounts:
+      #     - path: /dev/bus/usb
+      dri:
         enabled: true
         type: hostPath
-        hostPath: /dev/bus/usb
+        hostPath: /dev/dri
         hostPathType: Directory
         globalMounts:
-          - path: /dev/bus/usb
-      media:
-        type: nfs
-        server: expanse.turbo.ac
-        path: /eros/Apps/Frigate
+          - path: /dev/dri
+      suv:
+        existingClaim: suv-storage
         globalMounts:
-          - path: /media
+          - path: /storage
