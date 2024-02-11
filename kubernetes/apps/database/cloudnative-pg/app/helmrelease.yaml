@@ -31,7 +31,6 @@ spec:
       create: true
     monitoring:
       # -- Specifies whether the monitoring should be enabled. Requires Prometheus Operator CRDs.
-      podMonitorEnabled: true
       grafanaDashboard:
         create: true
         # -- Allows overriding the namespace where the ConfigMap will be created, defaulting to the same one as the Release.
