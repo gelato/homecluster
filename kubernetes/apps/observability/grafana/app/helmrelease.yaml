@@ -65,7 +65,7 @@ spec:
         auto_login: true
       auth.generic_oauth.group_mapping:
         org_id: 1
-        role_attribute_path: contains(groups[*], 'viewers') && 'Viewer' || contains(groups[*], 'editors') && 'Editor' || 'GrafanaAdmin'
+        role_attribute_path: contains(info.groups[*], 'viewers') && 'Viewer' || contains(info.groups[*], 'editors') && 'Editor' || 'GrafanaAdmin'
       auth.basic:
         enabled: false
       auth.anonymous:
@@ -112,7 +112,7 @@ spec:
               path: /var/lib/grafana/dashboards/nginx
           - name: prometheus
             orgId: 1
-            folder: Prometheus
+            folder: Prom
             type: file
             disableDeletion: false
             editable: true
@@ -202,9 +202,9 @@ spec:
           datasource:
             - name: DS_PROMETHEUS
               value: Prometheus
-        cloudnative-pg:
-          url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
-          datasource: Prometheus
+        # cloudnative-pg:
+        #   url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
+        #   datasource: Prometheus
         cert-manager:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
           datasource: Prometheus
@@ -246,7 +246,7 @@ spec:
         kubernetes-namespaces:
           # renovate: depName="Kubernetes / Views / Namespaces"
           gnetId: 15758
-          revision: 32
+          revision: 33
           datasource: Prometheus
         kubernetes-nodes:
           # renovate: depName="Kubernetes / Views / Nodes"
@@ -271,7 +271,7 @@ spec:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
           datasource: Prometheus
       prometheus:
-        prometheus-dash:
+        prometheus:
           # renovate: depName="Prometheus"
           gnetId: 19105
           revision: 3
