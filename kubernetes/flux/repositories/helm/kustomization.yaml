@@ -17,3 +17,6 @@ resources:
   - ./repos/prometheus-community.yaml
   - ./repos/minio-operator-charts.yaml
   - ./repos/bitnami.yaml
+  - ./repos/intel.yaml
+  - ./repos/amd.yaml
+  - ./repos/xenitab.yaml
