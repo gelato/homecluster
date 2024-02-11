@@ -2,7 +2,7 @@ mqtt:
   # Optional: Enable mqtt server (default: shown below)
   enabled: True
   # Required: host name
-  host: mosquitto.multimedia.svc.cluster.local
+  host: mosquitto.home.svc.cluster.local
   # Optional: port (default: shown below)
   port: 1883
   # Optional: topic prefix (default: shown below)
