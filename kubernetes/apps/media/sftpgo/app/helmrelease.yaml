@@ -26,16 +26,16 @@ spec:
     ftpd:
       enabled: true
     config:
-      # data_provider:
-      #   driver: 'sqlite'
-      #   name: '/config/db.sqlite'
-      #   prefer_database_credentials: true
+      data_provider:
+        driver: 'sqlite'
+        name: '/config/db.sqlite'
+        prefer_database_credentials: true
     podSecurityContext:
-      runAsUser: 568
+      runAsUser: 1000
       runAsGroup: 568
       supplementalGroups:
         - 568
-      fsGroup: 1000
+      fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
     volumes:
     - name: media-storage
@@ -47,11 +47,11 @@ spec:
     volumeMounts:
     - name: media-storage
       mountPath: /data
-    # - name: sftpgo
-    #   subPath: configs/sftpgo
-    #   mountPath: /config
-    # - name: sftpgo
-    #   mountPath: /sftpgovol
+    - name: sftpgo
+      subPath: configs/sftpgo
+      mountPath: /config
+    - name: sftpgo
+      mountPath: /sftpgovol
     ui:
       ingress:
         enabled: true
