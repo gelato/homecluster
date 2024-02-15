@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qbittorrent
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: longhorn-fast
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: buffer
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Ti
+  storageClassName: longhorn-fast

@@ -7,6 +7,9 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: media
+  dependsOn:
+    - name: longhorn
+    - name: media-storage
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app

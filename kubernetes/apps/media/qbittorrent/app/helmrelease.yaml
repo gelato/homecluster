@@ -115,7 +115,11 @@ spec:
       config:
         enabled: true
         existingClaim: qbittorrent
+      buffer:
+        existingClaim: buffer
+        globalMounts:
+          - path: /buffer
       media:
-        existingClaim: media-channel
+        existingClaim: media-storage
         globalMounts:
           - path: /media

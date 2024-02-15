@@ -6,7 +6,7 @@ metadata:
   name: &app media-storage
   namespace: flux-system
 spec:
-  targetNamespace: default
+  targetNamespace: media
   dependsOn:
     - name: longhorn
   commonMetadata:

@@ -124,3 +124,7 @@ spec:
         existingClaim: media-storage
         globalMounts:
           - path: /media
+      buffer:
+        existingClaim: buffer
+        globalMounts:
+          - path: /buffer
