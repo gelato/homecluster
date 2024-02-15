@@ -55,6 +55,7 @@ spec:
     service:
       annotations:
         io.cilium/lb-ipam-ips: "192.168.108.11"
+        external-dns.alpha.kubernetes.io/hostname: media.${SECRET_DOMAIN}
       type: LoadBalancer
     ui:
       ingress:
