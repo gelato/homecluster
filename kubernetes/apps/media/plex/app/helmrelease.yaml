@@ -26,8 +26,6 @@ spec:
   dependsOn:
     - name: longhorn
       namespace: storage
-    - name: media-storage
-      namespace: media
   values:
     controllers:
       main:
