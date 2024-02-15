@@ -4,3 +4,11 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./flaresolverr/ks.yaml
+  - ./media-storage/ks.yaml
+  - ./overseerr/ks.yaml
+  - ./plex/ks.yaml
+  - ./prowlarr/ks.yaml
+  - ./qbittorrent/ks.yaml
+  - ./radarr/ks.yaml
+  - ./sonarr/ks.yaml
+  - ./tautulli/ks.yaml
