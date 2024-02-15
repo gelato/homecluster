@@ -23,11 +23,20 @@ spec:
       enabled: true
     httpd:
       enabled: true
+    ftpd:
+      enabled: true
     config:
       data_provider:
         driver: 'sqlite'
         name: '/config/db.sqlite'
         prefer_database_credentials: true
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      supplementalGroups:
+        - 1000
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
     volumes:
     - name: media-storage
       persistentVolumeClaim:
@@ -107,3 +116,28 @@ spec:
             name: sftpgo
             port:
               name: sftp
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sftpgo-ftp
+  namespace: media
+  labels:
+    app.kubernetes.io/name: sftpgo-ftp
+spec:
+  ingressClassName: internal
+  tls:
+  - hosts:
+    - ftp.${SECRET_DOMAIN}
+    secretName: sftpgo-ingress-cert
+  rules:
+  - host: ftp.${SECRET_DOMAIN}
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: sftpgo
+            port:
+              name: ftp
