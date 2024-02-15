@@ -53,7 +53,7 @@ spec:
       # Custom annotations to put on the ingress resource
       annotations:
         external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 
     pms:
       # The storage class to use when provisioning the pms config volume
