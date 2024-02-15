@@ -2,21 +2,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: plex-cache
+  name: transcode
 spec:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
       storage: 50Gi
-  storageClassName: longhorn-fast
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: plex
-spec:
-  accessModes: ["ReadWriteOnce"]
-  resources:
-    requests:
-      storage: 15Gi
   storageClassName: longhorn-fast

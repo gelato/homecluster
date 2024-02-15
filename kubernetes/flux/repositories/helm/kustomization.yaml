@@ -21,3 +21,4 @@ resources:
   - ./repos/amd.yaml
   - ./repos/xenitab.yaml
   - ./repos/node-feature-discovery.yaml
+  - ./repos/plex.yaml
