@@ -47,11 +47,11 @@ spec:
     volumeMounts:
     - name: media-storage
       mountPath: /data
-    - name: sftpgo
-      subPath: configs/sftpgo
-      mountPath: /config
-    - name: sftpgo
-      mountPath: /sftpgovol
+    # - name: sftpgo
+    #   subPath: configs/sftpgo
+    #   mountPath: /config
+    # - name: sftpgo
+    #   mountPath: /sftpgovol
     ui:
       ingress:
         enabled: true
