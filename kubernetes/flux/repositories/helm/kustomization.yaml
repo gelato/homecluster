@@ -22,3 +22,4 @@ resources:
   - ./repos/xenitab.yaml
   - ./repos/node-feature-discovery.yaml
   - ./repos/plex.yaml
+  - ./skm/plex.yaml
