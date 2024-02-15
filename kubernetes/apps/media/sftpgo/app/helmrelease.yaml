@@ -32,7 +32,7 @@ spec:
         prefer_database_credentials: true
     podSecurityContext:
       runAsUser: 1000
-      runAsGroup: 568
+      runAsGroup: 1000
       supplementalGroups:
         - 568
       fsGroup: 568
