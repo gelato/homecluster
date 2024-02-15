@@ -8,4 +8,5 @@ spec:
   resources:
     requests:
       storage: 15Ti
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: longhorn-storage
