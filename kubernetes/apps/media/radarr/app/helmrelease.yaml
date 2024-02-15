@@ -84,7 +84,7 @@ spec:
             runAsUser: 568
             runAsGroup: 568
             runAsNonRoot: true
-            fsGroup: 568
+            fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
             supplementalGroups: [10000, 1000]
     service:
