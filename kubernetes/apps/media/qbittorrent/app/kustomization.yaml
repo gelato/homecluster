@@ -5,9 +5,4 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ../../../../templates/gatus/guarded
-configMapGenerator:
-  - name: qbittorrent-scripts
-    files:
-      - completed.sh=./resources/completed.sh
-generatorOptions:
-  disableNameSuffixHash: true
+
