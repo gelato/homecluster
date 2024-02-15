@@ -27,8 +27,8 @@ spec:
       enabled: true
     config:
       data_provider:
-        driver: 'sqlite'
-        name: '/config/db.sqlite'
+        driver: "sqlite"
+        name: "/config/db.sqlite"
         prefer_database_credentials: true
     podSecurityContext:
       runAsUser: 1000
@@ -38,34 +38,38 @@ spec:
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
     volumes:
-    - name: media-storage
-      persistentVolumeClaim:
-        claimName: media-storage
-    - name: sftpgo
-      persistentVolumeClaim:
-        claimName: sftpgo
+      - name: media-storage
+        persistentVolumeClaim:
+          claimName: media-storage
+      - name: sftpgo
+        persistentVolumeClaim:
+          claimName: sftpgo
     volumeMounts:
-    - name: media-storage
-      mountPath: /data
-    - name: sftpgo
-      subPath: configs/sftpgo
-      mountPath: /config
-    - name: sftpgo
-      mountPath: /sftpgovol
+      - name: media-storage
+        mountPath: /data
+      - name: sftpgo
+        subPath: configs/sftpgo
+        mountPath: /config
+      - name: sftpgo
+        mountPath: /sftpgovol
+    service:
+      annotations:
+        io.cilium/lb-ipam-ips: "192.168.108.11"
+        type: LoadBalancer
     ui:
       ingress:
         enabled: true
         annotations: {}
         className: internal
         hosts:
-        - host: sftpgo.${SECRET_DOMAIN}
-          paths:
-          - path: /
-            pathType: ImplementationSpecific
+          - host: sftpgo.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: ImplementationSpecific
         tls:
-        - hosts:
-          - sftpgo.${SECRET_DOMAIN}
-          secretName: sftpgo-ingress-cert
+          - hosts:
+              - sftpgo.${SECRET_DOMAIN}
+            secretName: sftpgo-ingress-cert
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -77,67 +81,17 @@ metadata:
 spec:
   ingressClassName: internal
   tls:
-  - hosts:
-    - webdav.${SECRET_DOMAIN}
-    secretName: sftpgo-ingress-cert
+    - hosts:
+        - webdav.${SECRET_DOMAIN}
+      secretName: sftpgo-ingress-cert
   rules:
-  - host: webdav.${SECRET_DOMAIN}
-    http:
-      paths:
-      - path: /
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: sftpgo
-            port:
-              name: webdav
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: sftpgo-sftp
-  namespace: media
-  labels:
-    app.kubernetes.io/name: sftpgo-sftp
-spec:
-  ingressClassName: internal
-  tls:
-  - hosts:
-    - sftp.${SECRET_DOMAIN}
-    secretName: sftpgo-ingress-cert
-  rules:
-  - host: sftp.${SECRET_DOMAIN}
-    http:
-      paths:
-      - path: /
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: sftpgo
-            port:
-              name: sftp
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: sftpgo-ftp
-  namespace: media
-  labels:
-    app.kubernetes.io/name: sftpgo-ftp
-spec:
-  ingressClassName: internal
-  tls:
-  - hosts:
-    - ftp.${SECRET_DOMAIN}
-    secretName: sftpgo-ingress-cert
-  rules:
-  - host: ftp.${SECRET_DOMAIN}
-    http:
-      paths:
-      - path: /
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: sftpgo
-            port:
-              name: ftp
+    - host: webdav.${SECRET_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: sftpgo
+                port:
+                  name: webdav
