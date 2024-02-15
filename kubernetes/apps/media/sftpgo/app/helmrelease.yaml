@@ -26,10 +26,10 @@ spec:
     ftpd:
       enabled: true
     config:
-      data_provider:
-        driver: 'sqlite'
-        name: '/config/db.sqlite'
-        prefer_database_credentials: true
+      # data_provider:
+      #   driver: 'sqlite'
+      #   name: '/config/db.sqlite'
+      #   prefer_database_credentials: true
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
