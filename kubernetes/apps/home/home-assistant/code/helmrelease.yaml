@@ -23,9 +23,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: home-assistant
-      namespace: home
   values:
     controllers:
       main:
