@@ -502,7 +502,7 @@ cameras:
       inside_gates:
         # Required: List of x,y coordinates to define the polygon of the zone.
         # NOTE: Presence in a zone is evaluated only based on the bottom center of the objects bounding box.
-        coordinates: 579,327,594,299,640,335,640,298,506,195,463,242
+        coordinates: 452,239,579,327,595,300,640,339,640,227,606,205,572,148,559,100,520,107,499,132,479,159,409,216,391,288
         # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
         inertia: 5
         # Optional: List of objects that can trigger this zone (default: all tracked objects)
@@ -534,7 +534,7 @@ cameras:
         objects:
           - person
       entryway:
-        coordinates: 437,85,377,40,177,117,194,212
+        coordinates: 437,85,402,28,123,145,148,237
         inertia: 30
         objects:
           - car
