@@ -171,7 +171,7 @@ ffmpeg:
   # If set too low, frigate will retry a connection to the camera's stream too frequently, using up the limited streams some cameras can allow at once
   # If set too high, then if a ffmpeg crash or camera stream timeout occurs, you could potentially lose up to a maximum of retry_interval second(s) of footage
   # NOTE: this can be a useful setting for Wireless / Battery cameras to reduce how much footage is potentially lost during a connection timeout.
-  retry_interval: 2
+  retry_interval: 1
 
 # Optional: Detect configuration
 # NOTE: Can be overridden at the camera level
@@ -182,7 +182,7 @@ detect:
   height: 360
   # Optional: desired fps for your camera for the input with the detect role (default: shown below)
   # NOTE: Recommended value of 5. Ideally, try and reduce your FPS on the camera.
-  fps: 5
+  fps: 8
   # Optional: enables detection for the camera (default: True)
   enabled: True
   # Optional: Number of consecutive detection hits required for an object to be initialized in the tracker. (default: 1/2 the frame rate)
@@ -531,18 +531,18 @@ cameras:
           - person
       entryway:
         coordinates: 437,85,402,28,123,145,148,237
-        inertia: 30
+        inertia: 5
         objects:
           - car
           - bus
       guests:
         coordinates: 394,287,418,209,480,160,511,122,489,110,302,228,303,360,357,312
-        inertia: 15
+        inertia: 5
         objects:
           - person
       rooftop:
         coordinates: 640,360,640,339,596,307,577,334,453,238,301,360
-        inertia: 3
+        inertia: 5
         objects:
           - person
 
