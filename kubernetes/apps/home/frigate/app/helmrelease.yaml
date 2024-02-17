@@ -145,4 +145,4 @@ spec:
       suv:
         existingClaim: suv-storage
         globalMounts:
-          - path: /storage
+          - path: /media
