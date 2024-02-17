@@ -524,11 +524,6 @@ cameras:
         #     min_area: 5000
         #     max_area: 100000
         #     threshold: 0.7
-      other_side_of_the_road:
-        coordinates: 160,0,81,0,0,29,0,82
-        inertia: 5
-        objects:
-          - person
       entryway:
         coordinates: 437,85,402,28,123,145,148,237
         inertia: 5
@@ -537,7 +532,7 @@ cameras:
           - bus
       guests:
         coordinates: 394,287,418,209,480,160,511,122,489,110,302,228,303,360,357,312
-        inertia: 5
+        inertia: 15
         objects:
           - person
       rooftop:
