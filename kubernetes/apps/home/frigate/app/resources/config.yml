@@ -290,7 +290,9 @@ motion:
   frame_height: 100
   # Optional: motion mask
   # NOTE: see docs for more detailed info on creating masks
-  # mask: 588,0,191,0,0,88,0,310
+  mask:
+    - 408,21,452,72,596,0,328,0,178,0,109,26,0,77,0,319,128,236,119,144
+    - 223,281,292,360,0,360,0,327,393,107,465,68,605,0,613,34,556,94,511,82,212,283
   # Optional: improve contrast (default: shown below)
   # Enables dynamic contrast improvement. This should help improve night detections at the cost of making motion detection more sensitive
   # for daytime.
@@ -518,16 +520,6 @@ cameras:
         #     min_area: 5000
         #     max_area: 100000
         #     threshold: 0.7
-      sidewalk:
-        coordinates: 479,160,534,88,560,98,605,28,567,21,0,332,0,360,297,360,391,286,418,206
-        inertia: 5
-        objects:
-          - person
-          - dog
-          - cat
-      road:
-        coordinates: 586,0,162,0,0,88,0,318
-        inertia: 5
       other_side_of_the_road:
         coordinates: 160,0,81,0,0,29,0,82
         inertia: 5
@@ -540,7 +532,7 @@ cameras:
           - car
           - bus
       guests:
-        coordinates: 394,287,418,209,480,160,511,122,490,111,306,252,303,360,357,312
+        coordinates: 394,287,418,209,480,160,511,122,489,110,302,228,303,360,357,312
         inertia: 25
         objects:
           - person
