@@ -407,6 +407,10 @@ go2rtc:
     gates_lq:
       - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102
       - "ffmpeg:gates_lq#audio=aac"
+  webrtc:
+    candidates:
+      - 192.168.108.55:8555
+      - stun:8555
 
 # Optional: jsmpeg stream configuration for WebUI
 live:

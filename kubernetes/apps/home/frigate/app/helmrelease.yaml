@@ -84,11 +84,16 @@ spec:
           #   intel.feature.node.kubernetes.io/gpu: "true"
     service:
       main:
+        type: LoadBalancer
+        annotations:
+          io.cilium/lb-ipam-ips: 192.168.108.55
         ports:
           http:
             port: *port
           rtsp:
             port: 8554
+          webrtc:
+            port: 8555
     ingress:
       main:
         enabled: true
