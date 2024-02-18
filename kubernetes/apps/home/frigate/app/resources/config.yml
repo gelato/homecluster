@@ -531,7 +531,7 @@ cameras:
           - car
           - bus
       guests:
-        coordinates: 394,287,418,209,480,160,511,122,493,130,304,268,303,360,357,312
+        coordinates: 542,162,490,136,306,265,341,325
         inertia: 32
         objects:
           - person
