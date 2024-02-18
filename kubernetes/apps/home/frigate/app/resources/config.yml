@@ -532,7 +532,7 @@ cameras:
           - bus
       guests:
         coordinates: 542,162,490,136,306,265,341,325
-        inertia: 32
+        inertia: 40
         objects:
           - person
       rooftop:
