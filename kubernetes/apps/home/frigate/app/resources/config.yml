@@ -148,22 +148,7 @@ ffmpeg:
   # hwaccel_args: preset-vaapi
   hwaccel_args: ["-vaapi_device", "/dev/dri/renderD128", "-hwaccel_output_format", "yuv420p"]
   # Optional: global input args (default: shown below)
-  input_args:
-    - -avoid_negative_ts
-    - make_zero
-    - -fflags
-    - nobuffer+genpts+discardcorrupt
-    - -flags
-    - low_delay
-    - -strict
-    - experimental
-    - -analyzeduration
-    - 1000M
-    - -probesize
-    - 1000M
-    - -rw_timeout
-    - "5000000"
-  #preset-rtsp-generic
+  input_args: preset-rtsp-restream-low-latency
   # Optional: global output args
   output_args:
     # Optional: output args for detect streams (default: shown below)
