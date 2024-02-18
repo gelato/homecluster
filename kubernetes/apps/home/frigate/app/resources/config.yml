@@ -464,12 +464,12 @@ cameras:
         # Required: the path to the stream
         # NOTE: path may include environment variables or docker secrets, which must begin with 'FRIGATE_' and be referenced in {}
         - path: rtsp://localhost:8554/gates_hq
-          input_args: preset-rtsp-restream
+          # input_args: preset-rtsp-restream
           roles:
             - record
             - audio
         - path: rtsp://localhost:8554/gates_lq
-          input_args: preset-rtsp-restream
+          # input_args: preset-rtsp-restream
           roles:
             - detect
           # Required: list of roles for this stream. valid values are: audio,detect,record,rtmp
