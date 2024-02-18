@@ -536,7 +536,7 @@ cameras:
         objects:
           - person
       rooftop:
-        coordinates: 640,360,640,339,596,307,577,334,453,238,301,360
+        coordinates: 640,360,577,334,448,310,301,360
         inertia: 5
         objects:
           - person
