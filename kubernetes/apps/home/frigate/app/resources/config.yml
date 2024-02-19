@@ -526,13 +526,13 @@ cameras:
         #     threshold: 0.7
       entryway:
         coordinates: 437,85,402,28,123,145,148,237
-        inertia: 24
+        inertia: 32
         objects:
           - car
           - bus
       guests:
         coordinates: 542,162,490,136,306,265,341,325
-        inertia: 48
+        inertia: 56
         objects:
           - person
       rooftop:
