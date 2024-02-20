@@ -505,7 +505,6 @@ cameras:
           - person
           - dog
           - car
-          - cat
         # Optional: Zone level object filters.
         # NOTE: The global and camera filters are applied upstream.
         # filters:
