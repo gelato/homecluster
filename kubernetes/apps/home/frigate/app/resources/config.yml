@@ -154,17 +154,7 @@ ffmpeg:
     # Optional: output args for detect streams (default: shown below)
     detect: -threads 2 -f rawvideo -pix_fmt yuv420p -an
     # Optional: output args for record streams (default: shown below)
-    record:
-      -f segment
-      -segment_format mp4
-      -segment_time 15
-      -reset_timestamps 1
-      -strftime 1
-      -codec:v h264_vaapi
-      -b:v 2M
-      -maxrate 2M
-      -c:v copy
-      -c:a aac
+    record: preset-record-generic-audio-copy
     # Optional: output args for rtmp streams (default: shown below)
     # rtmp: preset-rtmp-generic
   # Optional: Time in seconds to wait before ffmpeg retries connecting to the camera. (default: shown below)
@@ -231,7 +221,6 @@ objects:
   # Optional: list of objects to track from labelmap.txt (default: shown below)
   track:
     - person
-    - cat
     - dog
     - car
     - bus
@@ -508,9 +497,9 @@ cameras:
       inside_gates:
         # Required: List of x,y coordinates to define the polygon of the zone.
         # NOTE: Presence in a zone is evaluated only based on the bottom center of the objects bounding box.
-        coordinates: 407,283,579,327,595,300,640,339,640,299,512,194
+        coordinates: 431,285,561,360,596,298,512,194
         # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
-        inertia: 5
+        inertia: 16
         # Optional: List of objects that can trigger this zone (default: all tracked objects)
         objects:
           - person
@@ -525,19 +514,14 @@ cameras:
         #     max_area: 100000
         #     threshold: 0.7
       entryway:
-        coordinates: 437,85,402,28,123,145,148,237
+        coordinates: 437,85,383,37,153,135,199,207
         inertia: 32
         objects:
           - car
           - bus
       guests:
-        coordinates: 542,162,490,136,306,265,341,325
+        coordinates: 433,255,477,207,442,182,328,274,382,299
         inertia: 56
-        objects:
-          - person
-      rooftop:
-        coordinates: 640,360,577,334,448,310,301,360
-        inertia: 5
         objects:
           - person
 
