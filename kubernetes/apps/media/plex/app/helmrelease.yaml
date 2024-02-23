@@ -199,8 +199,8 @@ spec:
       HOSTNAME: "Clusterplex"
       TZ: "Etc/UTC+3"
     #   PLEX_UPDATE_CHANNEL: "5"
-      PLEX_UID: "568"
-      PLEX_GID: "568"
+      PLEX_UID: "1000"
+      PLEX_GID: "1000"
       # a list of CIDRs that can use the server without authentication
       # this is only used for the first startup of PMS
       ALLOWED_NETWORKS: "192.168.0.0/16,10.111.0.0/16,10.222.0.0/16"
