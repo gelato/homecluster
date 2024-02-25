@@ -35,14 +35,17 @@ mqtt:
 
 # Optional: Detectors configuration. Defaults to a single CPU detector
 detectors:
+  tensorrt:
+    type: tensorrt
+    device: 0
   # Required: name of the detector
-  cpu_detector:
+  # cpu_detector:
     # Required: type of the detector
     # Frigate provided types include 'cpu', 'edgetpu', 'openvino' and 'tensorrt' (default: shown below)
     # Additional detector types can also be plugged in.
     # Detectors may require additional configuration.
     # Refer to the Detectors configuration page for more information.
-    type: cpu
+    # type: cpu
 
 # Optional: Database configuration
 database:
@@ -145,8 +148,8 @@ ffmpeg:
   global_args: -hide_banner -loglevel warning -threads 2
   # Optional: global hwaccel args (default: shown below)
   # NOTE: See hardware acceleration docs for your specific device
-  # hwaccel_args: preset-vaapi
-  hwaccel_args: ["-vaapi_device", "/dev/dri/renderD128", "-hwaccel_output_format", "yuv420p"]
+  hwaccel_args: preset-nvidia-h264
+  # hwaccel_args: ["-vaapi_device", "/dev/dri/renderD128", "-hwaccel_output_format", "yuv420p"]
   # Optional: global input args (default: shown below)
   input_args: preset-rtsp-restream-low-latency
   # Optional: global output args
