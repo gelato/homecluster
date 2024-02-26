@@ -37,7 +37,7 @@ mqtt:
 detectors:
   tensorrt:
     type: tensorrt
-    device: 0
+    # device: 0
   # Required: name of the detector
   # cpu_detector:
     # Required: type of the detector
