@@ -32,9 +32,9 @@ spec:
       cleanupCRD: true
       upgradeCRD: true
     nfd:
-      enabled: true
+      enabled: false
     driver:
-      enabled: true
+      enabled: false
     toolkit:
       enabled: true
       env:
@@ -46,11 +46,11 @@ spec:
           value: nvidia
         - name: CONTAINERD_SET_AS_DEFAULT
           value: "true"
-    validator:
-      driver:
-        env:
-          - name: DISABLE_DEV_CHAR_SYMLINK_CREATION
-            value: "true"
+    # validator:
+    #   driver:
+    #     env:
+    #       - name: DISABLE_DEV_CHAR_SYMLINK_CREATION
+    #         value: "true"
     devicePlugin:
       config:
         create: true
