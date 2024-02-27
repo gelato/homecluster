@@ -69,8 +69,8 @@ spec:
                 cpu: 100m
               limits:
                 # gpu.intel.com/i915: "1"
-                nvidia.com/gpu: 1
                 memory: 8Gi
+                nvidia.com/gpu: 1
         # pod:
         #   affinity:
         #     podAntiAffinity:
