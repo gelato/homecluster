@@ -24,13 +24,15 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
-    - name: intel-device-plugin-gpu
+    - name: nvidia-gpu-operator
       namespace: kube-system
     - name: mosquitto
       namespace: home
     - name: longhorn
       namespace: storage
   values:
+    defaultPodOptions:
+      runtimeClassName: nvidia
     controllers:
       main:
         annotations:

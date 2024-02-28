@@ -46,8 +46,6 @@ spec:
           value: nvidia
         - name: CONTAINERD_SET_AS_DEFAULT
           value: "true"
-        - name: CONTAINERD_USE_LEGACY_CONFIG
-          value: "true"
     validator:
       driver:
         env:
