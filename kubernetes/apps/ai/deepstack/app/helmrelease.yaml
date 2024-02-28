@@ -25,7 +25,7 @@ spec:
           main:
             image:
               repository: docker.io/deepquestai/deepstack
-              tag: cpu@sha256:4320be73987468b3040b2ca63daf2d3935c4d469b53aa40efb6176858488b500
+              tag: gpu
 
             env:
               TZ: Europe/Simferopol

@@ -9,27 +9,3 @@ spec:
     requests:
       storage: 2Gi
   storageClassName: longhorn-fast
-# ---
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: deepstack-config-pv
-#   labels:
-#     type: longhorn
-#     recurring-job-group.longhorn.io/weekly-backup: enabled
-#     recurring-job-group.longhorn.io/daily-snapshot: enabled
-# spec:
-#   capacity:
-#     storage: 2Gi
-#   volumeMode: Filesystem
-#   accessModes:
-#     - ReadWriteOnce
-#   persistentVolumeReclaimPolicy: Retain
-#   storageClassName: deepstack-config-storage-class
-#   csi:
-#     driver: driver.longhorn.io
-#     fsType: xfs
-#     volumeAttributes:
-#       numberOfReplicas: "2"
-#       staleReplicaTimeout: "2880"
-#     volumeHandle: deepstack-config-xfs
