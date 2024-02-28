@@ -6,6 +6,7 @@ metadata:
   name: deepstack
   namespace: flux-system
 spec:
+  targetNamespace: ai
   path: ./kubernetes/apps/ai/deepstack/app
   prune: true
   sourceRef:
