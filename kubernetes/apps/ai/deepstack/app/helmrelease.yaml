@@ -98,4 +98,5 @@ spec:
       config:
         enabled: true
         existingClaim: deepstack-config
-        mountPath: /datastore
+        globalMounts:
+          - path: /datastore
