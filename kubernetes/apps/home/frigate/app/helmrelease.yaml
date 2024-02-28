@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  timeout: 60m
+  timeout: 20m
   install:
     remediation:
       retries: 3
