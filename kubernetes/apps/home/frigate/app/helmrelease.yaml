@@ -127,6 +127,11 @@ spec:
           - path: /config/config.yml
             subPath: config.yml
             readOnly: false
+      modelcache:
+        enabled: true
+        existingClaim: frigate-model-cache
+        globalMounts:
+          - path: /config/model_cache
       cache:
         enabled: true
         type: emptyDir

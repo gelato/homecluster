@@ -35,13 +35,9 @@ mqtt:
 
 # Optional: Detectors configuration. Defaults to a single CPU detector
 detectors:
-  deepstack:
-    api_url: http://deepstack.ai.svc:5000/v1/vision/detection
-    type: deepstack
-    api_timeout: 0.1 # seconds
-  # tensorrt:
-  #   type: tensorrt
-  #   device: 0
+  tensorrt:
+    type: tensorrt
+    device: 0
   # Required: name of the detector
   # cpu_detector:
     # Required: type of the detector
@@ -50,12 +46,12 @@ detectors:
     # Detectors may require additional configuration.
     # Refer to the Detectors configuration page for more information.
     # type: cpu
-# model:
-#   path: /config/model_cache/tensorrt/yolov7-320.trt
-#   input_tensor: nchw
-#   input_pixel_format: rgb
-#   width: 320
-#   height: 320
+model:
+  path: /config/model_cache/tensorrt/yolov7-320.trt
+  input_tensor: nchw
+  input_pixel_format: rgb
+  width: 320
+  height: 320
 
 # Optional: Database configuration
 database:
