@@ -97,5 +97,5 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: deepstack-config-pvc
+        existingClaim: deepstack-config
         mountPath: /datastore

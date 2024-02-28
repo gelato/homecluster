@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: deepstack-config-pvc
+  name: deepstack-config
 spec:
   accessModes: ["ReadWriteOnce"]
   resources:
