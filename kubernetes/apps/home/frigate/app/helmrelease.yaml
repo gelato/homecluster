@@ -31,6 +31,8 @@ spec:
       namespace: home
     - name: longhorn
       namespace: storage
+    - name: deepstack
+      namespace: ai
   values:
     defaultPodOptions:
       runtimeClassName: nvidia

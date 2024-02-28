@@ -10,8 +10,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: node-feature-discovery-rules
   path: ./kubernetes/apps/home/frigate/app
   prune: true
   sourceRef:
