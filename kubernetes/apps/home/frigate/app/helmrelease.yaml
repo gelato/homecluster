@@ -44,8 +44,8 @@ spec:
           main:
             image:
               repository: ghcr.io/blakeblackshear/frigate
-              # tag: stable-tensorrt@sha256:2068baac8d8b9a29a97483d0ab603b024fe606ec7d555b70da5a024fbeab12e3
-              tag: stable
+              tag: stable-tensorrt@sha256:2068baac8d8b9a29a97483d0ab603b024fe606ec7d555b70da5a024fbeab12e3
+              # tag: stable
             env:
               TZ: Europe/Simferopol
               # LIBVA_DRIVER_NAME: radeonsi
