@@ -58,7 +58,7 @@ spec:
                   httpGet:
                     path: /api/version
                     port: &port 5000
-                  initialDelaySeconds: 2500
+                  initialDelaySeconds: 5500
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
