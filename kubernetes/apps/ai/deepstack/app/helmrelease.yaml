@@ -58,7 +58,7 @@ spec:
 
             env:
               # -- the IP address of your deepstack instance
-              DEEPSTACK_IP: localhost
+              DEEPSTACK_IP: deepstack.ai.svc
               # -- the port of your deepstack instance
               DEEPSTACK_PORT: 5000
               # - name: DEEPSTACK_API_KEY
