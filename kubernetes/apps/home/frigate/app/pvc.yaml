@@ -7,7 +7,7 @@ spec:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 3Gi
+      storage: 256Mi
   storageClassName: longhorn-fast
 ---
 apiVersion: v1
