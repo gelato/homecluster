@@ -50,28 +50,27 @@ spec:
             envFrom:
               - secretRef:
                   name: frigate-secret
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /api/version
-                    port: &port 5000
-                  initialDelaySeconds: 10
-                  periodSeconds: 20
-                  timeoutSeconds: 2
-                  failureThreshold: 5
-              readiness: *probes
-              startup:
-                enabled: false
+            # probes:
+            #   liveness: &probes
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /api/version
+            #         port: &port 5000
+            #       initialDelaySeconds: 10
+            #       periodSeconds: 20
+            #       timeoutSeconds: 2
+            #       failureThreshold: 5
+            #   readiness: *probes
+            #   startup:
+            #     enabled: false
             securityContext:
               privileged: true
             resources:
               requests:
                 cpu: 100m
               limits:
-                # gpu.intel.com/i915: "1"
                 memory: 8Gi
                 nvidia.com/gpu: 1
         # pod:
@@ -94,7 +93,7 @@ spec:
           io.cilium/lb-ipam-ips: 192.168.108.55
         ports:
           http:
-            port: *port
+            port: 5000
           rtsp:
             port: 8554
           webrtc:
