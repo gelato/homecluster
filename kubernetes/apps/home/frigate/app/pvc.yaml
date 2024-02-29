@@ -32,4 +32,4 @@ spec:
     requests:
       storage: 250Gi
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: longhorn-fast
+  # storageClassName: longhorn-fast
