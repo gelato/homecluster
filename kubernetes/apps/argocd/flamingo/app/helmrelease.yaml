@@ -23,6 +23,8 @@ spec:
     configs:
       exec.enabled: true
       timeout.reconciliation: 180s
+      params:
+        server.insecure: true
     secret:
       argocdServerAdminPassword: ${ARGOCD_ADMIN_PASSWORD}
     externalRedis:
@@ -32,7 +34,13 @@ spec:
       ingress:
         enabled: true
         ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
         hostname: "argocd.${SECRET_DOMAIN}"
         path: /
         pathType: Prefix
-        tls: true
+        extraTls:
+          - hosts:
+            - argocd.${SECRET_DOMAIN}
+            secretName: argocd-tls
