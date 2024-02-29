@@ -26,16 +26,13 @@ spec:
     secret:
       argocdServerAdminPassword: ${ARGOCD_ADMIN_PASSWORD}
     externalRedis:
-      # -- External Redis server host
       host: "redis.svc.database.cluster.local"
-      # -- External Redis server port
       port: 6379
     server:
-      # Argo CD server ingress configuration
-    ingress:
-      enabled: true
-      ingressClassName: "internal"
-      hostname: "argocd.${SECRET_DOMAIN}"
-      path: /
-      pathType: Prefix
-      tls: true
+      ingress:
+        enabled: true
+        ingressClassName: "internal"
+        hostname: "argocd.${SECRET_DOMAIN}"
+        path: /
+        pathType: Prefix
+        tls: true
