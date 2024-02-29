@@ -30,7 +30,7 @@ spec:
     redis:
       enabled: false
     externalRedis:
-      host: "redis.svc.database.cluster.local"
+      host: "redis.database.svc.cluster.local"
       port: 6379
     server:
       ingress:
