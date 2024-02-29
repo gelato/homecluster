@@ -32,10 +32,10 @@ spec:
       port: 6379
     server:
       # Argo CD server ingress configuration
-  ingress:
-    enabled: true
-    ingressClassName: "internal"
-    hostname: "argocd.${SECRET_DOMAIN}"
-    path: /
-    pathType: Prefix
-    tls: true
+    ingress:
+      enabled: true
+      ingressClassName: "internal"
+      hostname: "argocd.${SECRET_DOMAIN}"
+      path: /
+      pathType: Prefix
+      tls: true
