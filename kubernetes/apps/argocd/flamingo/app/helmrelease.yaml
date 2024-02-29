@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: flamingo
+  namespace: argocd
+spec:
+  interval: 10m
+  targetNamespace: argocd
+  chart:
+    spec:
+      chart: argo-cd
+      version: '*'
+      sourceRef:
+        kind: HelmRepository
+        name: argo-helm-repo
+  values:
+    global:
+      image:
+        repository: ghcr.io/flux-subsystem-argo/fsa/argocd
+        tag: v2.9.6-fl.23-main-86c4bdb9

@@ -24,3 +24,4 @@ resources:
   - ./repos/plex.yaml
   - ./repos/sftpgo.yaml
   - ./repos/nvidia.yaml
+  - ./repos/argocd.yaml
