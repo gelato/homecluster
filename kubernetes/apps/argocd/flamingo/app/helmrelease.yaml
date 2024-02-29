@@ -27,6 +27,8 @@ spec:
         server.insecure: true
     secret:
       argocdServerAdminPassword: ${ARGOCD_ADMIN_PASSWORD}
+    redis:
+      enabled: false
     externalRedis:
       host: "redis.svc.database.cluster.local"
       port: 6379
