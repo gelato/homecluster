@@ -19,6 +19,7 @@ spec:
   resources:
     requests:
       storage: 3Gi
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: longhorn-fast
 ---
 apiVersion: v1
@@ -31,3 +32,4 @@ spec:
     requests:
       storage: 250Gi
   persistentVolumeReclaimPolicy: Retain
+  storageClassName: longhorn-fast
