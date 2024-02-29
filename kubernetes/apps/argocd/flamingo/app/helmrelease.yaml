@@ -16,6 +16,26 @@ spec:
         namespace: flux-system
   values:
     global:
+      domain: argocd.${SECRET_DOMAIN}
       image:
         repository: ghcr.io/flux-subsystem-argo/fsa/argocd
         tag: v2.9.6-fl.23-main-86c4bdb9
+    configs:
+      exec.enabled: true
+      timeout.reconciliation: 180s
+    secret:
+      argocdServerAdminPassword: ${ARGOCD_ADMIN_PASSWORD}
+    externalRedis:
+      # -- External Redis server host
+      host: "redis.svc.database.cluster.local"
+      # -- External Redis server port
+      port: 6379
+    server:
+      # Argo CD server ingress configuration
+  ingress:
+    enabled: true
+    ingressClassName: "internal"
+    hostname: "argocd.${SECRET_DOMAIN}"
+    path: /
+    pathType: Prefix
+    tls: true
