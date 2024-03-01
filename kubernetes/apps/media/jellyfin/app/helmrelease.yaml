@@ -85,12 +85,8 @@ spec:
 
     persistence:
       config:
-        enabled: true
-        type: hostPath
-        hostPath: "/opt/docker/appdata/jellyfin/config"
-        advancedMounts:
-          main:
-            main:
+        existingClaim: jellyfin-config
+        globalMounts:
               - path: /config
       media:
         existingClaim: media-storage
