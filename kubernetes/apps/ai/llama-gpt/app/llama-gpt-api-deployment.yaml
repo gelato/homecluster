@@ -18,6 +18,7 @@ spec:
       containers:
         - name: llama-gpt-api
           image: ghcr.io/getumbrel/llama-gpt-api:1.0.1
+          command: ["run.sh"]
           args: ["--with-cuda"]
           env:
             - name: MODEL
