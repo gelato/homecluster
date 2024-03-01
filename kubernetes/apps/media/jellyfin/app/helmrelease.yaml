@@ -87,7 +87,7 @@ spec:
       config:
         existingClaim: jellyfin-config
         globalMounts:
-              - path: /config
+          - path: /config
       media:
         existingClaim: media-storage
         globalMounts:
