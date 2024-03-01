@@ -92,7 +92,6 @@ spec:
         existingClaim: media-storage
         globalMounts:
           - path: /media
-
       transcode:
         type: emptyDir
         globalMounts:

@@ -10,4 +10,3 @@ spec:
       storage: 256Mi
   persistentVolumeReclaimPolicy: Retain
   storageClassName: longhorn-fast
-
