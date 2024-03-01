@@ -25,5 +25,6 @@ spec:
                   key: DEFAULT_MODEL
           resources:
             requests:
+              nvidia.com/gpu: 1
               memory: 5Gi
       restartPolicy: Always
