@@ -14,6 +14,7 @@ spec:
       labels:
         service: llama-gpt-api
     spec:
+      runtimeClassName: nvidia
       containers:
         - name: llama-gpt-api
           image: ghcr.io/getumbrel/llama-gpt-api:1.0.1
