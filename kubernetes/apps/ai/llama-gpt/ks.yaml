@@ -3,14 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app flamingo
+  name: &app llama-gpt
   namespace: flux-system
 spec:
-  targetNamespace: argocd
+  targetNamespace: ai
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/argocd/flamingo/app
+  path: ./kubernetes/apps/ai/llama-gpt/app
   prune: true
   sourceRef:
     kind: GitRepository
