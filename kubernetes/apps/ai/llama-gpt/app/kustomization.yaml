@@ -6,6 +6,7 @@ resources:
 - llama-gpt-api-service.yaml
 - llama-gpt-ui-deployment.yaml
 - llama-gpt-ui-service.yaml
+- llama-gpt-ingress.yaml
 
 # patches:
 # - 
