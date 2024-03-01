@@ -178,7 +178,7 @@ detect:
   # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
   width: 640
   # # Optional: height of the frame for the input with the detect role (default: use native stream resolution)
-  height: 640
+  height: 360
   # Optional: desired fps for your camera for the input with the detect role (default: shown below)
   # NOTE: Recommended value of 5. Ideally, try and reduce your FPS on the camera.
   fps: 10
