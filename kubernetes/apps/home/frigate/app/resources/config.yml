@@ -289,8 +289,8 @@ motion:
   # Optional: motion mask
   # NOTE: see docs for more detailed info on creating masks
   mask:
-    - 360,98,416,161,596,0,328,0,178,0,75,0,0,46,0,319,0,560,147,409,125,272
-    - 330,416,374,542,455,640,0,640,0,576,433,149,595,0,640,0,567,153,524,175,471,300,438,253
+    - 0,49,84,0,592,0,437,82,375,42,174,127,194,206,0,310
+    - 293,360,342,317,356,202,456,133,489,139,530,89,563,91,640,0,591,0,439,80,0,318,0,360
   # Optional: improve contrast (default: shown below)
   # Enables dynamic contrast improvement. This should help improve night detections at the cost of making motion detection more sensitive
   # for daytime.
@@ -506,7 +506,7 @@ cameras:
       inside_gates:
         # Required: List of x,y coordinates to define the polygon of the zone.
         # NOTE: Presence in a zone is evaluated only based on the bottom center of the objects bounding box.
-        coordinates: 449,480,587,640,640,609,510,371
+        coordinates: 567,360,597,306,508,206,446,265
         # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
         inertia: 16
         # Optional: List of objects that can trigger this zone (default: all tracked objects)
@@ -522,13 +522,13 @@ cameras:
         #     max_area: 100000
         #     threshold: 0.7
       entryway:
-        coordinates: 429,150,404,84,178,249,191,380
+        coordinates: 419,89,396,46,161,154,164,224
         inertia: 32
         objects:
           - car
           - bus
       guests:
-        coordinates: 486,343,449,277,347,434,379,529
+        coordinates: 495,189,469,143,348,239,369,303
         inertia: 56
         objects:
           - person
