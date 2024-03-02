@@ -33,9 +33,6 @@ spec:
         updateStrategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
-        pod:
-          nodeSelector:
-            nvidia.feature.node.kubernetes.io/rtx.gpu: "true"
         containers:
           main:
             image:
