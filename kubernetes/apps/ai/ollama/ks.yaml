@@ -5,6 +5,7 @@ metadata:
   name: ollama
   namespace: flux-system
 spec:
+  targetNamespace: ai
   interval: 10m
   path: "./kubernetes/apps/ai/ollama/backend"
   prune: true
@@ -19,6 +20,7 @@ metadata:
   name: ollama-web-ui
   namespace: flux-system
 spec:
+  targetNamespace: ai
   interval: 10m
   path: "./kubernetes/apps/ai/ollama/ui"
   prune: true
