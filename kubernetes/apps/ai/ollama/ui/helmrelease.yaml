@@ -34,7 +34,7 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/ollama-webui/ollama-webui
+              repository: ghcr.io/open-webui/open-webui
               tag: main
             env:
               OLLAMA_API_BASE_URL: http://ollama.ai.svc:11434/api
@@ -49,7 +49,7 @@ spec:
       main:
         ports:
           http:
-            port: &port 8080
+            port: 8080
     ingress:
       main:
         enabled: true
