@@ -42,6 +42,7 @@ spec:
               TZ: Europe/Simferopol
               NVIDIA_VISIBLE_DEVICES: all
               NVIDIA_DRIVER_CAPABILITIES: all
+              OLLAMA_SKIP_CPU_GENERATE: 1
               OLLAMA_HOST: 0.0.0.0
               OLLAMA_ORIGINS: "*"
             resources:
