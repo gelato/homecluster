@@ -74,7 +74,7 @@ spec:
               - *host
             secretName: wildcard-cert-tls
     persistence:
-      config:
+      models:
         enabled: true
         existingClaim: pvc-ollama
         mountPath: /root/.ollama
