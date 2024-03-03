@@ -8,5 +8,4 @@ spec:
   resources:
     requests:
       storage: 100Gi
-  persistentVolumeReclaimPolicy: Retain
   storageClassName: longhorn-fast
