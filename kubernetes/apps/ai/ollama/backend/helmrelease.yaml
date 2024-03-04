@@ -81,7 +81,7 @@ spec:
                   secretKeyRef:
                     name: ollama-secret
                     key: TG_USER_IDS
-              OLLAMA_BASE_URL: http://ollama.ai.svc:11434/api
+              OLLAMA_BASE_URL: http://localhost:11434/api
             resources:
               requests:
                 cpu: 200m
