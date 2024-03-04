@@ -19,7 +19,7 @@ spec:
       domain: &host flamingo.${SECRET_DOMAIN}
       image:
         repository: ghcr.io/flux-subsystem-argo/fsa/argocd
-        tag: v2.9.6-fl.23-main-86c4bdb9
+        tag: v2.9.6-fl.23-main-f37869ec
     configs:
       exec.enabled: true
       timeout.reconciliation: 180s
