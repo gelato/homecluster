@@ -54,49 +54,11 @@ spec:
                 nvidia.com/gpu: 1
               startup:
                 enabled: false
-      bot:
-        type: deployment
-        updateStrategy: Recreate
-        annotations:
-          reloader.stakater.com/auto: "true"
-        containers:
-          main:
-            image:
-              repository: n4z3m/dialoqbase
-              tag: latest
-            env:
-              TZ: Europe/Simferopol
-              DATABASE_URL:
-                valueFrom:
-                  secretKeyRef:
-                    name: ollama-secret
-                    key: PGSTRING
-              DB_REDIS_URL: redis://redis.database.svc.cluster.local:6379
-              DB_SECRET_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: ollama-secret
-                    key: DBSECRETKEY
-              DB_SESSION_SECRET:
-                valueFrom:
-                  secretKeyRef:
-                    name: ollama-secret
-                    key: DB_SECRET_KEY
-            resources:
-              requests:
-                cpu: 200m
-                memory: 256Mi
-              limits:
-                memory: 4Gi
     service:
       main:
         ports:
           http:
             port: 11434
-      bot:
-        ports:
-          http:
-            port: 3000
     ingress:
       main:
         enabled: true
@@ -108,16 +70,9 @@ spec:
                 service:
                   name: main
                   port: http
-          - host: &host2 "dia.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: bot
-                  port: http
         tls:
           - hosts:
               - *host
-              - *host2
             secretName: wildcard-cert-tls
     persistence:
       models:
