@@ -82,7 +82,7 @@ spec:
         registry: index.docker.io
         repository: alpine
         # If unset use latest
-        tag: 3.18.0
+        tag: 3.19.1
         sha: ""
         pullPolicy: IfNotPresent
 
