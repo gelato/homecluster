@@ -120,7 +120,7 @@ spec:
         registry: index.docker.io
         repository: rclone/rclone
         # If unset use latest
-        tag: 1.62.2
+        tag: 1.65.2
         sha: ""
         pullPolicy: IfNotPresent
 
