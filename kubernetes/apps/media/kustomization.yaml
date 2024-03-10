@@ -14,3 +14,4 @@ resources:
   - ./tautulli/ks.yaml
   - ./sftpgo/ks.yaml
   - ./jellyfin/ks.yaml
+  - ./recyclarr/ks.yaml
