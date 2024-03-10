@@ -25,6 +25,7 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    architecture: standalone
     auth:
       enabled: false
       sentinel: false
@@ -35,7 +36,7 @@ spec:
       persistence:
         enabled: false
     sentinel:
-      enabled: true
+      enabled: false
       masterSet: redis-master
       getMasterTimeout: 10
       startupProbe:
