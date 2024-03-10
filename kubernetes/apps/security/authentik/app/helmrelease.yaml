@@ -1,0 +1,110 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: authentik
+  namespace: security
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: authentik
+      version: 2024.2.2
+      sourceRef:
+        kind: HelmRepository
+        name: authentik-charts
+        namespace: flux-system
+      interval: 5m
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  rollback:
+    timeout: 10m
+    recreate: true
+    cleanupOnFail: true
+  dependsOn:
+    - name: redis
+      namespace: database
+    - name: cloudnative-pg
+      namespace: database
+  values:
+    global:
+      deploymentAnnotations:
+        secret.reloader.stakater.com/reload: &secret authentik-secret
+      image:
+        repository: ghcr.io/goauthentik/server
+        tag: 2024.2.2
+      fullnameOverride: authentik
+    authentik:
+      log_level: info
+      secret_key: "${SECRET_AUTHENTIK_SECRET_KEY}"
+      error_reporting:
+        enabled: true
+        environment: "ark"
+      outposts:
+        container_image_base: ghcr.io/goauthentik/%(type)s:%(version)s
+      postgresql:
+        host: "postgres16-rw.database.svc.cluster.local"
+        name: "${SECRET_AUTHENTIK_POSTGRES_DBNAME}"
+        user: "${SECRET_AUTHENTIK_POSTGRES_USERNAME}"
+        password: "${SECRET_AUTHENTIK_POSTGRES_PASSWORD}"
+      redis:
+        host: "redis.database.svc.cluster.local"
+      email:
+        host: "smtp-relay.service.svc.cluster.local"
+        port: 587
+        use_tls: false
+        from: "automata@skynerv.com"
+
+    server:
+      replicas: 1
+      initContainers:
+        - name: init-db
+          image: ghcr.io/onedr0p/postgres-init:16.2
+          envFrom:
+            - secretRef:
+                name: *secret
+      pdb:
+        enabled: true
+        minAvailable: 1
+        maxUnavailable: 1
+      ingress:
+        enabled: true
+        ingressClassName: "external"
+        annotations:
+          external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
+        hosts:
+        - host: "id.${SECRET_DOMAIN}"
+          paths:
+          - path: "/"
+            pathType: Prefix
+        tls:
+        - hosts:
+          - "id.${SECRET_DOMAIN}"
+          secretName: id-ingress-tls
+      metrics:
+        serviceMonitor:
+          enabled: true
+      resources:
+        requests:
+          cpu: 100m
+          memory: 512Mi
+        limits:
+          memory: 2Gi
+    worker:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 512Mi
+        limits:
+          memory: 1Gi
+
+    postgresql:
+      enabled: false
+    redis:
+      enabled: false

@@ -6,9 +6,3 @@ resources:
   - ./helmrelease.yaml
   - ./secret.sops.yaml
   - ../../../../templates/gatus/external
-configMapGenerator:
-  - name: authelia-configmap
-    files:
-      - configuration.yaml=./resources/configuration.yaml
-generatorOptions:
-  disableNameSuffixHash: true

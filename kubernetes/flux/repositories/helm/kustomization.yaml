@@ -21,3 +21,4 @@ resources:
   - ./repos/sftpgo.yaml
   - ./repos/nvidia.yaml
   - ./repos/argocd.yaml
+  - ./repos/authentik.yaml
