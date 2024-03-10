@@ -79,14 +79,10 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
         hosts:
-          - host: "id.${SECRET_DOMAIN}"
-            paths:
-              - path: "/"
-                pathType: Prefix
-        tls:
-          - hosts:
-            - "id.${SECRET_DOMAIN}"
-            secretName: id-ingress-tls
+          - &host id.${SECRET_DOMAIN}
+        paths:
+          - /
+        tls: [hosts: [*host]]
       metrics:
         serviceMonitor:
           enabled: true
