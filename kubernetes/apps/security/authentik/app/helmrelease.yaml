@@ -54,7 +54,7 @@ spec:
         user: "${SECRET_AUTHENTIK_POSTGRES_USERNAME}"
         password: "${SECRET_AUTHENTIK_POSTGRES_PASSWORD}"
       redis:
-        host: "redis.database.svc.cluster.local"
+        host: "redis-master.database.svc.cluster.local"
       email:
         host: "smtp-relay.service.svc.cluster.local"
         port: 587
