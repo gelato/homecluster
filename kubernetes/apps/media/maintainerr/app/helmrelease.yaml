@@ -66,6 +66,6 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: mainteinerr
+        existingClaim: maintainerr
         globalMounts:
           - path: /opt/data

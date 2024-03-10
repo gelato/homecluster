@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mainteinerr
+  name: maintainerr
 spec:
   accessModes: ["ReadWriteOnce"]
   resources:
