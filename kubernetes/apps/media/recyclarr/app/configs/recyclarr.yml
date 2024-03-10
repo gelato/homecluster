@@ -14,7 +14,6 @@ sonarr:
       - name: Tuned-UHD
         min_format_score: 0
         qualities:
-          - name: Tuned-UHD
           - name: Blueray-2160p
             qualities:
               - WEBDL-2160p
@@ -39,7 +38,7 @@ sonarr:
           enabled: true
         upgrade:
           allowed: true
-          until_quality: Tuned-UHD
+          until_quality: Bluray-2160p
           until_score: 999999999
 
     custom_formats:
@@ -165,7 +164,6 @@ radarr:
       - name: Tuned-UHD
         min_format_score: 0
         qualities:
-          - name: Tuned-UHD
           - name: Blueray-2160p
             qualities:
               - WEBDL-2160p
@@ -190,7 +188,7 @@ radarr:
           enabled: true
         upgrade:
           allowed: true
-          until_quality: Tuned-UHD
+          until_quality: Bluray-2160p
           until_score: 999999999
 
     custom_formats:
