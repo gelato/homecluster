@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &appname maintainerr
+  namespace: flux-system
+spec:
+  targetNamespace: media
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *appname
+  interval: 10m
+  path: "./kubernetes/apps/media/maintainerr/app"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes
+  wait: false
+  dependsOn:
+    - name: longhorn
+    - name: jellyfin
+  postBuild:
+    substitute:
+      APP: *appname
+      HOSTNAME: maint.${SECRET_DOMAIN}
+      APP_UID: "1000"
+      APP_GID: "1000"
