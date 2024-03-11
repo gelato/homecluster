@@ -69,6 +69,13 @@ spec:
           envFrom:
             - secretRef:
                 name: *secret
+      volumeMounts:
+        - mountPath: /blueprints/custom
+          name: authentik-blueprints
+      volumes:
+        - configMap:
+            name: authentik-blueprints
+          name: authentik-blueprints
       pdb:
         enabled: true
         minAvailable: 1
@@ -104,11 +111,3 @@ spec:
       enabled: false
     redis:
       enabled: false
-
-    volumeMounts:
-      - mountPath: /blueprints/custom
-        name: authentik-blueprints
-    volumes:
-      - configMap:
-          name: authentik-blueprints
-        name: authentik-blueprints
