@@ -69,13 +69,6 @@ spec:
           envFrom:
             - secretRef:
                 name: *secret
-      volumeMounts:
-        - mountPath: /blueprints/custom
-          name: authentik-blueprints
-      volumes:
-        - configMap:
-            name: authentik-blueprints
-          name: authentik-blueprints
       pdb:
         enabled: true
         minAvailable: 1
@@ -106,6 +99,13 @@ spec:
           memory: 512Mi
         limits:
           memory: 1Gi
+      volumeMounts:
+        - mountPath: /blueprints/custom
+          name: authentik-blueprints
+      volumes:
+        - configMap:
+            name: authentik-blueprints
+          name: authentik-blueprints
 
     postgresql:
       enabled: false
