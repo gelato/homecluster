@@ -2,13 +2,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: victoriametrics
+  name: victoriametrics-crd
   namespace: flux-system
   labels:
     substitution.flux.home.arpa/enabled: "true"
 spec:
   targetNamespace: observability
-  path: "./kubernetes/apps/observability/victoria-metrics/app/"
+  path: "./kubernetes/apps/observability/victoria-metrics/crd/"
   prune: true
   wait: false
   sourceRef:
@@ -21,13 +21,13 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: victoriametrics-crd
+  name: victoriametrics
   namespace: flux-system
   labels:
     substitution.flux.home.arpa/enabled: "true"
 spec:
   targetNamespace: observability
-  path: "./kubernetes/apps/observability/victoria-metrics/crd/"
+  path: "./kubernetes/apps/observability/victoria-metrics/app/"
   prune: true
   wait: false
   sourceRef:
