@@ -124,7 +124,7 @@ spec:
                 matchNames: ["observability"]
               labelSelector:
                 matchLabels:
-                  app.kubernetes.io/name: victoria-metrics-k8s-stack
+                  app.kubernetes.io/name: vmalertmanager
       ingress:
         enabled: true
         ingressClassName: internal
@@ -150,7 +150,7 @@ spec:
         ingressClassName: internal
         annotations:
           nginx.ingress.kubernetes.io/auth-url: |-
-            http://ak-outpost-authentik-embedded-outpost.default.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
+            http://ak-outpost-authentik-embedded-outpost.security.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
           nginx.ingress.kubernetes.io/auth-signin: |-
             https://vmagent.${SECRET_DOMAIN}/outpost.goauthentik.io/start?rd=$escaped_request_uri
           nginx.ingress.kubernetes.io/auth-response-headers: |-
@@ -218,7 +218,7 @@ spec:
               - *hostam
       spec:
         externalURL: https://alertmanager.${SECRET_DOMAIN}
-        replicaCount: 2
+        replicaCount: 1
         # Import Alertmanager config from a existing secret
         # this can be configured directly in chart but it can
         #   be a bit unweildy to manage

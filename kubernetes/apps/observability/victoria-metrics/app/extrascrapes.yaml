@@ -8,13 +8,6 @@ type: Opaque
 stringData:
   prometheus-additional.yaml: |
 
-    - job_name: vnstat
-      scrape_interval: 1m
-      scrape_timeout: 10s
-      static_configs:
-        - targets:
-            - "vnstat.observability.${INTERNAL_SERVICE_DOMAIN}:8685"
-
     - job_name: smtp-relay
       scrape_interval: 1m
       scrape_timeout: 10s
