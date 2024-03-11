@@ -23,6 +23,9 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
+  dependsOn:
+    - name: victoriametrics-crd
+      namespace: observability
   uninstall:
     keepHistory: false
   postRenderers:
