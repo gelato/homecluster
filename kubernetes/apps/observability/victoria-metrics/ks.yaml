@@ -7,6 +7,7 @@ metadata:
   labels:
     substitution.flux.home.arpa/enabled: "true"
 spec:
+  targetNamespace: observability
   path: "./kubernetes/apps/observability/victoria-metrics/app/"
   prune: true
   wait: false
@@ -25,6 +26,7 @@ metadata:
   labels:
     substitution.flux.home.arpa/enabled: "true"
 spec:
+  targetNamespace: observability
   path: "./kubernetes/apps/observability/victoria-metrics/crd/"
   prune: true
   wait: false
