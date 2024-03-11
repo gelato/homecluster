@@ -124,7 +124,7 @@ spec:
                 matchNames: ["observability"]
               labelSelector:
                 matchLabels:
-                  app.kubernetes.io/name: vmalertmanager
+                  app.kubernetes.io/name: victoria-metrics-k8s-stack
       ingress:
         enabled: true
         ingressClassName: internal
