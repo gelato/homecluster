@@ -27,6 +27,8 @@ metadata:
     substitution.flux.home.arpa/enabled: "true"
 spec:
   targetNamespace: observability
+  dependsOn:
+    - name: victoriametrics-crd
   path: "./kubernetes/apps/observability/victoria-metrics/app/"
   prune: true
   wait: false
