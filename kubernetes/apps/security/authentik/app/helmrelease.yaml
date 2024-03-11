@@ -104,3 +104,11 @@ spec:
       enabled: false
     redis:
       enabled: false
+
+    volumeMounts:
+      - mountPath: /blueprints/custom
+        name: authentik-blueprints
+    volumes:
+      - configMap:
+          name: authentik-blueprints
+        name: authentik-blueprints

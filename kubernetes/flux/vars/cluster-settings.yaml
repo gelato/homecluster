@@ -8,4 +8,4 @@ data:
   TIMEZONE: "Europe/Simferopol"
   CLUSTER_CIDR: "10.111.0.0/16"
   NODE_CIDR: "192.168.108.0/24"
-  SSO_DOMAIN_PREFIX: sso
+  SSO_DOMAIN_PREFIX: id
