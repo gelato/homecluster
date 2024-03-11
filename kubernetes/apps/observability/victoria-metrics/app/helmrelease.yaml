@@ -121,7 +121,7 @@ spec:
         notifiers:
           - selector:
               namespaceSelector:
-                matchNames: ["monitoring"]
+                matchNames: ["observability"]
               labelSelector:
                 matchLabels:
                   app.kubernetes.io/name: victoria-metrics-k8s-stack
