@@ -25,18 +25,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  postRenderers:
-   - kustomize:
-      patches:
-       - patch: |-
-           apiVersion: operator.victoriametrics.com/v1beta1
-           kind: VMAgent
-           metadata:
-             name: victoria-metrics-k8s-stack
-             namespace: observability
-           spec:
-             externalLabels:
-               $patch: delete
   values:
     fullnameOverride: victoria-metrics
 
