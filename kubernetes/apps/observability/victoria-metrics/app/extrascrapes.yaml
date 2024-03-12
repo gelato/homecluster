@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: vm-additional-scrape-configs
-  namespace: monitoring
+  namespace: observability
 type: Opaque
 stringData:
   prometheus-additional.yaml: |

@@ -89,6 +89,15 @@ spec:
             allowUiUpdates: true
             options:
               path: /var/lib/grafana/dashboards/nginx
+          - name: "storage"
+            orgId: 1
+            folder: "VicoriaMetrics"
+            type: file
+            disableDeletion: false
+            editable: true
+            allowUiUpdates: true
+            options:
+              path: /var/lib/grafana/dashboards/storage
     dashboards:
       default:
         cert-manager:
@@ -107,18 +116,6 @@ spec:
           revision: 1
           datasource:
             - { name: DS_PROMETHEUS, value: VictoriaMetrics }
-        minio:
-          # renovate: depName="MinIO Dashboard"
-          gnetId: 13502
-          revision: 26
-          datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
-        redis:
-          # renovate: depName="Redis Dashboard for Prometheus Redis Exporter 1.x"
-          gnetId: 763
-          revision: 6
-          datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
         spegel:
           # renovate: depName="Spegel"
           gnetId: 18089
@@ -132,6 +129,18 @@ spec:
       storage:
         cnpg-dashboard:
           url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.0/docs/src/samples/monitoring/grafana-dashboard.json
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+        minio:
+          # renovate: depName="MinIO Dashboard"
+          gnetId: 13502
+          revision: 26
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+        redis:
+          # renovate: depName="Redis Dashboard for Prometheus Redis Exporter 1.x"
+          gnetId: 763
+          revision: 6
           datasource:
             - { name: DS_PROMETHEUS, value: VictoriaMetrics }
       system:
