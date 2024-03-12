@@ -1,0 +1,179 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: observability
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: grafana
+      version: 7.3.6
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
+  values:
+    replicas: 1
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+          - name: default
+            disableDeletion: false
+            editable: true
+            folder: ""
+            options:
+              path: /var/lib/grafana/dashboards/default
+            orgId: 1
+            type: file
+          - name: flux
+            disableDeletion: false
+            editable: true
+            folder: ""
+            options:
+              path: /var/lib/grafana/dashboards/default
+            orgId: 1
+            type: file
+          - name: kubernetes
+            disableDeletion: false
+            editable: true
+            folder: ""
+            options:
+              path: /var/lib/grafana/dashboards/default
+            orgId: 1
+            type: file
+    dashboards:
+      default:
+        cloudnative-pg:
+          # TODO: this is broken by externalLabels from victoriametrics
+          url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+        cert-manager:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
+          datasource: VictoriaMetrics
+        ntfy:
+          url: https://raw.githubusercontent.com/binwiederhier/ntfy/main/examples/grafana-dashboard/ntfy-grafana.json
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+        longhorn:
+          url: https://github.com/longhorn/longhorn/files/12914875/Longhorn.Dashboard.json
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+      flux:
+        # TODO: fix
+        flux-cluster:
+          url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/cluster.json
+          datasource: VictoriaMetrics
+        flux-control-plane:
+          url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/control-plane.json
+          datasource: VictoriaMetrics
+        # flux-logs:
+        #   url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/logs.json
+        #   datasource: VictoriaMetrics
+      kubernetes:
+        kubernetes-api-server:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
+          datasource: VictoriaMetrics
+        kubernetes-coredns:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-coredns.json
+          datasource: VictoriaMetrics
+        kubernetes-global:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-global.json
+          datasource: VictoriaMetrics
+        kubernetes-namespaces:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-namespaces.json
+          datasource: VictoriaMetrics
+        kubernetes-nodes:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-nodes.json
+          datasource: VictoriaMetrics
+        kubernetes-pods:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
+          datasource: VictoriaMetrics
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - access: proxy
+            isDefault: true
+            name: VictoriaMetrics
+            type: prometheus
+            jsonData:
+              prometheusType: Thanos
+            url: http://vmselect-victoria-metrics.observability.svc:8481/select/0/prometheus
+          - name: Loki
+            type: loki
+            uid: loki
+            access: proxy
+            url: http://loki-gateway.observability.svc.cluster.local
+            jsonData:
+              maxLines: 250
+          - name: Alertmanager
+            type: alertmanager
+            uid: alertmanager
+            access: proxy
+            url: http://vmalertmanager-victoria-metrics.observability.svc.cluster.local:9093
+            jsonData:
+              implementation: prometheus
+    envFromSecrets:
+      - name: grafana-env
+    grafana.ini:
+      server:
+        root_url: https://grafana.${SECRET_DOMAIN}
+      auth:
+        signout_redirect_url: "https://authentik.company/application/o/grafana/end-session/"
+        oauth_auto_login: true
+      auth.basic:
+        disable_login_form: false
+      auth.generic_oauth:
+        enabled: true
+        name: authentik
+        # client_id: abcd # Set by env vars
+        # client_secret: abcd # Set by env vars
+        scopes: "openid profile email"
+        empty_scopes: false
+        auth_url: https://${SSO_DOMAIN_PREFIX}.${SECRET_DOMAIN}/application/o/authorize/
+        token_url: https://${SSO_DOMAIN_PREFIX}.${SECRET_DOMAIN}/application/o/token/
+        api_url: https://${SSO_DOMAIN_PREFIX}.${SECRET_DOMAIN}/application/o/userinfo/
+        login_attribute_path: preferred_username
+        groups_attribute_path: groups
+        name_attribute_path: name
+        role_attribute_path: contains(groups, 'Grafana Admins') && 'Admin' || contains(groups, 'Grafana Editors') && 'Editor' || 'Viewer'
+    sidecar:
+      dashboards:
+        enabled: true
+        searchNamespace: ALL
+      datasources:
+        enabled: true
+        searchNamespace: ALL
+    plugins:
+      - grafana-clock-panel
+      - grafana-piechart-panel
+      - grafana-worldmap-panel
+      - natel-discrete-panel
+      - pr0ps-trackmap-panel
+      - vonage-status-panel
+    serviceMonitor:
+      enabled: true
+    ingress:
+      enabled: true
+      ingressClassName: "internal"
+      hosts:
+        - &host grafana.${SECRET_DOMAIN}
+      tls:
+        - hosts:
+          - *host
+    persistence:
+      enabled: false
