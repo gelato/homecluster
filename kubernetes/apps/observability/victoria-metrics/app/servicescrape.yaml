@@ -3,7 +3,7 @@ apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMServiceScrape
 metadata:
   name: scrape-all-services
-  namespace: monitoring
+  namespace: observability
 spec:
   discoveryRole: "endpoints"
   jobLabel: "app.kubernetes.io/name"

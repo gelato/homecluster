@@ -4,7 +4,7 @@ apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMPodScrape
 metadata:
   name: pod-scrape-all
-  namespace: monitoring
+  namespace: observability
 spec:
   podMetricsEndpoints:
     - scheme: http
