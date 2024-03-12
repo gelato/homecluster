@@ -38,29 +38,59 @@ spec:
               path: /var/lib/grafana/dashboards/default
             orgId: 1
             type: file
-          - name: flux
+          - name: "flux"
+            orgId: 1
+            folder: "Flux"
+            type: file
             disableDeletion: false
             editable: true
-            folder: ""
             options:
-              path: /var/lib/grafana/dashboards/default
+              path: /var/lib/grafana/dashboards/flux
+          - name: "kubernetes"
             orgId: 1
+            folder: "Kubernetes"
             type: file
-          - name: kubernetes
             disableDeletion: false
             editable: true
-            folder: ""
             options:
-              path: /var/lib/grafana/dashboards/default
-            orgId: 1
+              path: /var/lib/grafana/dashboards/kubernetes
+          - name: "networking"
+            org_id: 1
+            folder: "Networking"
             type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/networking
+          - name: "system"
+            orgId: 1
+            folder: "System"
+            type: file
+            disableDeletion: false
+            editable: true
+            allowUiUpdates: true
+            options:
+              path: /var/lib/grafana/dashboards/system
+          - name: "victoria-metrics"
+            orgId: 1
+            folder: "VicoriaMetrics"
+            type: file
+            disableDeletion: false
+            editable: true
+            allowUiUpdates: true
+            options:
+              path: /var/lib/grafana/dashboards/vm
+          - name: "nginx"
+            orgId: 1
+            folder: "VicoriaMetrics"
+            type: file
+            disableDeletion: false
+            editable: true
+            allowUiUpdates: true
+            options:
+              path: /var/lib/grafana/dashboards/nginx
     dashboards:
       default:
-        cloudnative-pg:
-          # TODO: this is broken by externalLabels from victoriametrics
-          url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
-          datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
         cert-manager:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
           datasource: VictoriaMetrics
@@ -68,8 +98,64 @@ spec:
           url: https://raw.githubusercontent.com/binwiederhier/ntfy/main/examples/grafana-dashboard/ntfy-grafana.json
           datasource:
             - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+        smartmon:
+            gnetId: 10530
+            revision: 1
+            datasource: VictoriaMetrics
         longhorn:
-          url: https://github.com/longhorn/longhorn/files/12914875/Longhorn.Dashboard.json
+          gnetId: 13032
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+        minio:
+          # renovate: depName="MinIO Dashboard"
+          gnetId: 13502
+          revision: 26
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+        redis:
+          # renovate: depName="Redis Dashboard for Prometheus Redis Exporter 1.x"
+          gnetId: 763
+          revision: 6
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+        spegel:
+          # renovate: depName="Spegel"
+          gnetId: 18089
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+        node-feature-discovery:
+          url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+      storage:
+        cnpg-dashboard:
+          url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.22.0/docs/src/samples/monitoring/grafana-dashboard.json
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+      system:
+        node-exporter:
+          # renovate: depName="Node Exporter"
+          gnetId: 11074
+          revision: 9
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+          # renovate: depName="Node Exporter Full"
+        node-exporter-full:
+          gnetId: 1860
+          revision: 31
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+      victoria-metrics:
+        single:
+          gnetId: 10229
+          revision: 31
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+        vmagent:
+          gnetId: 12683
+          revision: 14
           datasource:
             - { name: DS_PROMETHEUS, value: VictoriaMetrics }
       flux:
@@ -102,9 +188,54 @@ spec:
         kubernetes-pods:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
           datasource: VictoriaMetrics
+        nginx:
+          nginx:
+            url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
+            datasource: VictoriaMetrics
+          nginx-request-handling-performance:
+            url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
+            datasource: VictoriaMetrics
+        networking:
+          cilium-agent:
+            gnetId: 16611
+            revision: 1
+            datasource: VictoriaMetrics
+          cilium-operator:
+            gnetId: 16612
+            revision: 1
+            datasource: VictoriaMetrics
+          hubble:
+            gnetId: 16613
+            revision: 1
+            datasource: VictoriaMetrics
+          ingress-nginx-external:
+            gnetId: 14314
+            revision: 2
+            datasource: VictoriaMetrics
+          ingress-nginx:
+            url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
+            datasource: VictoriaMetrics
+          ingress-nginx-request-handling-performance:
+            url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
+            datasource: VictoriaMetrics
+          external-dns:
+            # renovate: depName="External-DNS"
+            gnetId: 15038
+            revision: 3
+            datasource: VictoriaMetrics
+          cloudflared:
+            # renovate: depName="Cloudflare Tunnels (cloudflared)"
+            gnetId: 17457
+            revision: 6
+            datasource:
+              - { name: DS_PROMETHEUS, value: VictoriaMetrics }
     datasources:
       datasources.yaml:
         apiVersion: 1
+        deleteDatasources:
+          - { name: Alertmanager, orgId: 1 }
+          - { name: Loki, orgId: 1 }
+          - { name: Prometheus, orgId: 1 }
         datasources:
           - access: proxy
             isDefault: true

@@ -7,3 +7,4 @@ resources:
   - ./alertmanagerconfig.yaml
   - ./vmpodscrape.yaml
   - ./servicescrape.yaml
+  - ./rules/oom.yaml

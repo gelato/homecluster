@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./podscrapes.yaml
   - ./servicescrapes.yaml
+  - ./vmrules.yaml
