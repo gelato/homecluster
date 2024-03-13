@@ -398,32 +398,32 @@ spec:
     #       - port: http-metrics
     #         bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
 
-    # Add kubeScheduler scrape
-    kubeScheduler:
-      enabled: false
-      # endpoints: *cp
-      # service:
-      #   enabled: true
-      #   port: 10259
-      #   targetPort: 10259
-      #
-      # spec:
-      #   endpoints:
-      #     - port: http-metrics
-      #       insecureSkipVerify: true
+    # # Add kubeScheduler scrape
+    # kubeScheduler:
+    #   enabled: false
+    #   # endpoints: *cp
+    #   # service:
+    #   #   enabled: true
+    #   #   port: 10259
+    #   #   targetPort: 10259
+    #   #
+    #   # spec:
+    #   #   endpoints:
+    #   #     - port: http-metrics
+    #   #       insecureSkipVerify: true
 
-    # Add kubeEtcd scrape
-    kubeEtcd:
-      enabled: true
-      endpoints: *cp
-      service:
-        enabled: true
-        port: 2381
-        targetPort: 2381
-      spec:
-        endpoints:
-          - port: http-metrics
-            scheme: http
+    # # Add kubeEtcd scrape
+    # kubeEtcd:
+    #   enabled: true
+    #   endpoints: *cp
+    #   service:
+    #     enabled: true
+    #     port: 2381
+    #     targetPort: 2381
+    #   spec:
+    #     endpoints:
+    #       - port: http-metrics
+    #         scheme: http
 
     # Enable deployment of grafana
     # I chose to deploy this seperately and manage it myself
