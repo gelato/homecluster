@@ -32,11 +32,6 @@ spec:
     # VM Operator deployment
     victoria-metrics-operator:
       enabled: true
-      cleanupCRD: true
-      cleanupImage:
-        repository: gcr.io/google_containers/hyperkube
-        tag: v1.18.0
-        pullPolicy: IfNotPresent
       createCRD: false
       operator:
         disable_prometheus_converter: false # Ensure we keep enabled the converter to sync prom rules to VM rules
