@@ -162,13 +162,11 @@ spec:
         single:
           gnetId: 11176
           revision: 31
-          datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+          datasource: VictoriaMetrics
         vmagent:
           gnetId: 12683
           revision: 14
-          datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+          datasource: VictoriaMetrics
       flux:
         # TODO: fix
         flux-cluster:
