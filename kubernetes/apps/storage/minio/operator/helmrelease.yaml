@@ -28,9 +28,9 @@ spec:
     operator:
       env:
         - name: PROMETHEUS_NAMESPACE
-          value: "monitoring"
+          value: "observability"
         - name: MINIO_PROMETHEUS_URL
-          value: "http://kube-prometheus-stack-prometheus.monitoring:9090"
+          value: "http://vmselect-victoria-metrics.observability.svc:8481/select/0/prometheus"
       imagePullSecrets: [ ]
       runtimeClassName: ~
       initContainers: [ ]
