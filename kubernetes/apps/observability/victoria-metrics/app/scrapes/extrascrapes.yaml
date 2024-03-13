@@ -24,7 +24,7 @@ stringData:
       honor_timestamps: true
       static_configs:
         - targets:
-            - "smtp-relay.service.${INTERNAL_SERVICE_DOMAIN}:9749"
+            - "smtp-relay.service.${INTERNAL_SERVICE_DOMAIN}:8080"
 
     - job_name: smartctl-exporter
       scrape_interval: 10m

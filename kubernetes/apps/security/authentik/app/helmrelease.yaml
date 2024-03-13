@@ -57,9 +57,9 @@ spec:
         host: "redis-master.database.svc.cluster.local"
       email:
         host: "smtp-relay.service.svc.cluster.local"
-        port: 587
+        port: 25
         use_tls: false
-        from: "automata@skynerv.com"
+        from: "Authentik <authentic@skynerv.com>"
 
     server:
       replicas: 1
