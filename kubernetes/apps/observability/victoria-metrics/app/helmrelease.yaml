@@ -438,4 +438,4 @@ spec:
 
     ## install vm operator crds
     crds:
-      enabled: true
+      enabled: false
