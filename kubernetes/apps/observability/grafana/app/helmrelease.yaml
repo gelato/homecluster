@@ -245,7 +245,8 @@ spec:
           # renovate: depName="External-DNS"
           gnetId: 15038
           revision: 3
-          datasource: VictoriaMetrics
+          datasource:
+            - { name: datasource, value: VictoriaMetrics }
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
           gnetId: 17457
