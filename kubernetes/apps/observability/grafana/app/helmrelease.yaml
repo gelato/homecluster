@@ -305,4 +305,9 @@ spec:
         - hosts:
           - *host
     persistence:
-      enabled: false
+      type: pvc
+      enabled: true
+      storageClassName: longhorn-fast
+      accessModes:
+        - ReadWriteOnce
+      size: 1Gi
