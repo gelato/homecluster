@@ -246,7 +246,7 @@ spec:
           gnetId: 15038
           revision: 3
           datasource:
-            - { name: prometheus, value: VictoriaMetrics }
+            - { name: datasource, value: VictoriaMetrics }
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
           gnetId: 17457
