@@ -401,10 +401,10 @@ go2rtc:
   streams:
     gates_hq:
       - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101
-      - "ffmpeg:gates_hq#audio=aac#hardware"
+      - "ffmpeg:gates_hq#video=copy#audio=aac#hardware"
     gates_lq:
       - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102
-      - "ffmpeg:gates_lq#audio=aac#hardware"
+      - "ffmpeg:gates_lq#video=copy#audio=aac#hardware"
   webrtc:
     candidates:
       - 192.168.108.55:8555
