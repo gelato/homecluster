@@ -136,3 +136,15 @@ trackers:
     urls: ["bitru.org"]
     required_seed_ratio: 0
     required_seed_days: 0
+  - name: explodie
+    urls: ["explodie.org"]
+    required_seed_ratio: 0
+    required_seed_days: 0
+  - name: opentor
+    urls: ["opentor.net","opentor.org"]
+    required_seed_ratio: 0
+    required_seed_days: 0
+  - name: retracker
+    urls: ["retracker.local"]
+    required_seed_ratio: 0
+    required_seed_days: 0

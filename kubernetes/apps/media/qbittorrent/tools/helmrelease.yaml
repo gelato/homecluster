@@ -85,7 +85,7 @@ spec:
               "--exclude-category", "music.collection",
               "--exclude-category", "music.import",
               "--exclude-category", "overlord",
-              "--include-tag", "expired", # defined in config.yaml
+              # "--include-tag", "expired", # defined in config.yaml
               "--include-tag", "added:7d",
               # "--dry-run",
               "--server", "qbittorrent.media.svc.cluster.local",
@@ -109,7 +109,6 @@ spec:
             env: *env
             args: [
               "orphaned",
-              "--exclude-pattern", "*_unpackerred*",
               "--exclude-pattern", "*/manual/*",
               "--exclude-pattern", "*/music.import/*",
               # "--dry-run",
