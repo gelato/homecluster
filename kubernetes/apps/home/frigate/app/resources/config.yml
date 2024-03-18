@@ -397,18 +397,18 @@ rtmp:
 
 # Optional: Restream configuration
 # Uses https://github.com/AlexxIT/go2rtc (v1.8.3)
-# go2rtc:
-#   streams:
-#     gates_hq:
-#       - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101
-#       - "ffmpeg:gates_hq#video=copy#audio=aac"
-#     gates_lq:
-#       - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102
-#       - "ffmpeg:gates_lq#video=copy#audio=aac"
-#   webrtc:
-#     candidates:
-#       - 192.168.108.55:8555
-#       - stun:8555
+go2rtc:
+  streams:
+    gates_hq:
+      - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101
+      - "ffmpeg:gates_hq#video=copy#audio=aac"
+    gates_lq:
+      - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102
+      - "ffmpeg:gates_lq#video=copy#audio=aac"
+  webrtc:
+    candidates:
+      - 192.168.108.55:8555
+      - stun:8555
 
 # Optional: jsmpeg stream configuration for WebUI
 live:
@@ -461,14 +461,12 @@ cameras:
       inputs:
         # Required: the path to the stream
         # NOTE: path may include environment variables or docker secrets, which must begin with 'FRIGATE_' and be referenced in {}
-        - path: rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101
-        # - path: rtsp://localhost:8554/gates_hq
+        - path: rtsp://localhost:8554/gates_hq
           # input_args: preset-rtsp-restream
           roles:
             - record
             - audio
-        - path: rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101
-        # - path: rtsp://localhost:8554/gates_lq
+        - path: rtsp://localhost:8554/gates_lq
           # input_args: preset-rtsp-restream
           roles:
             - detect
