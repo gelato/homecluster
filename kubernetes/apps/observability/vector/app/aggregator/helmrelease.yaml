@@ -49,14 +49,14 @@ spec:
               repository: docker.io/timberio/vector
               tag: 0.36.1-debian@sha256:67c4cfc8fd70c7a0182fdc3ba815f34cebb0c9702e9a0a2b1fbe4f11dac719fa
             args: ["--config", "/etc/vector/vector.yaml"]
-        pod:
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: *app
+        # pod:
+        #   topologySpreadConstraints:
+        #     - maxSkew: 1
+        #       topologyKey: kubernetes.io/hostname
+        #       whenUnsatisfiable: DoNotSchedule
+        #       labelSelector:
+        #         matchLabels:
+        #           app.kubernetes.io/name: *app
     service:
       main:
         type: LoadBalancer
