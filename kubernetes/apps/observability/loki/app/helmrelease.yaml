@@ -131,7 +131,7 @@ spec:
       replicas: 1
       image:
         registry: ghcr.io
-      affinity: {}
+      affinity: null
       ingress:
         enabled: true
         ingressClassName: internal
