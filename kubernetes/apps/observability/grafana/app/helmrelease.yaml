@@ -98,44 +98,53 @@ spec:
             allowUiUpdates: true
             options:
               path: /var/lib/grafana/dashboards/storage
+          - name: "loki"
+            orgId: 1
+            folder: "Loki"
+            type: file
+            disableDeletion: false
+            editable: true
+            allowUiUpdates: true
+            options:
+              path: /var/lib/grafana/dashboards/loki
     dashboards:
       default:
         ntfy:
           url: https://raw.githubusercontent.com/binwiederhier/ntfy/main/examples/grafana-dashboard/ntfy-grafana.json
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         node-feature-discovery:
           url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
       storage:
         minio:
           # renovate: depName="MinIO Dashboard"
           gnetId: 13502
           revision: 26
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         redis:
           # renovate: depName="Redis"
           gnetId: 12776
           revision: 2
-          datasource: VictoriaMetrics
+          datasource: Prometheus
         smartmon:
             gnetId: 10530
             revision: 1
             datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         longhorn:
           gnetId: 13032
           revision: 1
           datasource:
-            - { name: DS_RANCHER_MONITORING, value: VictoriaMetrics }
+            - { name: DS_RANCHER_MONITORING, value: Prometheus }
       system:
         node-exporter-full:
           gnetId: 1860
           revision: 31
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         cert-manager:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
           datasource: VictoriaMetrics
@@ -144,87 +153,90 @@ spec:
           gnetId: 18089
           revision: 1
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
-            - { name: prometheus, value: victoriametrics-datasource }
+            - { name: DS_PROMETHEUS, value: Prometheus }
       victoria-metrics:
         cluster:
           gnetId: 11176
-          revision: 31
+          revision: 34
           datasource:
-            - { name: ds, value: VictoriaMetrics }
+            - { name: ds, value: Prometheus }
+        cluster-native:
+          gnetId: 11831
+          revision: 6
+          datasource: VictoriaMetrics
         vmagent:
           gnetId: 12683
           revision: 14
           datasource:
-            - { name: ds, value: VictoriaMetrics }
+            - { name: ds, value: Prometheus }
       flux:
         # TODO: fix
         flux-cluster:
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/cluster.json
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         flux-control-plane:
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/control-plane.json
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         # flux-logs:
         #   url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/logs.json
         #   datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
       nginx:
         nginx:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
           datasource:
-          - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+          - { name: DS_PROMETHEUS, value: Prometheus }
         nginx-request-handling-performance:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
           datasource:
-          - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+          - { name: DS_PROMETHEUS, value: Prometheus }
         ingress-nginx-external:
           gnetId: 14314
           revision: 2
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         ingress-nginx-request-handling-performance:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         ingress-nginx:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
       networking:
         cilium-agent:
           gnetId: 16611
           revision: 1
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         cilium-operator:
           gnetId: 16612
           revision: 1
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         hubble:
           gnetId: 16613
           revision: 1
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         hubble-dns:
           gnetId: 16612
           revision: 37
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         hubble-overview:
           gnetId: 16612
           revision: 39
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
           gnetId: 17457
           revision: 6
           datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+            - { name: DS_PROMETHEUS, value: Prometheus }
     datasources:
       datasources.yaml:
         apiVersion: 1
@@ -233,8 +245,16 @@ spec:
           - { name: Loki, orgId: 1 }
           - { name: Prometheus, orgId: 1 }
         datasources:
-          - access: proxy
+          - name: Prometheus
+            type: prometheus
+            uid: prometheus
+            access: proxy
+            # url: http://thanos-query-frontend.monitoring.svc.cluster.local:9090
+            url: http://vmselect-victoria-metrics.monitoring.svc.cluster.local:8481/select/0/prometheus
+            jsonData:
+              prometheusType: Thanos # Prometheus for victoria-metrics
             isDefault: true
+          - access: proxy
             name: VictoriaMetrics
             type: victoriametrics-datasource
             url: http://vmselect-victoria-metrics.observability.svc:8481/select/0/prometheus

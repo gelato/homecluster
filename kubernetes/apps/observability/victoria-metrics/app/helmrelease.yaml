@@ -283,7 +283,7 @@ spec:
         # spec for VMServiceScrape crd
         # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
         spec:
-          jobLabel: jobLabel
+          jobLabel: app.kubernetes.io/instance
           endpoints:
             - port: metrics
               metricRelabelConfigs:
@@ -294,6 +294,10 @@ spec:
     # kube-state-metrics dependency chart configuration. For possible values refer to https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-state-metrics/values.yaml
     kube-state-metrics:
       enabled: true
+      prometheus:
+        monitor:
+          enabled: true
+
 
     # Add Kubelet scrape
     kubelet:
@@ -367,7 +371,7 @@ spec:
         port: 10259
         targetPort: 10259
       spec:
-        jobLabel: jobLabel
+        jobLabel: component
         endpoints:
           - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
             # bearerTokenSecret:
@@ -394,7 +398,7 @@ spec:
       # spec for VMServiceScrape crd
       # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
       spec:
-        jobLabel: jobLabel
+        jobLabel: component
         endpoints:
           - port: http-metrics
             bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
@@ -402,16 +406,16 @@ spec:
     # Add kubeScheduler scrape
     kubeScheduler:
       enabled: false
-      # endpoints: *cp
-      # service:
-      #   enabled: true
-      #   port: 10259
-      #   targetPort: 10259
-      #
-      # spec:
-      #   endpoints:
-      #     - port: http-metrics
-      #       insecureSkipVerify: true
+      endpoints: *cp
+      service:
+        enabled: true
+        port: 10259
+        targetPort: 10259
+
+      spec:
+        endpoints:
+          - port: http-metrics
+            insecureSkipVerify: true
 
     # Add kubeEtcd scrape
     kubeEtcd:
