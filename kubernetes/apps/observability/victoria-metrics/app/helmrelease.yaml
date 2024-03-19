@@ -71,6 +71,12 @@ spec:
             search.minStalenessInterval: "5m"
             search.maxConcurrentRequests: "6"
             vmalert.proxyURL: "http://vmalert.${SECRET_DOMAIN}"
+          resources:
+            requests:
+              cpu: 205m
+              memory: 500Mi
+            limits:
+              memory: 2Gi
           storage:
             volumeClaimTemplate:
               spec:
