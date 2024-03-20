@@ -5,6 +5,7 @@ resources:
   - ./helmrelease.yaml
   - ./scrapes/extrascrapes.yaml
   - ./alertmanagerconfig.yaml
-  - ./scrapes/vmpodscrape.yaml
+  # - ./scrapes/vmpodscrape.yaml
+  - ./agentconfig/config.yaml
   - ./scrapes/servicescrape.yaml
   - ./rules/oom.yaml

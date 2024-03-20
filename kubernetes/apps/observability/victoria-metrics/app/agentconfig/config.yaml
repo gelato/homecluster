@@ -1,0 +1,5 @@
+kind: VMAgent
+metadata:
+   name: ark
+spec:
+  vmAgentExternalLabelName: cluster
