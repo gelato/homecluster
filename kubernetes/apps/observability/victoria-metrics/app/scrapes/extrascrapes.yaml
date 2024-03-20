@@ -8,6 +8,13 @@ type: Opaque
 stringData:
   prometheus-additional.yaml: |
 
+    - job_name: minio-job
+      bearer_token: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwcm9tZXRoZXVzIiwic3ViIjoidmFuaG9sZGVyIiwiZXhwIjo0ODY0NTYyMzQ5fQ.X5ry1iWrzf4WvodEGODS6k2Ok1VR1Ra6HLqWqzZALGNpZQfdZUzhgMh5cOvPu5bkK1Gbb8FLbJXqeYdNI9GLSQ
+      metrics_path: /minio/v2/metrics/cluster
+      scheme: https
+      static_configs:
+      - targets: [minio.observability.svc]
+
     - job_name: smtp-relay
       scrape_interval: 1m
       scrape_timeout: 10s
