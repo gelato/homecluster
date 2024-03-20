@@ -160,6 +160,12 @@ spec:
           # Do not store original labels in vmagent's memory by default. This reduces the amount of memory used by vmagent
           # but makes vmagent debugging UI less informative. See: https://docs.victoriametrics.com/vmagent/#relabel-debug
           promscrape.dropOriginalLabels: "false"
+        resources:
+          requests:
+            cpu: 205m
+            memory: 500Mi
+          limits:
+            memory: 2Gi
       ingress:
         enabled: true
         ingressClassName: internal
