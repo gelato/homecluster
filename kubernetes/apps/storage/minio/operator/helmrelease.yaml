@@ -30,7 +30,7 @@ spec:
         - name: PROMETHEUS_NAMESPACE
           value: "observability"
         - name: MINIO_PROMETHEUS_URL
-          value: "http://vmselect-victoria-metrics.observability.svc:8481/select/0/prometheus"
+          value: "http://vmselect-victoria-metrics.observability.svc.cluster.local:8481/select/0/prometheus"
         - name: MINIO_PROMETHEUS_AUTH_TYPE
           value: public
       imagePullSecrets: [ ]
