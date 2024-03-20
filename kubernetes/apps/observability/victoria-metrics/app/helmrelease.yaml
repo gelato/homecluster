@@ -211,10 +211,10 @@ spec:
         kubeStateMetrics: true
         network: true
         node: true
-        vmagent: true
-        vmsingle: true
-        vmcluster: true
-        vmhealth: true
+        vmagent: false
+        vmsingle: false
+        vmcluster: false
+        vmhealth: false
         alertmanager: true
 
       # -- Runbook url prefix for default rules
