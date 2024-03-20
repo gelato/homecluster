@@ -6,6 +6,5 @@ resources:
   - ./scrapes/extrascrapes.yaml
   - ./alertmanagerconfig.yaml
   # - ./scrapes/vmpodscrape.yaml
-  - ./agentconfig/config.yaml
   - ./scrapes/servicescrape.yaml
   - ./rules/oom.yaml

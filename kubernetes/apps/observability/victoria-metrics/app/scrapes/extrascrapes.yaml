@@ -13,7 +13,7 @@ stringData:
       metrics_path: /minio/v2/metrics/cluster
       scheme: https
       static_configs:
-      - targets: [minio.observability.svc.cluster.local]
+      - targets: [minio.storage.svc.cluster.local]
 
     - job_name: smtp-relay
       scrape_interval: 1m
