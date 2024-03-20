@@ -39,6 +39,8 @@ spec:
           value: "http://vmselect-victoria-metrics.observability.svc:8481/select/0/prometheus"
         - name: MINIO_SERVER_URL
           value: https://minio.storage.svc
+        - name: MINIO_PROMETHEUS_AUTH_TYPE
+          value: public
       buckets:
         - name: loki
           objectLock: false
