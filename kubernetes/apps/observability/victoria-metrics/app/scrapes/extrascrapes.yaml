@@ -13,7 +13,7 @@ stringData:
       metrics_path: /minio/v2/metrics/cluster
       scheme: https
       static_configs:
-      - targets: [console.storage.${INTERNAL_SERVICE_DOMAIN}]
+      - targets: [console.storage.${INTERNAL_SERVICE_DOMAIN}:9443]
 
     - job_name: smtp-relay
       scrape_interval: 1m
