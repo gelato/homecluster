@@ -118,7 +118,10 @@ spec:
             resources: *resources
         pod:
           restartPolicy: OnFailure
-          securityContext: *securityContext
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 568
+            runAsNonRoot: true
       reannounce:
         containers:
           main:
@@ -146,9 +149,9 @@ spec:
               - path: /config/config.yaml
                 subPath: config.yaml
                 readOnly: true
-      media:
-        existingClaim: media-storage
+      buffer:
+        existingClaim: buffer
         advancedMounts:
           orphaned:
             main:
-              - path: /media
+              - path: /buffer
