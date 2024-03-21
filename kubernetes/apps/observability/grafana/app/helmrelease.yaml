@@ -326,7 +326,6 @@ spec:
         signout_redirect_url: "https://authentik.company/application/o/grafana/end-session/"
         oauth_auto_login: true
       auth.basic:
-        enabled: true
         disable_login_form: false
       auth.generic_oauth:
         enabled: true
@@ -342,8 +341,8 @@ spec:
         groups_attribute_path: groups
         name_attribute_path: name
         role_attribute_path: contains(groups, 'Grafana Admins') && 'Admin' || contains(groups, 'Grafana Editors') && 'Editor' || 'Viewer'
-      auth.anonymous:
-        enabled: false
+      # auth.anonymous:
+      #   enabled: false
       news:
         news_feed_enabled: false
       plugins:

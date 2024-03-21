@@ -23,3 +23,4 @@ resources:
   - ./repos/argocd.yaml
   - ./repos/authentik.yaml
   - ./repos/victoriametrics.yaml
+  - ./repos/robusta.yaml
