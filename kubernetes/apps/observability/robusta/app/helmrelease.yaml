@@ -9,7 +9,6 @@ spec:
   chart:
     spec:
       chart: robusta
-      version: ">=VERSION"
       sourceRef:
         kind: HelmRepository
         name: robusta
