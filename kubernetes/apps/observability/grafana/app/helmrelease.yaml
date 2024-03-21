@@ -354,10 +354,7 @@ spec:
         searchNamespace: ALL
         labelValue: ""
         label: grafana_dashboard
-        # folderAnnotation: grafana_folder
-        provider:
-          disableDelete: true
-          foldersFromFilesStructure: true
+        folderAnnotation: grafana_folder
       datasources:
         enabled: true
         searchNamespace: ALL
