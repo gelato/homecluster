@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: victoria-metrics
+    - name: victoriametrics
   path: ./kubernetes/apps/observability/robusta/app
   prune: true
   sourceRef:
