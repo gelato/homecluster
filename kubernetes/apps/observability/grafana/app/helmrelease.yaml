@@ -326,6 +326,7 @@ spec:
         signout_redirect_url: "https://authentik.company/application/o/grafana/end-session/"
         oauth_auto_login: true
       auth.basic:
+        enabled: true
         disable_login_form: false
       auth.generic_oauth:
         enabled: true
@@ -352,11 +353,16 @@ spec:
       dashboards:
         enabled: true
         searchNamespace: ALL
+        labelValue: ""
         label: grafana_dashboard
-        # folderAnnotation: grafana_folder
+        folderAnnotation: grafana_folder
+        provider:
+          disableDelete: true
+          foldersFromFilesStructure: true
       datasources:
         enabled: true
         searchNamespace: ALL
+        labelValue: ""
     plugins:
       - grafana-clock-panel
       - grafana-piechart-panel
