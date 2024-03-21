@@ -352,13 +352,11 @@ spec:
       dashboards:
         enabled: true
         searchNamespace: ALL
-        labelValue: ""
         label: grafana_dashboard
-        folderAnnotation: grafana_folder
+        # folderAnnotation: grafana_folder
       datasources:
         enabled: true
         searchNamespace: ALL
-        labelValue: ""
     plugins:
       - grafana-clock-panel
       - grafana-piechart-panel
