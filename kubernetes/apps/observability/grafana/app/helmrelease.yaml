@@ -305,9 +305,14 @@ spec:
             url: http://vmalertmanager-victoria-metrics.observability.svc.cluster.local:9093
             jsonData:
               implementation: prometheus
+              handleGrafanaManagedAlerts: true
     envFromSecrets:
       - name: grafana-env
     grafana.ini:
+      analytics:
+        check_for_updates: false
+        check_for_plugin_updates: false
+        reporting_enabled: false
       server:
         root_url: https://grafana.${SECRET_DOMAIN}
       auth:
@@ -329,6 +334,10 @@ spec:
         groups_attribute_path: groups
         name_attribute_path: name
         role_attribute_path: contains(groups, 'Grafana Admins') && 'Admin' || contains(groups, 'Grafana Editors') && 'Editor' || 'Viewer'
+      auth.anonymous:
+        enabled: false
+      news:
+        news_feed_enabled: false
       plugins:
         # Why VictoriaMetrics datasource is unsigned: https://github.com/VictoriaMetrics/grafana-datasource/blob/main/README.md#why-victoriametrics-datasource-is-unsigned
         allow_loading_unsigned_plugins: victoriametrics-datasource
@@ -336,9 +345,16 @@ spec:
       dashboards:
         enabled: true
         searchNamespace: ALL
+        labelValue: ""
+        label: grafana_dashboard
+        folderAnnotation: grafana_folder
+        provider:
+          disableDelete: true
+          foldersFromFilesStructure: true
       datasources:
         enabled: true
         searchNamespace: ALL
+        labelValue: ""
     plugins:
       - grafana-clock-panel
       - grafana-piechart-panel
