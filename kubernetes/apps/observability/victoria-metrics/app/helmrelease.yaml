@@ -202,20 +202,20 @@ spec:
       rules:
         etcd: true
         general: true
-        k8s: true
-        kubeApiserver: true
-        kubeApiserverAvailability: true
-        kubeApiserverBurnrate: true
-        kubeApiserverHistogram: true
-        kubeApiserverSlos: true
-        kubelet: true
+        k8s: false
+        kubeApiserver: false
+        kubeApiserverAvailability: false
+        kubeApiserverBurnrate: false
+        kubeApiserverHistogram: false
+        kubeApiserverSlos: false
+        kubelet: false
         kubePrometheusGeneral: true
         kubePrometheusNodeRecording: true
-        kubernetesApps: true
-        kubernetesResources: true
-        kubernetesStorage: true
-        kubernetesSystem: true
-        kubeScheduler: true
+        kubernetesApps: false
+        kubernetesResources: false
+        kubernetesStorage: false
+        kubernetesSystem: false
+        kubeScheduler: false
         kubeStateMetrics: true
         network: true
         node: true
