@@ -48,7 +48,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "apiserver_request:availability30d{verb=\"all\", cluster=\"$cluster\"}"
+               "expr": "apiserver_request:availability30d{verb=\"all\", ark=\"$cluster\"}"
             }
          ],
          "title": "Availability (30d) > 99.000%",
@@ -94,7 +94,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "100 * (apiserver_request:availability30d{verb=\"all\", cluster=\"$cluster\"} - 0.990000)",
+               "expr": "100 * (apiserver_request:availability30d{verb=\"all\", ark=\"$cluster\"} - 0.990000)",
                "legendFormat": "errorbudget"
             }
          ],
@@ -128,7 +128,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "apiserver_request:availability30d{verb=\"read\", cluster=\"$cluster\"}"
+               "expr": "apiserver_request:availability30d{verb=\"read\", ark=\"$cluster\"}"
             }
          ],
          "title": "Read Availability (30d)",
@@ -226,7 +226,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "sum by (code) (code_resource:apiserver_request_total:rate5m{verb=\"read\", cluster=\"$cluster\"})",
+               "expr": "sum by (code) (code_resource:apiserver_request_total:rate5m{verb=\"read\", ark=\"$cluster\"})",
                "legendFormat": "{{ code }}"
             }
          ],
@@ -270,7 +270,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"read\",code=~\"5..\", cluster=\"$cluster\"}) / sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"read\", cluster=\"$cluster\"})",
+               "expr": "sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"read\",code=~\"5..\", ark=\"$cluster\"}) / sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"read\", ark=\"$cluster\"})",
                "legendFormat": "{{ resource }}"
             }
          ],
@@ -313,7 +313,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "cluster_quantile:apiserver_request_sli_duration_seconds:histogram_quantile{verb=\"read\", cluster=\"$cluster\"}",
+               "expr": "cluster_quantile:apiserver_request_sli_duration_seconds:histogram_quantile{verb=\"read\", ark=\"$cluster\"}",
                "legendFormat": "{{ resource }}"
             }
          ],
@@ -347,7 +347,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "apiserver_request:availability30d{verb=\"write\", cluster=\"$cluster\"}"
+               "expr": "apiserver_request:availability30d{verb=\"write\", ark=\"$cluster\"}"
             }
          ],
          "title": "Write Availability (30d)",
@@ -445,7 +445,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "sum by (code) (code_resource:apiserver_request_total:rate5m{verb=\"write\", cluster=\"$cluster\"})",
+               "expr": "sum by (code) (code_resource:apiserver_request_total:rate5m{verb=\"write\", ark=\"$cluster\"})",
                "legendFormat": "{{ code }}"
             }
          ],
@@ -489,7 +489,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"write\",code=~\"5..\", cluster=\"$cluster\"}) / sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"write\", cluster=\"$cluster\"})",
+               "expr": "sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"write\",code=~\"5..\", ark=\"$cluster\"}) / sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"write\", ark=\"$cluster\"})",
                "legendFormat": "{{ resource }}"
             }
          ],
@@ -532,7 +532,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "cluster_quantile:apiserver_request_sli_duration_seconds:histogram_quantile{verb=\"write\", cluster=\"$cluster\"}",
+               "expr": "cluster_quantile:apiserver_request_sli_duration_seconds:histogram_quantile{verb=\"write\", ark=\"$cluster\"}",
                "legendFormat": "{{ resource }}"
             }
          ],
@@ -575,7 +575,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "sum(rate(workqueue_adds_total{job=\"kube-apiserver\", instance=~\"$instance\", cluster=\"$cluster\"}[$__rate_interval])) by (instance, name)",
+               "expr": "sum(rate(workqueue_adds_total{job=\"kube-apiserver\", instance=~\"$instance\", ark=\"$cluster\"}[$__rate_interval])) by (instance, name)",
                "legendFormat": "{{instance}} {{name}}"
             }
          ],
@@ -618,7 +618,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "sum(rate(workqueue_depth{job=\"kube-apiserver\", instance=~\"$instance\", cluster=\"$cluster\"}[$__rate_interval])) by (instance, name)",
+               "expr": "sum(rate(workqueue_depth{job=\"kube-apiserver\", instance=~\"$instance\", ark=\"$cluster\"}[$__rate_interval])) by (instance, name)",
                "legendFormat": "{{instance}} {{name}}"
             }
          ],
@@ -664,7 +664,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "histogram_quantile(0.99, sum(rate(workqueue_queue_duration_seconds_bucket{job=\"kube-apiserver\", instance=~\"$instance\", cluster=\"$cluster\"}[$__rate_interval])) by (instance, name, le))",
+               "expr": "histogram_quantile(0.99, sum(rate(workqueue_queue_duration_seconds_bucket{job=\"kube-apiserver\", instance=~\"$instance\", ark=\"$cluster\"}[$__rate_interval])) by (instance, name, le))",
                "legendFormat": "{{instance}} {{name}}"
             }
          ],
@@ -706,7 +706,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "process_resident_memory_bytes{job=\"kube-apiserver\",instance=~\"$instance\", cluster=\"$cluster\"}",
+               "expr": "process_resident_memory_bytes{job=\"kube-apiserver\",instance=~\"$instance\", ark=\"$cluster\"}",
                "legendFormat": "{{instance}}"
             }
          ],
@@ -749,7 +749,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "rate(process_cpu_seconds_total{job=\"kube-apiserver\",instance=~\"$instance\", cluster=\"$cluster\"}[$__rate_interval])",
+               "expr": "rate(process_cpu_seconds_total{job=\"kube-apiserver\",instance=~\"$instance\", ark=\"$cluster\"}[$__rate_interval])",
                "legendFormat": "{{instance}}"
             }
          ],
@@ -791,7 +791,7 @@
                   "type": "prometheus",
                   "uid": "${datasource}"
                },
-               "expr": "go_goroutines{job=\"kube-apiserver\",instance=~\"$instance\", cluster=\"$cluster\"}",
+               "expr": "go_goroutines{job=\"kube-apiserver\",instance=~\"$instance\", ark=\"$cluster\"}",
                "legendFormat": "{{instance}}"
             }
          ],
@@ -809,8 +809,8 @@
          {
             "current": {
                "selected": true,
-               "text": "default",
-               "value": "default"
+               "text": "prometheus",
+               "value": "prometheus"
             },
             "hide": 0,
             "label": "Data source",
@@ -827,7 +827,7 @@
             "hide": 2,
             "label": "cluster",
             "name": "cluster",
-            "query": "label_values(up{job=\"kube-apiserver\"}, cluster)",
+            "query": "label_values(up{job=\"kube-apiserver\"}, ark)",
             "refresh": 2,
             "sort": 1,
             "type": "query"
@@ -840,7 +840,7 @@
             "hide": 0,
             "includeAll": true,
             "name": "instance",
-            "query": "label_values(up{job=\"kube-apiserver\", cluster=\"$cluster\"}, instance)",
+            "query": "label_values(up{job=\"kube-apiserver\", ark=\"$cluster\"}, instance)",
             "refresh": 2,
             "sort": 1,
             "type": "query"
@@ -851,7 +851,7 @@
       "from": "now-1h",
       "to": "now"
    },
-   "timezone": "UTC",
+   "timezone": "browser",
    "title": "Kubernetes / API server",
    "uid": "09ec8aa1e996d6ffcd6817bbaff4db1b"
 }

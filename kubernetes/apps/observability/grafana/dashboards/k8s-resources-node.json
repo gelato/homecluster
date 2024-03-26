@@ -57,13 +57,13 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(kube_node_status_capacity{cluster=\"$cluster\", node=~\"$node\", resource=\"cpu\"})",
+                     "expr": "sum(kube_node_status_capacity{ark=\"$cluster\", node=~\"$node\", resource=\"cpu\"})",
                      "format": "time_series",
                      "legendFormat": "max capacity",
                      "legendLink": null
                   },
                   {
-                     "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
+                     "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{ark=\"$cluster\", node=~\"$node\"}) by (pod)",
                      "format": "time_series",
                      "legendFormat": "{{pod}}",
                      "legendLink": null
@@ -258,35 +258,35 @@
                ],
                "targets": [
                   {
-                     "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
+                     "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{ark=\"$cluster\", node=~\"$node\"}) by (pod)",
                      "format": "table",
                      "instant": true,
                      "legendFormat": "",
                      "refId": "A"
                   },
                   {
-                     "expr": "sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_requests{cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
+                     "expr": "sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_requests{ark=\"$cluster\", node=~\"$node\"}) by (pod)",
                      "format": "table",
                      "instant": true,
                      "legendFormat": "",
                      "refId": "B"
                   },
                   {
-                     "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", node=~\"$node\"}) by (pod) / sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_requests{cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
+                     "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{ark=\"$cluster\", node=~\"$node\"}) by (pod) / sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_requests{ark=\"$cluster\", node=~\"$node\"}) by (pod)",
                      "format": "table",
                      "instant": true,
                      "legendFormat": "",
                      "refId": "C"
                   },
                   {
-                     "expr": "sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_limits{cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
+                     "expr": "sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_limits{ark=\"$cluster\", node=~\"$node\"}) by (pod)",
                      "format": "table",
                      "instant": true,
                      "legendFormat": "",
                      "refId": "D"
                   },
                   {
-                     "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", node=~\"$node\"}) by (pod) / sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_limits{cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
+                     "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{ark=\"$cluster\", node=~\"$node\"}) by (pod) / sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_limits{ark=\"$cluster\", node=~\"$node\"}) by (pod)",
                      "format": "table",
                      "instant": true,
                      "legendFormat": "",
@@ -386,13 +386,13 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(kube_node_status_capacity{cluster=\"$cluster\", node=~\"$node\", resource=\"memory\"})",
+                     "expr": "sum(kube_node_status_capacity{ark=\"$cluster\", node=~\"$node\", resource=\"memory\"})",
                      "format": "time_series",
                      "legendFormat": "max capacity",
                      "legendLink": null
                   },
                   {
-                     "expr": "sum(node_namespace_pod_container:container_memory_working_set_bytes{cluster=\"$cluster\", node=~\"$node\", container!=\"\"}) by (pod)",
+                     "expr": "sum(node_namespace_pod_container:container_memory_working_set_bytes{ark=\"$cluster\", node=~\"$node\", container!=\"\"}) by (pod)",
                      "format": "time_series",
                      "legendFormat": "{{pod}}",
                      "legendLink": null
@@ -632,56 +632,56 @@
                ],
                "targets": [
                   {
-                     "expr": "sum(node_namespace_pod_container:container_memory_working_set_bytes{cluster=\"$cluster\", node=~\"$node\",container!=\"\"}) by (pod)",
+                     "expr": "sum(node_namespace_pod_container:container_memory_working_set_bytes{ark=\"$cluster\", node=~\"$node\",container!=\"\"}) by (pod)",
                      "format": "table",
                      "instant": true,
                      "legendFormat": "",
                      "refId": "A"
                   },
                   {
-                     "expr": "sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_requests{cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
+                     "expr": "sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_requests{ark=\"$cluster\", node=~\"$node\"}) by (pod)",
                      "format": "table",
                      "instant": true,
                      "legendFormat": "",
                      "refId": "B"
                   },
                   {
-                     "expr": "sum(node_namespace_pod_container:container_memory_working_set_bytes{cluster=\"$cluster\", node=~\"$node\",container!=\"\"}) by (pod) / sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_requests{cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
+                     "expr": "sum(node_namespace_pod_container:container_memory_working_set_bytes{ark=\"$cluster\", node=~\"$node\",container!=\"\"}) by (pod) / sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_requests{ark=\"$cluster\", node=~\"$node\"}) by (pod)",
                      "format": "table",
                      "instant": true,
                      "legendFormat": "",
                      "refId": "C"
                   },
                   {
-                     "expr": "sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_limits{cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
+                     "expr": "sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_limits{ark=\"$cluster\", node=~\"$node\"}) by (pod)",
                      "format": "table",
                      "instant": true,
                      "legendFormat": "",
                      "refId": "D"
                   },
                   {
-                     "expr": "sum(node_namespace_pod_container:container_memory_working_set_bytes{cluster=\"$cluster\", node=~\"$node\",container!=\"\"}) by (pod) / sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_limits{cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
+                     "expr": "sum(node_namespace_pod_container:container_memory_working_set_bytes{ark=\"$cluster\", node=~\"$node\",container!=\"\"}) by (pod) / sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_limits{ark=\"$cluster\", node=~\"$node\"}) by (pod)",
                      "format": "table",
                      "instant": true,
                      "legendFormat": "",
                      "refId": "E"
                   },
                   {
-                     "expr": "sum(node_namespace_pod_container:container_memory_rss{cluster=\"$cluster\", node=~\"$node\",container!=\"\"}) by (pod)",
+                     "expr": "sum(node_namespace_pod_container:container_memory_rss{ark=\"$cluster\", node=~\"$node\",container!=\"\"}) by (pod)",
                      "format": "table",
                      "instant": true,
                      "legendFormat": "",
                      "refId": "F"
                   },
                   {
-                     "expr": "sum(node_namespace_pod_container:container_memory_cache{cluster=\"$cluster\", node=~\"$node\",container!=\"\"}) by (pod)",
+                     "expr": "sum(node_namespace_pod_container:container_memory_cache{ark=\"$cluster\", node=~\"$node\",container!=\"\"}) by (pod)",
                      "format": "table",
                      "instant": true,
                      "legendFormat": "",
                      "refId": "G"
                   },
                   {
-                     "expr": "sum(node_namespace_pod_container:container_memory_swap{cluster=\"$cluster\", node=~\"$node\",container!=\"\"}) by (pod)",
+                     "expr": "sum(node_namespace_pod_container:container_memory_swap{ark=\"$cluster\", node=~\"$node\",container!=\"\"}) by (pod)",
                      "format": "table",
                      "instant": true,
                      "legendFormat": "",
@@ -743,8 +743,8 @@
       "list": [
          {
             "current": {
-               "text": "default",
-               "value": "default"
+               "text": "prometheus",
+               "value": "prometheus"
             },
             "hide": 0,
             "label": "Data source",
@@ -768,7 +768,7 @@
             "multi": false,
             "name": "cluster",
             "options": [ ],
-            "query": "label_values(up{job=\"kube-state-metrics\"}, cluster)",
+            "query": "label_values(up{job=\"kube-state-metrics\"}, ark)",
             "refresh": 2,
             "regex": "",
             "sort": 1,
@@ -791,7 +791,7 @@
             "multi": true,
             "name": "node",
             "options": [ ],
-            "query": "label_values(kube_node_info{cluster=\"$cluster\"}, node)",
+            "query": "label_values(kube_node_info{ark=\"$cluster\"}, node)",
             "refresh": 2,
             "regex": "",
             "sort": 1,
@@ -832,7 +832,7 @@
          "30d"
       ]
    },
-   "timezone": "UTC",
+   "timezone": "browser",
    "title": "Kubernetes / Compute Resources / Node (Pods)",
    "uid": "200ac8fdbfbb74b39aff88118e4d1c2c",
    "version": 0
