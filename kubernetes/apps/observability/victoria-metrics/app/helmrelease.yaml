@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: victoria-metrics-stack
-  namespace: monitoring
+  namespace: observability
 spec:
   interval: 30m
   chart:
@@ -132,7 +132,10 @@ spec:
         notifiers:
           - selector:
               namespaceSelector:
-                matchNames: ["observability"]
+                matchNames:
+                  - observability
+                  - kube-system
+                  - storage
               labelSelector:
                 matchLabels:
                   app.kubernetes.io/name: victoria-metrics-k8s-stack
@@ -369,7 +372,7 @@ spec:
         jobLabel: component
         namespaceSelector:
           matchNames:
-            - default
+            - kube-system
         selector:
           matchLabels:
             component: apiserver
