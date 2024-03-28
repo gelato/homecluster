@@ -9,3 +9,5 @@ resources:
   - ./scrapes/servicescrape.yaml
   - ./rules/oom.yaml
   - ./rules/victoria.yaml
+  - ./rules/default-alerts.yaml
+  - ./rules/default-rules.yaml

@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: victoria-metrics-stack
-  namespace: monitoring
+  namespace: observability
 spec:
   interval: 30m
   chart:
@@ -132,7 +132,10 @@ spec:
         notifiers:
           - selector:
               namespaceSelector:
-                matchNames: ["observability"]
+                matchNames:
+                  - observability
+                  - kube-system
+                  - storage
               labelSelector:
                 matchLabels:
                   app.kubernetes.io/name: victoria-metrics-k8s-stack
@@ -202,20 +205,20 @@ spec:
       rules:
         etcd: true
         general: true
-        k8s: true
-        kubeApiserver: true
-        kubeApiserverAvailability: true
-        kubeApiserverBurnrate: true
-        kubeApiserverHistogram: true
-        kubeApiserverSlos: true
-        kubelet: true
+        k8s: false
+        kubeApiserver: false
+        kubeApiserverAvailability: false
+        kubeApiserverBurnrate: false
+        kubeApiserverHistogram: false
+        kubeApiserverSlos: false
+        kubelet: false
         kubePrometheusGeneral: true
         kubePrometheusNodeRecording: true
-        kubernetesApps: true
-        kubernetesResources: true
-        kubernetesStorage: true
-        kubernetesSystem: true
-        kubeScheduler: true
+        kubernetesApps: false
+        kubernetesResources: false
+        kubernetesStorage: false
+        kubernetesSystem: false
+        kubeScheduler: false
         kubeStateMetrics: true
         network: true
         node: true
@@ -369,7 +372,7 @@ spec:
         jobLabel: component
         namespaceSelector:
           matchNames:
-            - default
+            - kube-system
         selector:
           matchLabels:
             component: apiserver
