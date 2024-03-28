@@ -13,7 +13,7 @@ spec:
         resources:
           requests:
             storage: 450Gi
-        storageClassName: longhorn-fast
+        storageClassName: longhorn-ssd
   browseable: true
   securityConfig: smb-domain-security
   commonConfig: smb-common
