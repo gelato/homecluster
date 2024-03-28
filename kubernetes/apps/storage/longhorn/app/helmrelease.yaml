@@ -42,9 +42,10 @@ spec:
       backupTarget: s3://bkp-cluster@us-east-1/
       backupTargetCredentialSecret: s3-secret
       taintToleration:
-        - key: node-role.kubernetes.io/master
-          operator: Exists
-          effect: NoExecute
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Equal"
+          value: ""
+          effect: "NoSchedule"
     pspEnable: false
     longhornManager:
       tolerations:
@@ -60,6 +61,11 @@ spec:
           effect: "NoSchedule"
     longhornUI:
       replicas: 1
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Equal"
+          value: ""
+          effect: "NoSchedule"
     ingress:
       enabled: true
       ingressClassName: internal
