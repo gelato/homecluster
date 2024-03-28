@@ -12,8 +12,8 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 1Ti
-        storageClassName: longhorn-storage
+            storage: 450Gi
+        storageClassName: longhorn-fast
   browseable: true
   securityConfig: smb-domain-security
   commonConfig: smb-common
