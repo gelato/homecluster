@@ -1,0 +1,27 @@
+apiVersion: samba-operator.samba.org/v1alpha1
+kind: SmbShare
+metadata:
+  name: smbshare
+  namespace: storage
+spec:
+  shareName: Exchange
+  storage:
+    pvc:
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Ti
+        storageClassName: longhorn-storage
+  browseable: true
+  securityConfig: smb-domain-security
+  commonConfig: smb-common
+  readOnly: false
+  scaling:
+    availabilityMode: clustered
+    minClusterSize: 2
+    groupMode: explicit
+    group: sg1
+status:
+  serverGroup: smb-exchange
