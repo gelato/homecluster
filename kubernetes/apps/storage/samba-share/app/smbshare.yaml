@@ -1,7 +1,7 @@
 apiVersion: samba-operator.samba.org/v1alpha1
 kind: SmbShare
 metadata:
-  name: smbshare
+  name: smb-exchange
   namespace: storage
 spec:
   shareName: Exchange
