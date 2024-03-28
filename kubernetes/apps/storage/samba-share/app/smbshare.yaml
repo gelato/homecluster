@@ -19,9 +19,6 @@ spec:
   commonConfig: smb-common
   readOnly: false
   scaling:
-    availabilityMode: clustered
-    minClusterSize: 2
-    groupMode: explicit
-    group: sg1
+    availabilityMode: standard
 status:
   serverGroup: smb-exchange
