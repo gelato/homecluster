@@ -1,7 +1,7 @@
 apiVersion: samba-operator.samba.org/v1alpha1
 kind: SmbShare
 metadata:
-  name: exchange
+  name: exchange-storage
   namespace: storage
 spec:
   shareName: Exchange
@@ -12,8 +12,8 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 450Gi
-        storageClassName: longhorn-ssd
+            storage: 200Gi
+        storageClassName: longhorn-storage
   browseable: true
   securityConfig: smb-domain-security
   commonConfig: smb-common
