@@ -13,4 +13,4 @@ resources:
   - ./vector/ks.yaml
   - ./victoria-metrics/ks.yaml
   - ./grafana/ks.yaml
-  - ./ntfy/kustomization.yaml
+  - ./ntfy/ks.yaml
