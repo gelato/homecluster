@@ -37,7 +37,7 @@ spec:
               NTFY_DEBUG: false
               NTFY_BASE_URL: https://ntfy.${SECRET_DOMAIN}
               # TODO: change port
-              NTFY_METRICS_LISTEN_HTTP: :9090
+              #NTFY_METRICS_LISTEN_HTTP: :9090
             args:
               - serve
     service:
@@ -50,6 +50,9 @@ spec:
     ingress:
       main:
         enabled: true
+        className: external
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ntfy.${SECRET_DOMAIN}
         hosts:
           - host: &host ntfy.${SECRET_DOMAIN}
             paths:
