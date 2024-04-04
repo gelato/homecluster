@@ -130,15 +130,20 @@ spec:
           revision: 2
           datasource: Prometheus
         smartmon:
-            gnetId: 10530
-            revision: 1
-            datasource:
+          gnetId: 10530
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+        cnpg:
+          gnetId: 20417
+          revision: 2
+          datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
         longhorn:
           gnetId: 13032
           revision: 1
           datasource:
-            - { name: DS_RANCHER_MONITORING, value: Prometheus }
+            - { name: DS_PROMETHEUS, value: Prometheus }
       system:
         node-exporter-full:
           gnetId: 1860
@@ -179,19 +184,19 @@ spec:
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/control-plane.json
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
-        # flux-logs:
-        #   url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/logs.json
-        #   datasource:
+            # flux-logs:
+            #   url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/logs.json
+            #   datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
       nginx:
         nginx:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
           datasource:
-          - { name: DS_PROMETHEUS, value: Prometheus }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         nginx-request-handling-performance:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
           datasource:
-          - { name: DS_PROMETHEUS, value: Prometheus }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         ingress-nginx-external:
           gnetId: 14314
           revision: 2
@@ -379,7 +384,7 @@ spec:
         - &host grafana.${SECRET_DOMAIN}
       tls:
         - hosts:
-          - *host
+            - *host
     persistence:
       type: pvc
       enabled: true

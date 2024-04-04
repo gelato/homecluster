@@ -6,7 +6,6 @@ configMapGenerator:
   - name: custom-dashboards-01
     files:
       - speedtest.json=speedtest.json
-      - cnpg.json=cnpg.json
       - cluster-total.json=cluster-total.json
 generatorOptions:
   disableNameSuffixHash: true
