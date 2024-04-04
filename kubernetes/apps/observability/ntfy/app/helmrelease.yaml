@@ -64,7 +64,6 @@ spec:
         tls:
           - hosts:
               - *host
-        className: nginx
     persistence:
       cache:
         enabled: true
