@@ -26,6 +26,20 @@ spec:
     mode: enabled
   values:
     replicas: 1
+    automountServiceAccountToken: true
+    deploymentStrategy:
+      type: RollingUpdate
+    readinessProbe:
+      httpGet:
+        path: /api/health
+        port: 3000
+    livenessProbe:
+      httpGet:
+        path: /api/health
+        port: 3000
+      initialDelaySeconds: 60
+      timeoutSeconds: 30
+      failureThreshold: 10
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
