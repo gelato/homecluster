@@ -356,7 +356,7 @@ spec:
     sidecar:
       dashboards:
         reloadURL: "http://localhost:3000/api/admin/provisioning/dashboards/reload"
-        skipReload: true
+        skipReload: false
         enabled: true
         searchNamespace: ALL
         labelValue: ""
