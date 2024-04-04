@@ -347,7 +347,7 @@ spec:
         name_attribute_path: name
         role_attribute_path: contains(groups, 'Grafana Admins') && 'Admin' || contains(groups, 'Grafana Editors') && 'Editor' || 'Viewer'
       auth.anonymous:
-        enabled: true
+        enabled: false
       news:
         news_feed_enabled: false
       plugins:
@@ -355,6 +355,8 @@ spec:
         allow_loading_unsigned_plugins: victoriametrics-datasource
     sidecar:
       dashboards:
+        reloadURL: "http://localhost:3000/api/admin/provisioning/dashboards/reload"
+        skipReload: false
         enabled: true
         searchNamespace: ALL
         labelValue: ""
