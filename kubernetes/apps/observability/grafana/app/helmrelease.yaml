@@ -401,10 +401,3 @@ spec:
       tls:
         - hosts:
             - *host
-    persistence:
-      type: pvc
-      enabled: true
-      storageClassName: longhorn-fast
-      accessModes:
-        - ReadWriteOnce
-      size: 1Gi
