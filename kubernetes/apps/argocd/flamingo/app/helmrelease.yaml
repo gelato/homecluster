@@ -19,7 +19,7 @@ spec:
       domain: &host flamingo.${SECRET_DOMAIN}
       image:
         repository: ghcr.io/flux-subsystem-argo/fsa/argocd
-        tag: v2.9.6-fl.23-main-f37869ec
+        tag: v2.10.5-fl.23-main-5958964b
     configs:
       cm:
         application.instanceLabelKey: argocd.argoproj.io/instance
