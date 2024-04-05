@@ -5,14 +5,3 @@ namespace: argocd
 resources:
   - ./namespace.yaml
   - ./flamingo/ks.yaml
-configMapGenerator:
-  - name: argocd-cm
-    behavior: merge
-    literals:
-      - "kustomize.buildOptions=--enable-helm"
-  - name: argocd-cm
-    behavior: merge
-    files:
-      - resource.exclusions
-generatorOptions:
-  disableNameSuffixHash: true
