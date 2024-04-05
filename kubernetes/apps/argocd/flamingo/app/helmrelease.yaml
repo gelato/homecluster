@@ -21,8 +21,10 @@ spec:
         repository: ghcr.io/flux-subsystem-argo/fsa/argocd
         tag: v2.9.6-fl.23-main-f37869ec
     configs:
-      exec.enabled: true
-      timeout.reconciliation: 180s
+      cm:
+        application.instanceLabelKey: argocd.argoproj.io/instance
+        exec.enabled: true
+        timeout.reconciliation: 15s
       params:
         server.insecure: true
     secret:
