@@ -388,7 +388,28 @@ spec:
       - natel-discrete-panel
       - pr0ps-trackmap-panel
       - vonage-status-panel
-      - "https://minio.skynerv.com/artifacts/victoriametrics-datasource-v0.7.0.zip"
+    extraInitContainers:
+      - name: "load-vm-ds-plugin"
+        image: "curlimages/curl:7.85.0"
+        command: [ "/bin/sh" ]
+        workingDir: "/var/lib/grafana"
+        securityContext:
+          runAsUser: 472
+          runAsNonRoot: true
+          runAsGroup: 472
+        args:
+        - "-c"
+        - |
+          set -ex
+          mkdir -p /var/lib/grafana/plugins/
+          ver=$(curl -s https://api.github.com/repos/VictoriaMetrics/grafana-datasource/releases/latest | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+          curl -L https://minio.skynerv.com/artifacts/victoriametrics-datasource-$ver.zip -o /var/lib/grafana/plugins/plugin.tar.gz
+          tar -xf /var/lib/grafana/plugins/plugin.tar.gz -C /var/lib/grafana/plugins/
+          rm /var/lib/grafana/plugins/plugin.tar.gz
+        volumeMounts:
+          # For grafana-operator users, change `name: storage` to `name: grafana-data`
+          - name: storage
+            mountPath: /var/lib/grafana
     serviceMonitor:
       enabled: true
     ingress:
