@@ -388,7 +388,7 @@ spec:
       - natel-discrete-panel
       - pr0ps-trackmap-panel
       - vonage-status-panel
-      - "https://github.com/VictoriaMetrics/grafana-datasource/releases/download/v0.7.0/victoriametrics-datasource-v0.7.0.zip;victoriametrics-datasource"
+      - "http://minio.skynerv.com/artifacts/victoriametrics-datasource-v0.7.0.zip"
     serviceMonitor:
       enabled: true
     ingress:
