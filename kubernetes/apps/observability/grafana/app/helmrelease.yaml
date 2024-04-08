@@ -388,7 +388,7 @@ spec:
       - natel-discrete-panel
       - pr0ps-trackmap-panel
       - vonage-status-panel
-      - "http://minio.skynerv.com/artifacts/victoriametrics-datasource-v0.7.0.zip"
+      - "https://minio.skynerv.com/artifacts/victoriametrics-datasource-v0.7.0.zip"
     serviceMonitor:
       enabled: true
     ingress:
