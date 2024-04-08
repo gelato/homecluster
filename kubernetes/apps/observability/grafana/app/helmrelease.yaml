@@ -368,14 +368,13 @@ spec:
         # Why VictoriaMetrics datasource is unsigned: https://github.com/VictoriaMetrics/grafana-datasource/blob/main/README.md#why-victoriametrics-datasource-is-unsigned
         allow_loading_unsigned_plugins: victoriametrics-datasource
     sidecar:
-      # dashboards:
-      #   reloadURL: "http://localhost:3000/api/admin/provisioning/dashboards/reload"
-      #   skipReload: false
-      #   enabled: true
-        # searchNamespace: ALL
-        # labelValue: ""
-        # label: grafana_dashboard
-        # folderAnnotation: grafana_folder
+      dashboards:
+        # reloadURL: "http://localhost:3000/api/admin/provisioning/dashboards/reload"
+        # skipReload: false
+        enabled: true
+        searchNamespace: ALL
+        label: grafana_dashboard
+        folderAnnotation: grafana_folder
         # provider:
         #   disableDelete: true
         #   foldersFromFilesStructure: true
