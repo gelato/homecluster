@@ -399,9 +399,9 @@ snapshots:
 # Optional: RTMP configuration
 # NOTE: RTMP is deprecated in favor of restream
 # NOTE: Can be overridden at the camera level
-rtmp:
+# rtmp:
   # Optional: Enable the RTMP stream (default: False)
-  enabled: False
+  # enabled: False
 
 # Optional: Restream configuration
 # Uses https://github.com/AlexxIT/go2rtc (v1.8.3)
@@ -409,10 +409,10 @@ go2rtc:
   streams:
     gates_hq:
       - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101
-      - "ffmpeg:gates_hq#video=h264#audio=aac#hardware"
+      - "ffmpeg:gates_hq#audio=aac"
     gates_lq:
       - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102
-      - "ffmpeg:gates_lq#video=h264#audio=aac#hardware"
+      - "ffmpeg:gates_lq#audio=aac"
   webrtc:
     candidates:
       - 192.168.108.55:8555
