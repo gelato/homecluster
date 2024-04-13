@@ -3,57 +3,98 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: jellyseerr
-  namespace: media
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.1.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
+  maxHistory: 2
   install:
-    createNamespace: true
     remediation:
-      retries: 5
+      retries: 3
   upgrade:
+    cleanupOnFail: true
     remediation:
-      retries: 5
+      strategy: rollback
+      retries: 3
+  dependsOn:
+    - name: longhorn
+      namespace: storage
   values:
     controllers:
-      main:
-        pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            fsGroupChangePolicy: "OnRootMismatch"
+      jellyseerr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/drag0n141/postgres-init
+              tag: 16
+            envFrom: &envFrom
+              - secretRef:
+                  name: jellyseerr-secret
         containers:
-          main:
+          app:
             image:
               repository: docker.io/fallenbagel/jellyseerr
-              tag: 1.7.0
+              tag: develop
             env:
-              TZ: "${TIMEZONE}"
+              TZ: ${TIMEZONE}
               LOG_LEVEL: "info"
-              PORT: &port 8049
+              PORT: &port 80
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/status
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
+<<<<<<< HEAD
                 cpu: 150m
                 memory: 324M
               limits:
                 memory: 1024M
+=======
+                cpu: 100m
+              limits:
+                memory: 2Gi
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+>>>>>>> 2ee7099 (fix js)
     service:
-      main:
+      app:
+        controller: jellyseerr
         ports:
           http:
             port: *port
     ingress:
-      main:
-        enabled: true
-        className: "external"
+      app:
+        className: external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
           gethomepage.dev/enabled: "true"
@@ -65,17 +106,25 @@ spec:
           - host: &host "js.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
               - *host
-            secretName: js-tls
+            secretName: "js-tls"
     persistence:
       config:
         enabled: true
         existingClaim: jellyseerr
         globalMounts:
           - path: /app/config
+<<<<<<< HEAD
+=======
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /app/config/logs
+      tmp:
+        type: emptyDir
+>>>>>>> 2ee7099 (fix js)
