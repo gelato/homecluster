@@ -47,7 +47,7 @@ spec:
               TZ: ${TIMEZONE}
               LOG_LEVEL: "info"
               PORT: &port 80
-            envFrom: *envFrom
+            # envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
