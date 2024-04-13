@@ -35,9 +35,9 @@ spec:
             image:
               repository: ghcr.io/drag0n141/postgres-init
               tag: 16
-            envFrom: &envFrom
-              - secretRef:
-                  name: jellyseerr-secret
+            # envFrom: &envFrom
+            #   - secretRef:
+            #       name: jellyseerr-secret
         containers:
           app:
             image:
