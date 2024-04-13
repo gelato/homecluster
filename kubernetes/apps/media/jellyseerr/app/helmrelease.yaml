@@ -41,10 +41,10 @@ spec:
               PORT: &port 8049
             resources:
               requests:
-                cpu: 15m
+                cpu: 150m
                 memory: 324M
               limits:
-                memory: 324M
+                memory: 1024M
     service:
       main:
         ports:
