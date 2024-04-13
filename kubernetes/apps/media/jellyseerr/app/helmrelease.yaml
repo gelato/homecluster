@@ -69,12 +69,6 @@ spec:
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
-<<<<<<< HEAD
-                cpu: 150m
-                memory: 324M
-              limits:
-                memory: 1024M
-=======
                 cpu: 100m
               limits:
                 memory: 2Gi
@@ -85,7 +79,6 @@ spec:
             runAsNonRoot: true
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
->>>>>>> 2ee7099 (fix js)
     service:
       app:
         controller: jellyseerr
