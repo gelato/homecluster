@@ -112,12 +112,9 @@ spec:
         existingClaim: jellyseerr
         globalMounts:
           - path: /app/config
-<<<<<<< HEAD
-=======
       logs:
         type: emptyDir
         globalMounts:
           - path: /app/config/logs
       tmp:
         type: emptyDir
->>>>>>> 2ee7099 (fix js)
