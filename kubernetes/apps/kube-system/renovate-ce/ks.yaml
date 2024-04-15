@@ -19,7 +19,7 @@ spec:
   wait: false
   postBuild:
     substitute:
-      APP: *appname
+      APP: *app
       HOSTNAME: renovate.${SECRET_DOMAIN}
       APP_UID: "1000"
       APP_GID: "1000"
