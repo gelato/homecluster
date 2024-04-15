@@ -79,7 +79,7 @@ trackers:
   - name: pixelhd
     urls: ["pixelhd.me"]
     required_seed_ratio: 0
-    required_seed_days: 0
+    required_seed_days: 3
   - name: privatehd
     urls: ["privatehd.to"]
     required_seed_ratio: 0.91
@@ -87,7 +87,7 @@ trackers:
   - name: redacted
     urls: ["flacsfor.me"]
     required_seed_ratio: 0
-    required_seed_days: 0
+    required_seed_days: 3
   - name: scenetime
     urls: ["scenetime.com"]
     required_seed_ratio: 0
@@ -103,48 +103,48 @@ trackers:
   - name: uhdbits
     urls: ["uhdbits.org"]
     required_seed_ratio: 1.01
-    required_seed_days: 0
+    required_seed_days: 3
   - name: rutracker
     urls: ["bt3.t-ru.org"]
     required_seed_ratio: 0
-    required_seed_days: 0
+    required_seed_days: 3
   - name: rutracker
     urls: ["t-ru.org","rutacker.org"]
     required_seed_ratio: 0
-    required_seed_days: 0
+    required_seed_days: 3
   - name: dler
     urls: ["dler.org"]
     required_seed_ratio: 0
-    required_seed_days: 0
+    required_seed_days: 3
   - name: trackersh
     urls: ["tracker.sh"]
     required_seed_ratio: 0
-    required_seed_days: 0
+    required_seed_days: 3
   - name: filesfm
     urls: ["files.fm"]
     required_seed_ratio: 0
-    required_seed_days: 0
+    required_seed_days: 3
   - name: nnmclub
     urls: ["nnm-club.cc","nnm-club.info","nnmclub.to"]
     required_seed_ratio: 0
-    required_seed_days: 0
+    required_seed_days: 3
   - name: exkinoray
     urls: ["exkinoray.fun"]
     required_seed_ratio: 0
-    required_seed_days: 0
+    required_seed_days: 3
   - name: bitru
     urls: ["bitru.org"]
     required_seed_ratio: 0
-    required_seed_days: 0
+    required_seed_days: 3
   - name: explodie
     urls: ["explodie.org"]
     required_seed_ratio: 0
-    required_seed_days: 0
+    required_seed_days: 3
   - name: opentor
     urls: ["opentor.net","opentor.org"]
     required_seed_ratio: 0
-    required_seed_days: 0
+    required_seed_days: 3
   - name: retracker
     urls: ["retracker.local"]
     required_seed_ratio: 0
-    required_seed_days: 0
+    required_seed_days: 3
