@@ -29,7 +29,6 @@ spec:
     logLevel: debug
     externalURL: "https://hcr.${SECRET_DOMAIN}"
     existingSecretAdminPassword: &secret harbor-secret
-    existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
     imagePullPolicy: IfNotPresent
     expose:
       type: ingress
@@ -50,6 +49,7 @@ spec:
         certSource: none
     persistence:
       enabled: true
+      existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
       persistentVolumeClaim:
         registry:
           existingClaim: "harbor-registry"
