@@ -6,7 +6,7 @@ metadata:
   name: &app harbor
   namespace: flux-system
 spec:
-  targetNamespace: service
+  targetNamespace: storage
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
