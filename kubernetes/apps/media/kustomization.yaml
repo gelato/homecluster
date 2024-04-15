@@ -12,5 +12,4 @@ resources:
   - ./sftpgo/ks.yaml
   - ./jellyfin/ks.yaml
   - ./recyclarr/ks.yaml
-  - ./maintainerr/ks.yaml
   - ./jellyseerr/ks.yaml

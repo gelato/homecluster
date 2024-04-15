@@ -27,11 +27,11 @@ spec:
   monitoring:
     enablePodMonitor: true
     # Ref: https://github.com/cloudnative-pg/cloudnative-pg/issues/2501
-    # podMonitorMetricRelabelings:
-    #   - { sourceLabels: ["cluster"], targetLabel: cnpg_cluster, action: replace }
-    #   - { regex: cluster, action: labeldrop }
+    podMonitorMetricRelabelings:
+      - { sourceLabels: ["cluster"], targetLabel: cnpg_cluster, action: replace }
+      - { regex: cluster, action: labeldrop }
   backup:
-    retentionPolicy: 10d
+    retentionPolicy: 30d
     barmanObjectStore: &barmanObjectStore
       data:
         compression: bzip2
@@ -42,7 +42,7 @@ spec:
       endpointURL: https://s3.${SECRET_DOMAIN}
       # Note: serverName version needs to be inclemented
       # when recovering from an existing cnpg cluster
-      serverName: &currentCluster postgres16-v2
+      serverName: &currentCluster postgres16
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
