@@ -102,7 +102,7 @@ spec:
         type: cronjob
         cronjob:
           <<: *cronJobSpec
-          schedule: "@daily"
+          schedule: "0 */2 * * *"
         containers:
           main:
             image: *image
