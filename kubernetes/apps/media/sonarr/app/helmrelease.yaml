@@ -19,8 +19,10 @@ spec:
       retries: 3
   upgrade:
     cleanupOnFail: true
+    timeout: 15m
     remediation:
       retries: 3
+      strategy: rollback
   uninstall:
     keepHistory: false
   dependsOn:
@@ -43,7 +45,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/sonarr-develop
-              tag: 4.0.2.1341@sha256:e7e1a75fa1586559f91d5e26caac72f96f1e18ae01ccb2d7c7ce589a3bedaca4
+              tag: 4.0.3.1486@sha256:d02b32fcebb95ea0e6040d0d95c76638830caf5e08be3a99e93679c692aedfde
             env:
               COMPlus_EnableDiagnostics: "0"
               PUSHOVER_DEBUG: "false"

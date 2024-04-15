@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: grafana
-      version: 7.3.7
+      version: 7.3.8
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -20,12 +20,28 @@ spec:
     remediation:
       retries: 3
   upgrade:
+    timeout: 15m
     remediation:
       retries: 3
+      strategy: rollback
   driftDetection:
     mode: enabled
   values:
     replicas: 1
+    automountServiceAccountToken: true
+    deploymentStrategy:
+      type: RollingUpdate
+    readinessProbe:
+      httpGet:
+        path: /api/health
+        port: 3000
+    livenessProbe:
+      httpGet:
+        path: /api/health
+        port: 3000
+      initialDelaySeconds: 60
+      timeoutSeconds: 30
+      failureThreshold: 10
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
@@ -130,15 +146,20 @@ spec:
           revision: 2
           datasource: Prometheus
         smartmon:
-            gnetId: 10530
-            revision: 1
-            datasource:
+          gnetId: 10530
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
+        cnpg:
+          gnetId: 20417
+          revision: 2
+          datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
         longhorn:
           gnetId: 13032
           revision: 1
           datasource:
-            - { name: DS_RANCHER_MONITORING, value: Prometheus }
+            - { name: DS_PROMETHEUS, value: Prometheus }
       system:
         node-exporter-full:
           gnetId: 1860
@@ -179,19 +200,19 @@ spec:
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/control-plane.json
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
-        # flux-logs:
-        #   url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/logs.json
-        #   datasource:
+            # flux-logs:
+            #   url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/logs.json
+            #   datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
       nginx:
         nginx:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
           datasource:
-          - { name: DS_PROMETHEUS, value: Prometheus }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         nginx-request-handling-performance:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
           datasource:
-          - { name: DS_PROMETHEUS, value: Prometheus }
+            - { name: DS_PROMETHEUS, value: Prometheus }
         ingress-nginx-external:
           gnetId: 14314
           revision: 2
@@ -342,7 +363,7 @@ spec:
         name_attribute_path: name
         role_attribute_path: contains(groups, 'Grafana Admins') && 'Admin' || contains(groups, 'Grafana Editors') && 'Editor' || 'Viewer'
       auth.anonymous:
-        enabled: true
+        enabled: false
       news:
         news_feed_enabled: false
       plugins:
@@ -369,7 +390,28 @@ spec:
       - natel-discrete-panel
       - pr0ps-trackmap-panel
       - vonage-status-panel
-      - "https://github.com/VictoriaMetrics/grafana-datasource/releases/download/v0.5.0/victoriametrics-datasource-v0.5.0.zip;victoriametrics-datasource"
+    extraInitContainers:
+      - name: "load-vm-ds-plugin"
+        image: "curlimages/curl:8.7.1"
+        command: [ "/bin/sh" ]
+        workingDir: "/var/lib/grafana"
+        securityContext:
+          runAsUser: 472
+          runAsNonRoot: true
+          runAsGroup: 472
+        args:
+        - "-c"
+        - |
+          set -ex
+          mkdir -p /var/lib/grafana/plugins/
+          ver=$(curl -s https://api.github.com/repos/VictoriaMetrics/grafana-datasource/releases/latest | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+          curl -L https://minio.skynerv.com/artifacts/victoriametrics-datasource-$ver.zip -o /var/lib/grafana/plugins/plugin.tar.gz
+          tar -xf /var/lib/grafana/plugins/plugin.tar.gz -C /var/lib/grafana/plugins/
+          rm /var/lib/grafana/plugins/plugin.tar.gz
+        volumeMounts:
+          # For grafana-operator users, change `name: storage` to `name: grafana-data`
+          - name: storage
+            mountPath: /var/lib/grafana
     serviceMonitor:
       enabled: true
     ingress:
@@ -379,11 +421,4 @@ spec:
         - &host grafana.${SECRET_DOMAIN}
       tls:
         - hosts:
-          - *host
-    persistence:
-      type: pvc
-      enabled: true
-      storageClassName: longhorn-fast
-      accessModes:
-        - ReadWriteOnce
-      size: 1Gi
+            - *host

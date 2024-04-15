@@ -1,0 +1,88 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: ntfy
+  namespace: observability
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: docker.io/binwiederhier/ntfy
+              tag: v2.10.0
+            env:
+              TZ: ${TIMEZONE}
+              NTFY_DEBUG: false
+              NTFY_BASE_URL: https://ntfy.${SECRET_DOMAIN}
+              NTFY_CACHE_FILE: /var/cache/ntfy/cache.db
+              NTFY_AUTH_FILE: /var/cache/ntfy/auth.db
+              NTFY_AUTH_DEFAULT_ACCESS: deny-all
+              NTFY_ATTACHMENT_CACHE_DIR: /var/cache/ntfy/attachments
+              NTFY_ENABLE_LOGIN: true
+              # TODO: change port
+              #NTFY_METRICS_LISTEN_HTTP: :9090
+            args:
+              - serve
+    service:
+      main:
+        ports:
+          http:
+            port: 80
+          metrics:
+            port: 9090
+    ingress:
+      main:
+        enabled: true
+        className: external
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ntfy.${SECRET_DOMAIN}
+        hosts:
+          - host: &host ntfy.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      cache:
+        enabled: true
+        type: persistentVolumeClaim
+        size: 1Gi
+        accessMode: ReadWriteOnce
+        globalMounts:
+          - path: /var/cache/ntfy
+    serviceMonitor:
+      main:
+        enabled: true
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
