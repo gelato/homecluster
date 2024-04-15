@@ -24,3 +24,4 @@ resources:
   - ./repos/authentik.yaml
   - ./repos/victoriametrics.yaml
   - ./repos/robusta.yaml
+  - ./repos/harbor.yaml
