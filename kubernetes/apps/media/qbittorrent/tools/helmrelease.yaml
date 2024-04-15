@@ -45,17 +45,20 @@ spec:
               tag: v0.15.1@sha256:dc8957554902738837d1d0a6b4c4af5e27e1454341b0d9df5992be51cc1ecd65
             env: &env
               TZ: *timeZone
-            args: [
-              "tagging",
-              "--added-on",
-              "--expired",
-              "--last-activity",
-              "--sites",
-              "--unregistered",
-              "--server", "qbittorrent.media.svc.cluster.local",
-              "--port", "8049",
-              "--config", "/config/config.yaml"
-            ]
+            args:
+              - tagging
+              - --added-on
+              - --expired
+              - --last-activity
+              - --not-working
+              - --sites
+              - --unregistered
+              - --server
+              - qbittorrent.downloads.svc.cluster.local
+              - --port
+              - "8049"
+              - --config
+              - /config/config.yaml
             resources: &resources
               requests:
                 cpu: 25m
