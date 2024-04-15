@@ -54,6 +54,7 @@ spec:
               - --sites
               - --unregistered
               - --server
+              - --domains
               - qbittorrent.downloads.svc.cluster.local
               - --port
               - "8049"
@@ -71,9 +72,8 @@ spec:
             args: [
               "prune",
               "--exclude-category", "manual",
-              "--exclude-category", "music.collection",
-              "--exclude-category", "music.import",
               "--include-tag", "unregistered",
+              "--with-data",
               # "--dry-run",
               "--server", "qbittorrent.media.svc.cluster.local",
               "--port", "8049"
@@ -85,11 +85,10 @@ spec:
             args: [
               "prune",
               "--exclude-category", "manual",
-              "--exclude-category", "music.collection",
-              "--exclude-category", "music.import",
-              "--exclude-category", "overlord",
+              "--exclude-category", "overload",
               # "--include-tag", "expired", # defined in config.yaml
               "--include-tag", "added:7d",
+              "--with-data",
               # "--dry-run",
               "--server", "qbittorrent.media.svc.cluster.local",
               "--port", "8049"
