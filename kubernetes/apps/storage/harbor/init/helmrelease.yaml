@@ -37,8 +37,6 @@ spec:
             image:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
-            env:
-              TZ: *timeZone
             envFrom:
               - secretRef:
                   name: harbor-init-secret
