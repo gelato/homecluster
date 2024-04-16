@@ -27,7 +27,7 @@ spec:
     controllers:
       main:
         enabled: false
-      tagging:
+      init:
         type: cronjob
         cronjob:
           schedule: "@daily"
