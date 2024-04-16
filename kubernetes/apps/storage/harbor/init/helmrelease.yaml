@@ -26,16 +26,57 @@ spec:
   values:
     controllers:
       main:
+        enabled: false
+      tagging:
+        type: cronjob
+        cronjob:
+          schedule: "@daily"
+          timeZone: &timeZone Europe/Simferopol
+          concurrencyPolicy: Forbid
+          successfulJobsHistory: 1
+          failedJobsHistory: 1
+        containers:
+          init:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16.2@sha256:3436dfbbc2799332a01361e007e3b408d016cfc235261e1caccc65e6edadf516
+            env:
+              TZ: *timeZone
+            envFrom:
+              - secretRef:
+                  name: harbor-init-secret
+        pod:
+          restartPolicy: OnFailure
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+    service:
+      main:
+        enabled: false
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    controllers:
+      main:
         containers:
           main:
             image:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16.2@sha256:3436dfbbc2799332a01361e007e3b408d016cfc235261e1caccc65e6edadf516
-            env:
-              INIT_POSTGRESS_HOST: postgres16-rw.database.svc.cluster.local
-            envFrom:
-              - secretRef:
-                  name: harbor-init-secret
+
             resources:
               requests:
                 cpu: 10m
