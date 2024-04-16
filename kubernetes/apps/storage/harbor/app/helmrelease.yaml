@@ -49,7 +49,6 @@ spec:
         certSource: none
     persistence:
       enabled: true
-      existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
       persistentVolumeClaim:
         registry:
           existingClaim: "harbor-registry"
