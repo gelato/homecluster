@@ -28,13 +28,10 @@ spec:
       main:
         enabled: false
       init:
-        type: cronjob
-        cronjob:
-          schedule: "@daily"
-          timeZone: &timeZone Europe/Simferopol
-          concurrencyPolicy: Forbid
-          successfulJobsHistory: 1
-          failedJobsHistory: 1
+        type: job
+        job:
+          completions: 1
+          parallelism: 1
         containers:
           init:
             image:
