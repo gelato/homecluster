@@ -7,6 +7,3 @@ resources:
   - ./pvc
   - ./secret.sops.yaml
   - ./helmrelease.yaml
-
-patchesStrategicMerge:
-  - ./patches/postgres.yaml
