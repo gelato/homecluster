@@ -409,11 +409,11 @@ go2rtc:
   streams:
     gates_hq:
       - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101
-      - "ffmpeg:gates_hq#video=h265#hardware#audio=aac"
+      - "ffmpeg:gates_hq#video=copy#audio=aac"
       # - "ffmpeg:rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101#video=h265#hardware#audio=copy#audio=aac"
     gates_lq:
       - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102
-      - "ffmpeg:gates_lq#video=h265#hardware#audio=aac"
+      - "ffmpeg:gates_lq#video=copy#audio=aac"
       # - "ffmpeg:rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102#video=h265#hardware#audio=copy#audio=aac"
   webrtc:
     candidates:
