@@ -66,10 +66,6 @@ spec:
     database:
       type: external
       external:
-        host: ${POSTGRES_HOST}
-        port: ${POSTGRES_PORT}
-        username: ${POSTGRES_USER}
-        coreDatabase: ${POSTGRES_DB}
         existingSecret: *secret
         sslmode: "disable"
     redis:
