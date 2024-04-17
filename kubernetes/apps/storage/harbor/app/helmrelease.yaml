@@ -66,10 +66,12 @@ spec:
     database:
       type: external
       external:
-        host: postgres16-rw.database.svc.cluster.local
-        port: "5432"
-        username: harbor
+        host: ${POSTGRES_HOST}
+        port: ${POSTGRES_PORT}
+        username: ${POSTGRES_USER}
+        coreDatabase: ${POSTGRES_DB}
         existingSecret: *secret
+        sslmode: "disable"
     redis:
       type: external
       external:
