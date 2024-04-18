@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: harbor
-      version: 1.13.1
+      version: 1.14.2
       sourceRef:
         kind: HelmRepository
         name: harbor
@@ -30,6 +30,17 @@ spec:
     externalURL: "https://hcr.${SECRET_DOMAIN}"
     existingSecretAdminPassword: &secret harbor-secret
     imagePullPolicy: IfNotPresent
+    updateStrategy:
+      type: Recreate
+    containerSecurityContext:
+      privileged: false
+      allowPrivilegeEscalation: false
+      seccompProfile:
+        type: RuntimeDefault
+      runAsNonRoot: true
+      capabilities:
+        drop:
+          - ALL
     expose:
       type: ingress
       ingress:
@@ -61,8 +72,6 @@ spec:
             existingClaim: "harbor-jobservice-scandata"
         trivy:
           existingClaim: "harbor-trivy"
-    registry:
-      relativeurls: true
     database:
       type: external
       external:
@@ -85,16 +94,86 @@ spec:
         cacheLayerDatabaseIndex: "64"
         username: ""
         password: ""
+    core:
+      replicas: 1
+      revisionHistoryLimit: 10
+      startupProbe:
+        enabled: true
+        initialDelaySeconds: 10
+      resources:
+       requests:
+         memory: 256Mi
+         cpu: 100m
+    jobservice:
+      replicas: 1
+      revisionHistoryLimit: 10
+      resources:
+        requests:
+          memory: 256Mi
+          cpu: 100m
+      maxJobWorkers: 10
+      jobLoggers:
+        - database
+      loggerSweeperDuration: 14
+      notification:
+        webhook_job_max_retry: 3
+        webhook_job_http_client_timeout: 3
+      reaper:
+        max_update_hours: 24
+        max_dangling_hours: 168
+    registry:
+      registry:
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 100
+      controller:
+        resources:
+         requests:
+           memory: 256Mi
+           cpu: 100m
+      replicas: 1
+      revisionHistoryLimit: 10
+      relativeurls: true
+      credentials:
+        # If using existingSecret, the key must be REGISTRY_PASSWD and REGISTRY_HTPASSWD
+        existingSecret: "harbor-secret"
+      upload_purging:
+        enabled: true
+        age: 168h
+        # the interval of the purge operations
+        interval: 24h
+        dryrun: false
     notary:
       enabled: false
     trivy:
       enabled: true
-    chartmuseum:
-      enabled: true
       replicas: 1
+      resources:
+        requests:
+          cpu: 200m
+          memory: 512Mi
+        limits:
+          cpu: 1
+          memory: 1Gi
+      vulnType: "os,library"
+      severity: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
+      ignoreUnfixed: false
+      insecure: true
+      skipUpdate: false
+      skipJavaDBUpdate: false
+      offlineScan: false
+      securityCheck: "vuln"
+      timeout: 5m0s
     exporter:
       replicas: 1
       revisionHistoryLimit: 10
+      resources:
+       requests:
+         memory: 256Mi
+         cpu: 100m
+      cacheDuration: 23
+      cacheCleanInterval: 14400
     metrics:
       enabled: true
       core:
