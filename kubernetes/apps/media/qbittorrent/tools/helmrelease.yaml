@@ -55,7 +55,7 @@ spec:
               - --unregistered
               - --domains
               - --server
-              - qbittorrent.downloads.svc.cluster.local
+              - qbittorrent.media.svc.cluster.local
               - --port
               - "8049"
               - --config
