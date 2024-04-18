@@ -53,8 +53,8 @@ spec:
               - --not-working
               - --sites
               - --unregistered
-              - --server
               - --domains
+              - --server
               - qbittorrent.downloads.svc.cluster.local
               - --port
               - "8049"
