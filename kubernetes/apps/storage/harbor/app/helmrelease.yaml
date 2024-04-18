@@ -103,14 +103,14 @@ spec:
       resources:
        requests:
          memory: 256Mi
-         cpu: 100m
+         cpu: 10m
     jobservice:
       replicas: 1
       revisionHistoryLimit: 10
       resources:
         requests:
           memory: 256Mi
-          cpu: 100m
+          cpu: 10m
       maxJobWorkers: 10
       jobLoggers:
         - database
@@ -126,12 +126,12 @@ spec:
         resources:
           requests:
             memory: 256Mi
-            cpu: 100m
+            cpu: 10m
       controller:
         resources:
          requests:
            memory: 256Mi
-           cpu: 100m
+           cpu: 10m
       replicas: 1
       revisionHistoryLimit: 10
       relativeurls: true
@@ -151,7 +151,7 @@ spec:
       replicas: 1
       resources:
         requests:
-          cpu: 200m
+          cpu: 20m
           memory: 512Mi
         limits:
           cpu: 300m
@@ -171,7 +171,7 @@ spec:
       resources:
        requests:
          memory: 256Mi
-         cpu: 100m
+         cpu: 10m
       cacheDuration: 23
       cacheCleanInterval: 14400
     metrics:
