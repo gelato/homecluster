@@ -417,10 +417,10 @@ go2rtc:
       # - "ffmpeg:rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102#video=h265#hardware#audio=copy#audio=aac"
     door_hq:
       - rtsp://192.168.108.197:554/user=admin_password=A2DyfFrG_channel=0_stream=0&onvif=0.sdp?real_stream
-      - "ffmpeg:gates_lq#video=copy#audio=aac"
+      - "ffmpeg:door_hq#video=copy#audio=aac"
     door_lq:
       - rtsp://192.168.108.197:554/user=admin_password=A2DyfFrG_channel=0_stream=1&onvif=0.sdp?real_stream
-      - "ffmpeg:gates_lq#video=copy#audio=aac"
+      - "ffmpeg:door_lq#video=copy#audio=aac"
   webrtc:
     candidates:
       - 192.168.108.55:8555
