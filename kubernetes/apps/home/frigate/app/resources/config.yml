@@ -415,6 +415,12 @@ go2rtc:
       - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102
       - "ffmpeg:gates_lq#video=copy#audio=aac"
       # - "ffmpeg:rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102#video=h265#hardware#audio=copy#audio=aac"
+    door_hq:
+      - rtsp://192.168.108.197:554/user=admin_password=A2DyfFrG_channel=0_stream=0&onvif=0.sdp?real_stream
+      - "ffmpeg:gates_lq#video=copy#audio=aac"
+    door_lq:
+      - rtsp://192.168.108.197:554/user=admin_password=A2DyfFrG_channel=0_stream=1&onvif=0.sdp?real_stream
+      - "ffmpeg:gates_lq#video=copy#audio=aac"
   webrtc:
     candidates:
       - 192.168.108.55:8555
@@ -459,18 +465,10 @@ live:
 
 # Required
 cameras:
-  # Required: name of the camera
   gates:
-    # Optional: Enable/Disable the camera (default: shown below).
-    # If disabled: config is used but no live stream and no capture etc.
-    # Events/Recordings are still viewable.
     enabled: True
-    # Required: ffmpeg settings for the camera
     ffmpeg:
-      # Required: A list of input streams for the camera. See documentation for more information.
       inputs:
-        # Required: the path to the stream
-        # NOTE: path may include environment variables or docker secrets, which must begin with 'FRIGATE_' and be referenced in {}
         - path: rtsp://localhost:8554/gates_hq
           input_args: preset-rtsp-restream
           roles:
@@ -480,57 +478,16 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - detect
-          # Required: list of roles for this stream. valid values are: audio,detect,record,rtmp
-          # NOTICE: In addition to assigning the audio, record, and rtmp roles,
-          # they must also be enabled in the camera config.
-          # roles:
-          #   - audio
-          #   - record
-          # Optional: stream specific global args (default: inherit)
-          # global_args:
-          # Optional: stream specific hwaccel args (default: inherit)
-          # hwaccel_args:
-          # Optional: stream specific input args (default: inherit)
-          # input_args:
-      # Optional: camera specific global args (default: inherit)
-      # global_args:
-      # Optional: camera specific hwaccel args (default: inherit)
-      # hwaccel_args:
-      # Optional: camera specific input args (default: inherit)
-      # input_args:
-      # Optional: camera specific output args (default: inherit)
-      # output_args:
-
-    # Optional: timeout for highest scoring image before allowing it
-    # to be replaced by a newer image. (default: shown below)
     best_image_timeout: 60
-
-    # Optional: URL to visit the camera web UI directly from the system page. Might not be available on every camera.
     webui_url: ""
-
-    # Optional: zones for this camera
     zones:
-      # Required: name of the zone
-      # NOTE: This must be different than any camera names, but can match with another zone on another
-      #       camera.
       inside_gates:
-        # Required: List of x,y coordinates to define the polygon of the zone.
-        # NOTE: Presence in a zone is evaluated only based on the bottom center of the objects bounding box.
         coordinates: 546,360,640,360,640,267,538,182,437,272
-        # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
         inertia: 5
-        # Optional: List of objects that can trigger this zone (default: all tracked objects)
         objects:
           - person
           - dog
           - car
-        # Optional: Zone level object filters.
-        # NOTE: The global and camera filters are applied upstream.
-        # filters:
-        #   person:
-        #     min_area: 5000
-        #     max_area: 100000
-        #     threshold: 0.7
       entryway:
         coordinates: 419,89,396,46,161,154,164,224
         inertia: 32
@@ -542,8 +499,40 @@ cameras:
         inertia: 70
         objects:
           - person
-
-    # Optional: Configuration for the jpg snapshots published via MQTT
+  door:
+    enabled: True
+    ffmpeg:
+      inputs:
+        - path: rtsp://localhost:8554/door_hq
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+            - audio
+        - path: rtsp://localhost:8554/door_lq
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+    best_image_timeout: 60
+    webui_url: ""
+    # zones:
+    #   inside_gates:
+    #     coordinates: 546,360,640,360,640,267,538,182,437,272
+    #     inertia: 5
+    #     objects:
+    #       - person
+    #       - dog
+    #       - car
+    #   entryway:
+    #     coordinates: 419,89,396,46,161,154,164,224
+    #     inertia: 32
+    #     objects:
+    #       - car
+    #       - bus
+    #   guests:
+    #     coordinates: 495,189,469,143,348,239,369,303
+    #     inertia: 70
+    #     objects:
+    #       - person
     mqtt:
       # Optional: Enable publishing snapshot via mqtt for camera (default: shown below)
       # NOTE: Only applies to publishing image data to MQTT via 'frigate/<camera_name>/<object_name>/snapshot'.
