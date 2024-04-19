@@ -88,6 +88,6 @@ spec:
         globalMounts:
           - path: /.npm
       recs:
-        existingClaim: suv-storage
+        existingClaim: scrypted-storage
         globalMounts:
           - path: /media
