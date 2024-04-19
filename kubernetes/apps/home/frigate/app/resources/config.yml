@@ -1,130 +1,47 @@
 mqtt:
-  # Optional: Enable mqtt server (default: shown below)
   enabled: True
-  # Required: host name
   host: mosquitto.home.svc.cluster.local
-  # Optional: port (default: shown below)
   port: 1883
-  # Optional: topic prefix (default: shown below)
-  # NOTE: must be unique if you are running multiple instances
   topic_prefix: frigate
-  # Optional: client id (default: shown below)
-  # NOTE: must be unique if you are running multiple instances
   client_id: frigate
-  # Optional: user
-  # NOTE: MQTT user can be specified with an environment variable or docker secrets that must begin with 'FRIGATE_'.
-  #       e.g. user: '{FRIGATE_MQTT_USER}'
   user: "{FRIGATE_MQTT_USERNAME}"
-  # Optional: password
-  # NOTE: MQTT password can be specified with an environment variable or docker secrets that must begin with 'FRIGATE_'.
-  #       e.g. password: '{FRIGATE_MQTT_PASSWORD}'
   password: "{FRIGATE_MQTT_PASSWORD}"
-  # Optional: tls_ca_certs for enabling TLS using self-signed certs (default: None)
-  # tls_ca_certs: /path/to/ca.crt
-  # Optional: tls_client_cert and tls_client key in order to use self-signed client
-  # certificates (default: None)
-  # NOTE: certificate must not be password-protected
-  #       do not set user and password when using a client certificate
-  # tls_client_cert: /path/to/client.crt
-  # tls_client_key: /path/to/client.key
-  # Optional: tls_insecure (true/false) for enabling TLS verification of
-  # the server hostname in the server certificate (default: None)
-  # tls_insecure: true
-  # Optional: interval in seconds for publishing stats (default: shown below)
   stats_interval: 30
-
-# Optional: Detectors configuration. Defaults to a single CPU detector
 detectors:
   tensorrt:
     type: tensorrt
     device: 0
-  # Required: name of the detector
-  # cpu_detector:
-    # Required: type of the detector
-    # Frigate provided types include 'cpu', 'edgetpu', 'openvino' and 'tensorrt' (default: shown below)
-    # Additional detector types can also be plugged in.
-    # Detectors may require additional configuration.
-    # Refer to the Detectors configuration page for more information.
-    # type: cpu
 model:
   path: /config/model_cache/tensorrt/yolov7x-640.trt
   input_tensor: nchw
   input_pixel_format: yuv
   width: 640
   height: 640
-
-# Optional: Database configuration
 database:
-  # The path to store the SQLite DB (default: shown below)
   path: /data/frigate.db
-
-# Optional: model modifications
-# model:
-#   # Optional: path to the model (default: automatic based on detector)
-#   path: /edgetpu_model.tflite
-#   # Optional: path to the labelmap (default: shown below)
-#   labelmap_path: /labelmap.txt
-#   # Required: Object detection model input width (default: shown below)
-#   width: 320
-#   # Required: Object detection model input height (default: shown below)
-#   height: 320
-#   # Optional: Object detection model input colorspace
-#   # Valid values are rgb, bgr, or yuv. (default: shown below)
-#   input_pixel_format: rgb
-#   # Optional: Object detection model input tensor format
-#   # Valid values are nhwc or nchw (default: shown below)
-#   input_tensor: nhwc
-#   # Optional: Object detection model type, currently only used with the OpenVINO detector
-#   # Valid values are ssd, yolox, yolov5, or yolov8 (default: shown below)
-#   model_type: ssd
-#   # Optional: Label name modifications. These are merged into the standard labelmap.
-#   labelmap:
-#     2: vehicle
-
-# Optional: Audio Events Configuration
-# NOTE: Can be overridden at the camera level
 audio:
-  # Optional: Enable audio events (default: shown below)
   enabled: True
-  # Optional: Configure the amount of seconds without detected audio to end the event (default: shown below)
   max_not_heard: 30
-  # Optional: Configure the min rms volume required to run audio detection (default: shown below)
-  # As a rule of thumb:
-  #  - 200 - high sensitivity
-  #  - 500 - medium sensitivity
-  #  - 1000 - low sensitivity
   min_volume: 500
-  # Optional: Types of audio to listen for (default: shown below)
   listen:
     - bark
     - fire_alarm
     - scream
     - speech
     - yell
-  # Optional: Filters to configure detection.
   filters:
-    # Label that matches label in listen config.
     speech:
-      # Minimum score that triggers an audio event (default: shown below)
       threshold: 0.8
     scream:
-      # Minimum score that triggers an audio event (default: shown below)
       threshold: 0.8
     yell:
-      # Minimum score that triggers an audio event (default: shown below)
       threshold: 0.8
     bark:
-      # Minimum score that triggers an audio event (default: shown below)
       threshold: 0.8
     fire_alarm:
-      # Minimum score that triggers an audio event (default: shown below)
       threshold: 0.8
-
-# Optional: logger verbosity settings
 logger:
-  # Optional: Default log verbosity (default: shown below)
   default: info
-  # Optional: Component specific logger overrides
   logs:
     frigate.event: debug
 birdseye:
