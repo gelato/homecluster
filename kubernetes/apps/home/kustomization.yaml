@@ -9,3 +9,4 @@ resources:
   - ./frigate/ks.yaml
   - ./mosquitto/ks.yaml
   - ./home-assistant/ks.yaml
+  - ./scrypted/ks.yaml
