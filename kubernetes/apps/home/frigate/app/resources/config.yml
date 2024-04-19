@@ -294,9 +294,9 @@ motion:
   frame_height: 150
   # Optional: motion mask
   # NOTE: see docs for more detailed info on creating masks
-  mask:
-    - 0,49,84,0,592,0,437,82,375,42,174,127,194,206,0,310
-    - 293,360,342,317,356,202,456,133,489,139,530,89,563,91,640,0,591,0,439,80,0,318,0,360
+  # mask:
+  #   - 0,49,84,0,592,0,437,82,375,42,174,127,194,206,0,310
+  #   - 293,360,342,317,356,202,456,133,489,139,530,89,563,91,640,0,591,0,439,80,0,318,0,360
   # Optional: improve contrast (default: shown below)
   # Enables dynamic contrast improvement. This should help improve night detections at the cost of making motion detection more sensitive
   # for daytime.
@@ -499,6 +499,10 @@ cameras:
         inertia: 70
         objects:
           - person
+    motion:
+      mask:
+        - 0,49,84,0,592,0,437,82,375,42,174,127,194,206,0,310
+        - 293,360,342,317,356,202,456,133,489,139,530,89,563,91,640,0,591,0,439,80,0,318,0,360
   door:
     enabled: True
     ffmpeg:
@@ -514,139 +518,50 @@ cameras:
             - detect
     best_image_timeout: 60
     webui_url: ""
-    # zones:
-    #   inside_gates:
-    #     coordinates: 546,360,640,360,640,267,538,182,437,272
-    #     inertia: 5
-    #     objects:
-    #       - person
-    #       - dog
-    #       - car
-    #   entryway:
-    #     coordinates: 419,89,396,46,161,154,164,224
-    #     inertia: 32
-    #     objects:
-    #       - car
-    #       - bus
-    #   guests:
-    #     coordinates: 495,189,469,143,348,239,369,303
-    #     inertia: 70
-    #     objects:
-    #       - person
+    motion:
+      mask: []
+    zones:
+      near_the_door:
+        coordinates: 212,360,515,360,517,326,257,318
+        inertia: 5
+        objects:
+          - person
+          - dog
+          - car
+      dvor:
+        coordinates: 541,148,410,142,360,170,275,299,519,305
+        inertia: 5
+        objects:
+          - car
+          - person
+      tropinka:
+        coordinates: 598,202,576,52,553,51,550,201
+        inertia: 5
+        objects:
+          - person
+      parkovka:
+        coordinates: 552,141,538,21,366,33,363,138
+        inertia: 5
+        objects:
+          - person
     mqtt:
-      # Optional: Enable publishing snapshot via mqtt for camera (default: shown below)
-      # NOTE: Only applies to publishing image data to MQTT via 'frigate/<camera_name>/<object_name>/snapshot'.
-      # All other messages will still be published.
       enabled: True
-      # Optional: print a timestamp on the snapshots (default: shown below)
       timestamp: False
-      # Optional: draw bounding box on the snapshots (default: shown below)
       bounding_box: True
-      # Optional: crop the snapshot (default: shown below)
       crop: True
-      # Optional: height to resize the snapshot to (default: shown below)
       height: 270
-      # Optional: jpeg encode quality (default: shown below)
       quality: 100
-      # Optional: Restrict mqtt messages to objects that entered any of the listed zones (default: no required zones)
       required_zones: []
-
-    # Optional: Configuration for how camera is handled in the GUI.
-    # ui:
-      # Optional: Adjust sort order of cameras in the UI. Larger numbers come later (default: shown below)
-      # By default the cameras are sorted alphabetically.
-      # order: 0
-      # Optional: Whether or not to show the camera in the Frigate UI (default: shown below)
-      # dashboard: True
-
-    # Optional: connect to ONVIF camera
-    # to enable PTZ controls.
-    # onvif:
-    #   # Required: host of the camera being connected to.
-    #   host: 0.0.0.0
-    #   # Optional: ONVIF port for device (default: shown below).
-    #   port: 8000
-    #   # Optional: username for login.
-    #   # NOTE: Some devices require admin to access ONVIF.
-    #   user: admin
-    #   # Optional: password for login.
-    #   password: admin
-    #   # Optional: PTZ camera object autotracking. Keeps a moving object in
-    #   # the center of the frame by automatically moving the PTZ camera.
-    #   autotracking:
-    #     # Optional: enable/disable object autotracking. (default: shown below)
-    #     enabled: False
-    #     # Optional: calibrate the camera on startup (default: shown below)
-    #     # A calibration will move the PTZ in increments and measure the time it takes to move.
-    #     # The results are used to help estimate the position of tracked objects after a camera move.
-    #     # Frigate will update your config file automatically after a calibration with
-    #     # a "movement_weights" entry for the camera. You should then set calibrate_on_startup to False.
-    #     calibrate_on_startup: False
-    #     # Optional: the mode to use for zooming in/out on objects during autotracking. (default: shown below)
-    #     # Available options are: disabled, absolute, and relative
-    #     #   disabled - don't zoom in/out on autotracked objects, use pan/tilt only
-    #     #   absolute - use absolute zooming (supported by most PTZ capable cameras)
-    #     #   relative - use relative zooming (not supported on all PTZs, but makes concurrent pan/tilt/zoom movements)
-    #     zooming: disabled
-    #     # Optional: A value to change the behavior of zooming on autotracked objects. (default: shown below)
-    #     # A lower value will keep more of the scene in view around a tracked object.
-    #     # A higher value will zoom in more on a tracked object, but Frigate may lose tracking more quickly.
-    #     # The value should be between 0.1 and 0.75
-    #     zoom_factor: 0.3
-    #     # Optional: list of objects to track from labelmap.txt (default: shown below)
-    #     track:
-    #       - person
-    #     # Required: Begin automatically tracking an object when it enters any of the listed zones.
-    #     required_zones:
-    #       - zone_name
-    #     # Required: Name of ONVIF preset in camera's firmware to return to when tracking is over. (default: shown below)
-    #     return_preset: home
-    #     # Optional: Seconds to delay before returning to preset. (default: shown below)
-    #     timeout: 10
-    #     # Optional: Values generated automatically by a camera calibration. Do not modify these manually. (default: shown below)
-    #     movement_weights: []
-
-    # Optional: Configuration for how to sort the cameras in the Birdseye view.
     birdseye:
-      # Optional: Adjust sort order of cameras in the Birdseye view. Larger numbers come later (default: shown below)
-      # By default the cameras are sorted alphabetically.
       order: 0
-
-# Optional
 ui:
-  # Optional: Set the default live mode for cameras in the UI (default: shown below)
   live_mode: mse
-  # Optional: Set a timezone to use in the UI (default: use browser local time)
-  # timezone: America/Denver
-  # Optional: Use an experimental recordings / camera view UI (default: shown below)
   use_experimental: False
-  # Optional: Set the time format used.
-  # Options are browser, 12hour, or 24hour (default: shown below)
   time_format: browser
-  # Optional: Set the date style for a specified length.
-  # Options are: full, long, medium, short
-  # Examples:
-  #    short: 2/11/23
-  #    medium: Feb 11, 2023
-  #    full: Saturday, February 11, 2023
-  # (default: shown below).
   date_style: short
-  # Optional: Set the time style for a specified length.
-  # Options are: full, long, medium, short
-  # Examples:
-  #    short: 8:14 PM
-  #    medium: 8:15:22 PM
-  #    full: 8:15:22 PM Mountain Standard Time
-  # (default: shown below).
   time_style: medium
-  # Optional: Ability to manually override the date / time styling to use strftime format
-  # https://www.gnu.org/software/libc/manual/html_node/Formatting-Calendar-Time.html
-  # possible values are shown above (default: not set)
   strftime_fmt: "%Y/%m/%d %H:%M"
-
-# Optional: Telemetry configuration
 telemetry:
-  # Optional: Enabled network interfaces for bandwidth stats monitoring (default: empty list, let nethogs search all)
   network_interfaces:
     - eth
     - enp
@@ -654,15 +569,8 @@ telemetry:
     - ens
     - wl
     - lo
-  # Optional: Configure system stats
   stats:
-    # Enable AMD GPU stats (default: shown below)
     amd_gpu_stats: False
-    # Enable Intel GPU stats (default: shown below)
     intel_gpu_stats: False
-    # Enable network bandwidth stats monitoring for camera ffmpeg processes, go2rtc, and object detectors. (default: shown below)
-    # NOTE: The container must either be privileged or have cap_net_admin, cap_net_raw capabilities enabled.
     network_bandwidth: False
-  # Optional: Enable the latest version outbound check (default: shown below)
-  # NOTE: If you use the HomeAssistant integration, disabling this will prevent it from reporting new versions
   version_check: True
