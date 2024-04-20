@@ -247,12 +247,12 @@ cameras:
     enabled: True
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/dvor_hq
+        - path: rtsp://localhost:8554/dvor_gates_hq
           input_args: preset-rtsp-restream
           roles:
             - record
             - audio
-        - path: rtsp://localhost:8554/dvor_lq
+        - path: rtsp://localhost:8554/dvor_gates_lq
           input_args: preset-rtsp-restream
           roles:
             - detect
