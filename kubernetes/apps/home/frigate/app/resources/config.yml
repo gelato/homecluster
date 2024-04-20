@@ -80,9 +80,9 @@ motion:
 record:
   enabled: True
   expire_interval: 60
-  sync_recordings: True
+  sync_recordings: False
   retain:
-    days: 30
+    days: 14
     mode: all
   export:
     timelapse_args: "-vf setpts=0.04*PTS -r 30"
