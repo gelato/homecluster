@@ -118,6 +118,18 @@ go2rtc:
     door_lq:
       - rtsp://192.168.108.197:554/user=admin_password=A2DyfFrG_channel=0_stream=1&onvif=0.sdp?real_stream
       - "ffmpeg:door_lq#video=h264#hardware#audio=aac"
+    dvor_hq:
+      - rtsp://192.168.108.150:554/user=admin_password=A2DyfFrG_channel=0_stream=0&onvif=0.sdp?real_stream
+      - "ffmpeg:dvor_hq#video=h264#hardware#audio=aac"
+    dvor_lq:
+      - rtsp://192.168.108.150:554/user=admin_password=A2DyfFrG_channel=0_stream=1&onvif=0.sdp?real_stream
+      - "ffmpeg:dvor_lq#video=h264#hardware#audio=aac"
+    dom2_hq:
+      - rtsp://192.168.108.122:554/user=admin_password=A2DyfFrG_channel=0_stream=0&onvif=0.sdp?real_stream
+      - "ffmpeg:dom2_hq#video=h264#hardware#audio=aac"
+    dom2_lq:
+      - rtsp://192.168.108.122:554/user=admin_password=A2DyfFrG_channel=0_stream=0&onvif=0.sdp?real_stream
+      - "ffmpeg:dom2_lq#video=h264#hardware#audio=aac"
   webrtc:
     candidates:
       - 192.168.108.55:8555
@@ -231,6 +243,46 @@ cameras:
       required_zones: []
     birdseye:
       order: 0
+  dvor:
+    enabled: True
+    ffmpeg:
+      inputs:
+        - path: rtsp://localhost:8554/dvor_hq
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+            - audio
+        - path: rtsp://localhost:8554/dvor_lq
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+    live:
+      stream_name: dvor_hq
+      quality: 1
+    best_image_timeout: 60
+    webui_url: ""
+    motion:
+      mask: []
+  dom2:
+    enabled: True
+    ffmpeg:
+      inputs:
+        - path: rtsp://localhost:8554/dom2_hq
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+            - audio
+        - path: rtsp://localhost:8554/dom2_lq
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+    live:
+      stream_name: dom2_hq
+      quality: 1
+    best_image_timeout: 60
+    webui_url: ""
+    motion:
+      mask: []
 ui:
   live_mode: mse
   use_experimental: False
