@@ -69,6 +69,7 @@ objects:
     - dog
     - car
     - bus
+    - cat
 motion:
   threshold: 30
   lightning_threshold: 0.8
