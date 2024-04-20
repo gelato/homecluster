@@ -121,9 +121,6 @@ go2rtc:
     candidates:
       - 192.168.108.55:8555
       - stun:8555
-live:
-  stream_name: gates_hq
-  quality: 1
 cameras:
   gates:
     enabled: True
@@ -138,6 +135,9 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - detect
+    live:
+      stream_name: gates_hq
+      quality: 1
     best_image_timeout: 60
     webui_url: ""
     zones:
@@ -176,6 +176,9 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - detect
+    live:
+      stream_name: door_hq
+      quality: 1
     best_image_timeout: 60
     webui_url: ""
     motion:
