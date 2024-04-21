@@ -70,13 +70,6 @@ objects:
     - car
     - bus
     - cat
-motion:
-  threshold: 30
-  lightning_threshold: 0.8
-  contour_area: 10
-  frame_alpha: 0.01
-  frame_height: 150
-  improve_contrast: True
 record:
   enabled: True
   expire_interval: 60
@@ -98,9 +91,10 @@ snapshots:
   crop: False
   required_zones: []
   retain:
-    default: 30
+    default: 14
     objects:
       person: 30
+      car: 30
   quality: 90
 go2rtc:
   streams:
@@ -112,22 +106,22 @@ go2rtc:
       - "ffmpeg:gates_lq#video=copy#audio=aac"
     door_hq:
       - rtsp://192.168.108.197:554/user=admin_password=A2DyfFrG_channel=0_stream=0&onvif=0.sdp?real_stream
-      - "ffmpeg:door_hq#video=copy#audio=aac"
+      - "ffmpeg:door_hq#video=h264#audio=aac#hardware"
     door_lq:
       - rtsp://192.168.108.197:554/user=admin_password=A2DyfFrG_channel=0_stream=1&onvif=0.sdp?real_stream
-      - "ffmpeg:door_lq#video=copy#audio=aac"
+      - "ffmpeg:door_lq#video=h264#audio=aac#hardware"
     dvor_gates_hq:
       - rtsp://192.168.108.150:554/user=admin_password=A2DyfFrG_channel=0_stream=0&onvif=0.sdp?real_stream
-      - "ffmpeg:dvor_gates_hq#video=copy#audio=aac"
+      - "ffmpeg:dvor_gates_hq#video=h264#audio=aac#hardware"
     dvor_gates_lq:
       - rtsp://192.168.108.150:554/user=admin_password=A2DyfFrG_channel=0_stream=1&onvif=0.sdp?real_stream
-      - "ffmpeg:dvor_gates_lq#video=copy#audio=aac"
+      - "ffmpeg:dvor_gates_lq#video=h264#audio=aac#hardware"
     dom2_hq:
       - rtsp://192.168.108.122:554/user=admin_password=A2DyfFrG_channel=0_stream=0&onvif=0.sdp?real_stream
-      - "ffmpeg:dom2_hq#video=copy#audio=aac"
+      - "ffmpeg:dom2_hq#video=h264#audio=aac#hardware"
     dom2_lq:
       - rtsp://192.168.108.122:554/user=admin_password=A2DyfFrG_channel=0_stream=1&onvif=0.sdp?real_stream
-      - "ffmpeg:dom2_lq#video=copy#audio=aac"
+      - "ffmpeg:dom2_lq#video=h264#audio=aac#hardware"
   webrtc:
     candidates:
       - 192.168.108.55:8555
@@ -174,6 +168,16 @@ cameras:
       mask:
         - 0,49,84,0,592,0,437,82,375,42,174,127,194,206,0,310
         - 293,360,342,317,356,202,456,133,489,139,530,89,563,91,640,0,591,0,439,80,0,318,0,360
+    mqtt:
+      enabled: True
+      timestamp: False
+      bounding_box: True
+      crop: True
+      height: 270
+      quality: 100
+      required_zones: []
+    birdseye:
+      order: 0
   door:
     enabled: True
     ffmpeg:
@@ -240,7 +244,7 @@ cameras:
       quality: 100
       required_zones: []
     birdseye:
-      order: 0
+      order: 1
   dvor_gates:
     enabled: True
     ffmpeg:
@@ -261,6 +265,16 @@ cameras:
     webui_url: "http://192.168.108.150:8899/"
     motion:
       mask: []
+    mqtt:
+      enabled: True
+      timestamp: False
+      bounding_box: True
+      crop: True
+      height: 270
+      quality: 100
+      required_zones: []
+    birdseye:
+      order: 2
   dom2:
     enabled: True
     ffmpeg:
@@ -281,8 +295,18 @@ cameras:
     webui_url: "http://192.168.108.122:8899/"
     motion:
       mask: []
+    mqtt:
+      enabled: True
+      timestamp: False
+      bounding_box: True
+      crop: True
+      height: 270
+      quality: 100
+      required_zones: []
+    birdseye:
+      order: 3
 ui:
-  live_mode: mse
+  live_mode: webrtc
   use_experimental: False
   time_format: browser
   date_style: short
