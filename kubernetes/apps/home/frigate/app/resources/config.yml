@@ -106,22 +106,22 @@ go2rtc:
       - "ffmpeg:gates_lq#video=copy#audio=aac"
     door_hq:
       - rtsp://192.168.108.197:554/user=admin_password=A2DyfFrG_channel=1_stream=0
-      - "ffmpeg:door_hq#video=h264#audio=aac#hardware"
+      - "ffmpeg:door_hq#video=mjpeg#audio=aac#hardware"
     door_lq:
       - rtsp://192.168.108.197:554/user=admin_password=A2DyfFrG_channel=1_stream=1
-      - "ffmpeg:door_lq#video=h264#audio=aac#hardware"
+      - "ffmpeg:door_lq#videomjpeg#audio=aac#hardware"
     dvor_gates_hq:
       - rtsp://192.168.108.150:554/user=admin_password=A2DyfFrG_channel=1_stream=0
-      - "ffmpeg:dvor_gates_hq#video=h264#audio=aac#hardware"
+      - "ffmpeg:dvor_gates_hq#video=mjpeg#audio=aac#hardware"
     dvor_gates_lq:
       - rtsp://192.168.108.150:554/user=admin_password=A2DyfFrG_channel=1_stream=1
-      - "ffmpeg:dvor_gates_lq#video=h264#audio=aac#hardware"
+      - "ffmpeg:dvor_gates_lq#video=mjpeg#audio=aac#hardware"
     dom2_hq:
       - rtsp://192.168.108.122:554/user=admin_password=A2DyfFrG_channel=1_stream=0
-      - "ffmpeg:dom2_hq#video=h264#audio=aac#hardware"
+      - "ffmpeg:dom2_hq#video=mjpeg#audio=aac#hardware"
     dom2_lq:
       - rtsp://192.168.108.122:554/user=admin_password=A2DyfFrG_channel=1_stream=1
-      - "ffmpeg:dom2_lq#video=h264#audio=aac#hardware"
+      - "ffmpeg:dom2_lq#video=mjpeg#audio=aac#hardware"
   webrtc:
     candidates:
       - 192.168.108.55:8555
