@@ -70,9 +70,9 @@ spec:
               privileged: true
             resources:
               requests:
-                cpu: 100m
+                cpu: 10m
               limits:
-                memory: 8Gi
+                memory: 30Gi
                 nvidia.com/gpu: 1
         # pod:
         #   affinity:
