@@ -80,6 +80,8 @@ record:
   export:
     timelapse_args: "-vf setpts=0.04*PTS -r 30"
   events:
+    pre_capture: 5
+    post_capture: 5
     retain:
       default: 30
       mode: active_objects
@@ -174,7 +176,6 @@ cameras:
       crop: True
       height: 270
       quality: 100
-      required_zones: []
     birdseye:
       order: 0
   door:
@@ -240,7 +241,6 @@ cameras:
       crop: True
       height: 270
       quality: 100
-      required_zones: []
     birdseye:
       order: 1
   dvor_gates:
@@ -269,7 +269,6 @@ cameras:
       crop: True
       height: 270
       quality: 100
-      required_zones: []
     birdseye:
       order: 2
   dom2:
@@ -298,7 +297,6 @@ cameras:
       crop: True
       height: 270
       quality: 100
-      required_zones: []
     birdseye:
       order: 3
 ui:
