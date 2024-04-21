@@ -73,7 +73,7 @@ objects:
 record:
   enabled: True
   expire_interval: 60
-  sync_recordings: False
+  sync_recordings: True
   retain:
     days: 14
     mode: all
@@ -143,7 +143,6 @@ cameras:
     live:
       stream_name: gates_hq
       quality: 1
-    best_image_timeout: 60
     webui_url: ""
     zones:
       inside_gates:
@@ -194,7 +193,6 @@ cameras:
     live:
       stream_name: door_hq
       quality: 1
-    best_image_timeout: 60
     webui_url: "http://192.168.108.197:8899/"
     motion:
       mask: []
@@ -261,7 +259,6 @@ cameras:
     live:
       stream_name: dvor_gates_hq
       quality: 1
-    best_image_timeout: 60
     webui_url: "http://192.168.108.150:8899/"
     motion:
       mask: []
@@ -291,7 +288,6 @@ cameras:
     live:
       stream_name: dom2_hq
       quality: 1
-    best_image_timeout: 60
     webui_url: "http://192.168.108.122:8899/"
     motion:
       mask: []
