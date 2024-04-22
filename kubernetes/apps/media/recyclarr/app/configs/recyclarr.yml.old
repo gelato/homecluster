@@ -21,6 +21,7 @@ sonarr:
           - name: HDTV-2160p
           - name: Bluray-2160p
           - name: Bluray-2160p Remux
+          - name: Remux-2160p
           - name: Bluray-1080p
           - name: Bluray-1080p Remux
           - name: WEB 1080p
@@ -174,6 +175,7 @@ radarr:
           - name: HDTV-2160p
           - name: Bluray-2160p
           - name: Bluray-2160p Remux
+          - name: Remux-2160p
           - name: Remux-1080p
           - name: Bluray-1080p
           - name: Bluray-1080p Remux
@@ -304,7 +306,8 @@ radarr:
           - 923b6abef9b17f937fab56cfcf89e1f1 # DV (WEBDL)
           - 90cedc1fea7ea5d11298bebd3d1d3223 # EVO (no WEBDL)
           - b17886cb4158d9fea189859409975758 # HDR10+ Boost
-          - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5 # No-RlsGroup
+          - 55a5b50cb416dea5a50c4955896217ab # DV HDR10+ Boost
+          # - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5 # No-RlsGroup
           - 7357cf5161efbf8c4d5d0c30b4815ee2 # Obfuscated
           - 5c44f52a8714fdd79bb4d98e2673be1f # Retags
           - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
