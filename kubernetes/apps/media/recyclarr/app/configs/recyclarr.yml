@@ -98,7 +98,6 @@ sonarr:
           - name: HDTV-2160p
           - name: Bluray-2160p
           - name: Bluray-2160p Remux
-          - name: Remux-2160p
           - name: Bluray-1080p
           - name: Bluray-1080p Remux
           - name: WEB 1080p
