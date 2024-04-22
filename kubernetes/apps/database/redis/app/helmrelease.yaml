@@ -35,6 +35,12 @@ spec:
       enabled: false
       sentinel: false
     master:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 1Gi
+        limits:
+          memory: 3Gi
       persistence:
         enabled: false
     replica:
