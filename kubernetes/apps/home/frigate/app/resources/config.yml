@@ -108,22 +108,22 @@ go2rtc:
       - "ffmpeg:gates_lq#video=copy#audio=aac"
     door_hq:
       - rtsp://user:12332145@192.168.108.197:554/ch0_0
-      - "ffmpeg:door_hq#video=h264#hardware#audio=aac"
+      - "ffmpeg:door_hq#video=h264#audio=aac#hardware"
     door_lq:
       - rtsp://user:12332145@192.168.108.197:554/ch0_1
-      - "ffmpeg:door_lq#video=h264#hardware#audio=aac"
+      - "ffmpeg:door_lq#video=h264#audio=aac#hardware"
     dvor_gates_hq:
       - rtsp://user:12332145@192.168.108.150:554/ch0_0
-      - "ffmpeg:dvor_gates_hq#video=h264#hardware#audio=aac"
+      - "ffmpeg:dvor_gates_hq#video=h264#audio=aac#hardware"
     dvor_gates_lq:
       - rtsp://user:12332145@192.168.108.150:554/ch0_1
-      - "ffmpeg:dvor_gates_lq#video=h264#hardware#audio=aac"
+      - "ffmpeg:dvor_gates_lq#video=h264#audio=aac#hardware"
     dom2_hq:
       - rtsp://user:12332145@192.168.108.122:554/ch0_0
-      - "ffmpeg:dom2_hq#video=h264#hardware#audio=aac"
+      - "ffmpeg:dom2_hq#video=h264#audio=aac#hardware"
     dom2_lq:
       - rtsp://user:12332145@192.168.108.122:554/ch0_1
-      - "ffmpeg:dom2_lq#video=h264#hardware#audio=aac"
+      - "ffmpeg:dom2_lq#video=h264#audio=aac#hardware"
   webrtc:
     candidates:
       - 192.168.108.55:8555
