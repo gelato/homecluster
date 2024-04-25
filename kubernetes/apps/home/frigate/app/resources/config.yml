@@ -272,7 +272,7 @@ cameras:
         objects:
           - person
       in_the_garden:
-        coordinates: 0,307,66,360,90,301,121,219,110,175,51,177
+        coordinates: 640,360,640,163,563,100,357,80,413,360
         inertia: 10
         objects:
           - person
