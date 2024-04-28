@@ -20,8 +20,6 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     fullnameOverride: k8s-gateway
     domain: "${SECRET_DOMAIN}"
@@ -30,5 +28,6 @@ spec:
       type: LoadBalancer
       port: 53
       annotations:
-        io.cilium/lb-ipam-ips: "{{ cloudflare.gateway_vip }}"
+        io.cilium/lb-ipam-ips: "#{ bootstrap_cloudflare.gateway_vip }#"
       externalTrafficPolicy: Cluster
+    watchedResources: ["Ingress", "Service"]

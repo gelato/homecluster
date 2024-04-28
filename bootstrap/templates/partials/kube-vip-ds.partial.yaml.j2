@@ -16,14 +16,12 @@ spec:
     spec:
       containers:
         - name: kube-vip
-          image: ghcr.io/kube-vip/kube-vip:v0.6.4
+          image: ghcr.io/kube-vip/kube-vip:v0.7.1
           imagePullPolicy: IfNotPresent
           args: ["manager"]
           env:
             - name: address
-              value: "{{ cluster.endpoint_vip }}"
-            - name: vip_interface
-              value: "{{ cluster.endpoint_interface }}"
+              value: "#{ bootstrap_controllers_vip }#"
             - name: vip_arp
               value: "true"
             - name: lb_enable

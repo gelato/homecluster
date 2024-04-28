@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: ingress-nginx
-      version: 4.9.1
+      version: 4.10.1
       sourceRef:
         kind: HelmRepository
         name: ingress-nginx
@@ -21,15 +21,13 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     fullnameOverride: ingress-nginx-internal
     controller:
       replicaCount: 1
       service:
         annotations:
-          io.cilium/lb-ipam-ips: "{{ cloudflare.ingress_vip }}"
+          io.cilium/lb-ipam-ips: "#{ bootstrap_cloudflare.ingress_vip }#"
         externalTrafficPolicy: Cluster
       ingressClassResource:
         name: internal
@@ -67,11 +65,11 @@ spec:
           namespaceSelector:
             any: true
       extraArgs:
-        {% if cloudflare.acme.production %}
+        #% if bootstrap_cloudflare.acme.production %#
         default-ssl-certificate: "network/${SECRET_DOMAIN/./-}-production-tls"
-        {% else %}
+        #% else %#
         default-ssl-certificate: "network/${SECRET_DOMAIN/./-}-staging-tls"
-        {% endif %}
+        #% endif %#
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname

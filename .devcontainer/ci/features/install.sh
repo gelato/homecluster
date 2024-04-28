@@ -3,13 +3,13 @@ set -e
 set -o noglob
 
 apk add --no-cache \
-    bash bind-tools ca-certificates curl python3 \
+    bash bind-tools ca-certificates curl gettext python3 \
     py3-pip moreutils jq git iputils openssh-client \
     starship fzf fish
 
 apk add --no-cache \
     --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community \
-        helm kubectl sops
+        age helm kubectl sops
 
 sudo apk add --no-cache \
     --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
@@ -22,9 +22,9 @@ for app in \
     "cloudflare/cloudflared!!?as=cloudflared&type=script" \
     "derailed/k9s!!?as=k9s&type=script" \
     "direnv/direnv!!?as=direnv&type=script" \
-    "FiloSottile/age!!?as=age&type=script" \
     "fluxcd/flux2!!?as=flux&type=script" \
     "go-task/task!!?as=task&type=script" \
+    "helmfile/helmfile!!?as=helmfile&type=script" \
     "kubecolor/kubecolor!!?as=kubecolor&type=script" \
     "kubernetes-sigs/krew!!?as=krew&type=script" \
     "kubernetes-sigs/kustomize!!?as=kustomize&type=script" \
@@ -41,7 +41,7 @@ done
 mkdir -p /home/vscode/.config/fish/{completions,conf.d}
 
 # Setup autocompletions for fish
-for tool in cilium flux helm k9s kubectl kustomize talhelper talosctl; do
+for tool in cilium flux helm helmfile k9s kubectl kustomize talhelper talosctl; do
     $tool completion fish > /home/vscode/.config/fish/completions/$tool.fish
 done
 gh completion --shell fish > /home/vscode/.config/fish/completions/gh.fish
