@@ -50,7 +50,10 @@ birdseye:
   width: 1920
   height: 1080
   quality: 1
-  mode: motion
+  #   objects - cameras are included if they have had a tracked object within the last 30 seconds
+  #   motion - cameras are included if motion was detected in the last 30 seconds
+  #   continuous - all cameras are included always
+  mode: continuous
 ffmpeg:
   global_args: -hide_banner -loglevel warning -threads 2
   hwaccel_args: preset-nvidia-h265
