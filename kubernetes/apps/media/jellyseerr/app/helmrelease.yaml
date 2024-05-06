@@ -109,7 +109,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: jellyseerr
+        existingClaim: jellyseerr-config
         globalMounts:
           - path: /app/config
       logs:
