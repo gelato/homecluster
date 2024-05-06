@@ -53,8 +53,8 @@ birdseye:
   mode: motion
 ffmpeg:
   global_args: -hide_banner -loglevel warning -threads 2
-  hwaccel_args: preset-nvidia-h264
-  input_args: preset-rtsp-restream
+  hwaccel_args: preset-nvidia-h265
+  input_args: preset-rtsp-restream-low-latency
   output_args:
     detect: -threads 2 -f rawvideo -pix_fmt yuv420p -an
     record: preset-record-generic-audio-copy
@@ -108,22 +108,22 @@ go2rtc:
       - "ffmpeg:gates_lq#video=copy#audio=aac"
     door_hq:
       - rtsp://user:12332145@192.168.108.197:554/ch0_0
-      - "ffmpeg:door_hq#video=h264#audio=aac#hardware"
+      - "ffmpeg:door_hq#video=copy#audio=aac"
     door_lq:
       - rtsp://user:12332145@192.168.108.197:554/ch0_1
-      - "ffmpeg:door_lq#video=h264#audio=aac#hardware"
+      - "ffmpeg:door_lq#video=copy#audio=aac"
     dvor_gates_hq:
       - rtsp://user:12332145@192.168.108.150:554/ch0_0
-      - "ffmpeg:dvor_gates_hq#video=h264#audio=aac#hardware"
+      - "ffmpeg:dvor_gates_hq#video=copy#audio=aac"
     dvor_gates_lq:
       - rtsp://user:12332145@192.168.108.150:554/ch0_1
-      - "ffmpeg:dvor_gates_lq#video=h264#audio=aac#hardware"
+      - "ffmpeg:dvor_gates_lq#video=copy#audio=aac"
     dom2_hq:
       - rtsp://user:12332145@192.168.108.122:554/ch0_0
-      - "ffmpeg:dom2_hq#video=h264#audio=aac#hardware"
+      - "ffmpeg:dom2_hq#video=copy#audio=aac"
     dom2_lq:
       - rtsp://user:12332145@192.168.108.122:554/ch0_1
-      - "ffmpeg:dom2_lq#video=h264#audio=aac#hardware"
+      - "ffmpeg:dom2_lq#video=copy#audio=aac"
   webrtc:
     candidates:
       - 192.168.108.55:8555
@@ -320,7 +320,7 @@ cameras:
     birdseye:
       order: 3
 ui:
-  live_mode: webrtc
+  live_mode: mse
   use_experimental: False
   time_format: browser
   date_style: short
