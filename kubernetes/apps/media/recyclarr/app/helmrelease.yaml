@@ -74,5 +74,5 @@ spec:
             readOnly: true
     service:
       main:
-        controllers: main
+        controller: main
         enabled: false
