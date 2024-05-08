@@ -48,4 +48,5 @@ spec:
             runAsNonRoot: true
     service:
       main:
+        controller: main
         enabled: false
