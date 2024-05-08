@@ -38,6 +38,7 @@
             content: |
               127.0.0.1 localhost
               127.0.1.1 {{ inventory_hostname }}
+
               # The following lines are desirable for IPv6 capable hosts
               ::1     localhost ip6-localhost ip6-loopback
               ff02::1 ip6-allnodes
@@ -84,7 +85,7 @@
             dest: "/etc/modules-load.d/{{ item }}.conf"
             mode: "0644"
             content: "{{ item }}"
-          loop: ["br_netfilter", "ceph", "ip_vs", "ip_vs_rr", "nbd", "overlay", "rbd"]
+          loop: ["br_netfilter", "ceph", "ip_vs", "ip_vs_rr", "iptable_mangle", "iptable_raw", "nbd", "overlay", "rbd", "xt_socket"]
           register: modules_status
         - name: System Configuration | Reload Kernel modules # noqa: no-changed-when no-handler
           when: modules_status.changed
@@ -103,6 +104,8 @@
               fs.inotify.max_queued_events: 65536
               fs.inotify.max_user_watches: 524288
               fs.inotify.max_user_instances: 8192
+              net.core.rmem_max: 2500000
+              net.core.wmem_max: 2500000
 
   handlers:
     - name: Reboot

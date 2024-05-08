@@ -13,14 +13,26 @@ spec:
   bootstrap: true
   valuesContent: |-
     autoDirectNodeRoutes: true
+    bgpControlPlane:
+      enabled: true
     bpf:
-      masquerade: true
+      masquerade: false
+    cgroup:
+      automount:
+        enabled: false
+      hostRoot: /sys/fs/cgroup
     cluster:
-      name: home-kubernetes
       id: 1
+      name: ark
+    cni:
+      exclusive: false
+      binPath: /var/lib/rancher/k3s/data/current/bin
+      confPath: /var/lib/rancher/k3s/agent/etc/cni/net.d
     containerRuntime:
       integration: containerd
       socketPath: /var/run/k3s/containerd/containerd.sock
+    # NOTE: devices might need to be set if you have more than one active NIC on your hosts
+    # devices: eno+ eth+
     endpointRoutes:
       enabled: true
     hubble:
@@ -36,7 +48,7 @@ spec:
       enabled: true
     loadBalancer:
       algorithm: maglev
-      mode: dsr
+      mode: snat
     localRedirectPolicy: true
     operator:
       replicas: 1
@@ -44,4 +56,20 @@ spec:
     rollOutCiliumPods: true
     routingMode: native
     securityContext:
-      privileged: true
+      capabilities:
+        ciliumAgent:
+          - CHOWN
+          - KILL
+          - NET_ADMIN
+          - NET_RAW
+          - IPC_LOCK
+          - SYS_ADMIN
+          - SYS_RESOURCE
+          - DAC_OVERRIDE
+          - FOWNER
+          - SETGID
+          - SETUID
+        cleanCiliumState:
+          - NET_ADMIN
+          - SYS_ADMIN
+          - SYS_RESOURCE
