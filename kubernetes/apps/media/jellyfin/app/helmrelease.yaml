@@ -39,7 +39,7 @@ spec:
           main:
             image:
               repository: jellyfin/jellyfin
-              tag: 2024050117@sha256:3ab8d908ea9a5d4c56b3e8c01f18a51eeb65321bb0b7b5bf7908073803606b78
+              tag: 2024050117@sha256:224ba2ab1030a9a9ffe9e076f12fc4a912a103bd16aa255dbee98001b49ad935
             env:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               JELLYFIN_FFmpeg__probesize: 1G
