@@ -114,7 +114,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: qbittorrent-config
+        existingClaim: qbittorrent
       buffer:
         existingClaim: buffer
         globalMounts:
