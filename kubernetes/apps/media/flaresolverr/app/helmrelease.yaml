@@ -63,6 +63,7 @@ spec:
                 memory: 1Gi
     service:
       main:
+        controller: main
         ports:
           http:
             port: *port
@@ -70,7 +71,7 @@ spec:
             port: *metricsPort
     serviceMonitor:
       main:
-        controller: main
+        serviceName: main
         enabled: true
         endpoints:
           - port: metrics
