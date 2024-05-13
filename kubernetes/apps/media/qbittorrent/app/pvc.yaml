@@ -15,7 +15,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: buffer
 spec:
-  accessModes: ["ReadWriteOnce"]
+  accessModes: ["ReadWriteMany"]
   resources:
     requests:
       storage: 1Ti
