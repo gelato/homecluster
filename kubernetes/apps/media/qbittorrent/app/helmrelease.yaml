@@ -28,11 +28,11 @@ spec:
       namespace: storage
   values:
     controllers:
-      main:
+      qbittorrent:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/qbittorrent
               tag: 4.6.4@sha256:b9af0f2173572a69d2c02eab8f701ef7b04f61689efe1c5338b96445d528dec4
@@ -83,30 +83,27 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
             supplementalGroups: [10000, 568]
     service:
-      main:
-        controller: main
-        ports:
-          http:
-            port: *port
-      bittorrent:
-        controller: main
+      app:
+        controller: qbittorrent
         type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: 192.168.108.20
         ports:
+          http:
+            port: *port
           bittorrent:
             enabled: true
             port: *bittorrentPort
             protocol: TCP
     ingress:
-      main:
+      app:
         className: internal
         hosts:
           - host: &host qb.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
-                  identifier: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
