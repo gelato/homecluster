@@ -17,11 +17,13 @@ spec:
   install:
     remediation:
       retries: 3
+    timeout: 15m
   upgrade:
     cleanupOnFail: true
     remediation:
       strategy: rollback
       retries: 3
+    timeout: 15m
   dependsOn:
     - name: longhorn
       namespace: storage
@@ -105,9 +107,9 @@ spec:
                 service:
                   identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *host
+        # tls:
+        #   - hosts:
+        #       - *host
     persistence:
       config:
         existingClaim: qbittorrent
