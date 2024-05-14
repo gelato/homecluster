@@ -6,7 +6,7 @@ resources:
   - ./flaresolverr/ks.yaml
   - ./media-storage/ks.yaml
   - ./prowlarr/ks.yaml
-  - ./qbittorrent/ks.yaml
+ #Q - ./qbittorrent/ks.yaml
   - ./radarr/ks.yaml
   - ./sonarr/ks.yaml
   - ./sftpgo/ks.yaml
