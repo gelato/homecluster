@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: grafana
-      version: 7.3.9
+      version: 7.3.11
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -123,7 +123,34 @@ spec:
             allowUiUpdates: true
             options:
               path: /var/lib/grafana/dashboards/loki
+          - name: 'grafana-dashboards-kubernetes'
+            orgId: 1
+            folder: 'Kubernetes-ng'
+            type: file
+            disableDeletion: true
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
     dashboards:
+      grafana-dashboards-kubernetes:
+        k8s-system-api-server:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
+          token: ''
+        k8s-system-coredns:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-coredns.json
+          token: ''
+        k8s-views-global:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-global.json
+          token: ''
+        k8s-views-namespaces:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-namespaces.json
+          token: ''
+        k8s-views-nodes:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-nodes.json
+          token: ''
+        k8s-views-pods:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
+          token: ''
       default:
         ntfy:
           url: https://raw.githubusercontent.com/binwiederhier/ntfy/main/examples/grafana-dashboard/ntfy-grafana.json
@@ -381,6 +408,7 @@ spec:
           foldersFromFilesStructure: true
       datasources:
         enabled: true
+        initDatasources: true
         searchNamespace: ALL
         labelValue: ""
     plugins:
@@ -392,7 +420,7 @@ spec:
       - vonage-status-panel
     extraInitContainers:
       - name: "load-vm-ds-plugin"
-        image: "curlimages/curl:8.7.1"
+        image: "curlimages/curl:7.85.0"
         command: [ "/bin/sh" ]
         workingDir: "/var/lib/grafana"
         securityContext:
@@ -400,14 +428,14 @@ spec:
           runAsNonRoot: true
           runAsGroup: 472
         args:
-        - "-c"
-        - |
-          set -ex
-          mkdir -p /var/lib/grafana/plugins/
-          ver=$(curl -s https://api.github.com/repos/VictoriaMetrics/grafana-datasource/releases/latest | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-          curl -L https://github.com/VictoriaMetrics/grafana-datasource/releases/download/$ver/victoriametrics-datasource-$ver.tar.gz -o /var/lib/grafana/plugins/plugin.tar.gz
-          tar -xf /var/lib/grafana/plugins/plugin.tar.gz -C /var/lib/grafana/plugins/
-          rm /var/lib/grafana/plugins/plugin.tar.gz
+          - "-c"
+          - |
+            set -ex
+            mkdir -p /var/lib/grafana/plugins/
+            ver=$(curl -s https://api.github.com/repos/VictoriaMetrics/grafana-datasource/releases/latest | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+            curl -L https://github.com/VictoriaMetrics/grafana-datasource/releases/download/$ver/victoriametrics-datasource-$ver.tar.gz -o /var/lib/grafana/plugins/plugin.tar.gz
+            tar -xf /var/lib/grafana/plugins/plugin.tar.gz -C /var/lib/grafana/plugins/
+            rm /var/lib/grafana/plugins/plugin.tar.gz
         volumeMounts:
           # For grafana-operator users, change `name: storage` to `name: grafana-data`
           - name: storage
