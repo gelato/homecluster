@@ -111,22 +111,22 @@ go2rtc:
       - "ffmpeg:gates_lq#video=copy#audio=aac"
     door_hq:
       - rtsp://user:12332145@192.168.108.197:554/ch0_0
-      - "ffmpeg:door_hq#video=h264#hardware=cuda"
+      - "ffmpeg:door_hq#audio=copy#video=h264#hardware=cuda"
     door_lq:
       - rtsp://user:12332145@192.168.108.197:554/ch0_1
-      - "ffmpeg:door_lq#video=h264#hardware=cuda"
+      - "ffmpeg:door_lq#audio=copy#video=h264#hardware=cuda"
     dvor_gates_hq:
       - rtsp://user:12332145@192.168.108.150:554/ch0_0
-      - "ffmpeg:dvor_gates_hq#video=h264#hardware=cuda"
+      - "ffmpeg:dvor_gates_hq#audio=copy#video=h264#hardware=cuda"
     dvor_gates_lq:
       - rtsp://user:12332145@192.168.108.150:554/ch0_1
-      - "ffmpeg:dvor_gates_lq#video=h264#hardware=cuda"
+      - "ffmpeg:dvor_gates_lq#audio=copy#video=h264#hardware=cuda"
     dom2_hq:
       - rtsp://user:12332145@192.168.108.122:554/ch0_0
-      - "ffmpeg:dom2_hq#video=h264#hardware=cuda"
+      - "ffmpeg:dom2_hq#audio=copy#video=h264#hardware=cuda"
     dom2_lq:
       - rtsp://user:12332145@192.168.108.122:554/ch0_1
-      - "ffmpeg:dom2_lq#video=h264#hardware=cuda"
+      - "ffmpeg:dom2_lq#audio=copy#video=h264#hardware=cuda"
   webrtc:
     candidates:
       - 192.168.108.55:8555
