@@ -27,7 +27,7 @@ spec:
     keepHistory: false
   values:
     logLevel: debug
-    externalURL: "https://hcr.${SECRET_DOMAIN}"
+    externalURL: "https://harbor.${SECRET_DOMAIN}"
     existingSecretAdminPassword: &secret harbor-secret
     imagePullPolicy: IfNotPresent
     updateStrategy:
@@ -55,6 +55,14 @@ spec:
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
           nginx.ingress.kubernetes.io/custom-http-errors: "418"
           nginx.ingress.kubernetes.io/proxy-connect-timeout: "480"
+      loadBalancer:
+        name: harbor
+        IP: "192.168.108.88"
+        ports:
+          httpPort: 80
+          httpsPort: 443
+        annotations: {}
+        labels: {}
       tls:
         enabled: true
         certSource: none
