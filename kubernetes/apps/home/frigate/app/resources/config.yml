@@ -83,8 +83,8 @@ record:
   export:
     timelapse_args: "-vf setpts=0.04*PTS -r 30"
   events:
-    pre_capture: 5
-    post_capture: 5
+    # pre_capture: 5
+    # post_capture: 5
     retain:
       default: 30
       mode: active_objects
@@ -107,25 +107,25 @@ go2rtc:
       - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101
       - "ffmpeg:gates_hq#video=copy#audio=aac"
     gates_lq:
-      - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102
+      - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101
       - "ffmpeg:gates_lq#video=copy#audio=aac"
     door_hq:
       - rtsp://user:12332145@192.168.108.197:554/ch0_0
       - "ffmpeg:door_hq#video=h264#hardware=cuda#audio=aac"
     door_lq:
-      - rtsp://user:12332145@192.168.108.197:554/ch0_1
+      - rtsp://user:12332145@192.168.108.197:554/ch0_0
       - "ffmpeg:door_lq#video=h264#hardware=cuda#audio=aac"
     dvor_gates_hq:
       - rtsp://user:12332145@192.168.108.150:554/ch0_0
       - "ffmpeg:dvor_gates_hq#video=h264#hardware=cuda#audio=aac"
     dvor_gates_lq:
-      - rtsp://user:12332145@192.168.108.150:554/ch0_1
+      - rtsp://user:12332145@192.168.108.150:554/ch0_0
       - "ffmpeg:dvor_gates_lq#video=h264#hardware=cuda#audio=aac"
     dom2_hq:
       - rtsp://user:12332145@192.168.108.122:554/ch0_0
       - "ffmpeg:dom2_hq#video=h264#hardware=cuda#audio=aac"
     dom2_lq:
-      - rtsp://user:12332145@192.168.108.122:554/ch0_1
+      - rtsp://user:12332145@192.168.108.122:554/ch0_0
       - "ffmpeg:dom2_lq#video=h264#hardware=cuda#audio=aac"
   webrtc:
     candidates:
