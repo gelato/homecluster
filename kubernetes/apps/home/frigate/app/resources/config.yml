@@ -63,7 +63,7 @@ ffmpeg:
     record: preset-record-generic-audio-copy
 detect:
   width: 640
-  height: 480
+  height: 360
   fps: 10
   enabled: True
 objects:
