@@ -87,7 +87,7 @@ record:
     # post_capture: 5
     retain:
       default: 30
-      mode: active_objects
+      mode: motion
 snapshots:
   enabled: True
   clean_copy: True
