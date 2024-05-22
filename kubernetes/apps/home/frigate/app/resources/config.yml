@@ -106,27 +106,27 @@ go2rtc:
     gates_hq:
       - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101
       - "ffmpeg:gates_hq#video=copy#audio=aac"
-    gates_lq:
-      - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101
-      - "ffmpeg:gates_lq#video=copy#audio=aac"
+    # gates_lq:
+    #   - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102
+    #   - "ffmpeg:gates_lq#video=copy#audio=aac"
     door_hq:
       - rtsp://user:12332145@192.168.108.197:554/ch0_0
       - "ffmpeg:door_hq#video=h264#hardware=cuda#audio=aac"
-    door_lq:
-      - rtsp://user:12332145@192.168.108.197:554/ch0_0
-      - "ffmpeg:door_lq#video=h264#hardware=cuda#audio=aac"
+    # door_lq:
+    #   - rtsp://user:12332145@192.168.108.197:554/ch0_1
+    #   - "ffmpeg:door_lq#video=h264#hardware=cuda#audio=aac"
     dvor_gates_hq:
       - rtsp://user:12332145@192.168.108.150:554/ch0_0
       - "ffmpeg:dvor_gates_hq#video=h264#hardware=cuda#audio=aac"
-    dvor_gates_lq:
-      - rtsp://user:12332145@192.168.108.150:554/ch0_0
-      - "ffmpeg:dvor_gates_lq#video=h264#hardware=cuda#audio=aac"
+    # dvor_gates_lq:
+    #   - rtsp://user:12332145@192.168.108.150:554/ch0_1
+    #   - "ffmpeg:dvor_gates_lq#video=h264#hardware=cuda#audio=aac"
     dom2_hq:
       - rtsp://user:12332145@192.168.108.122:554/ch0_0
       - "ffmpeg:dom2_hq#video=h264#hardware=cuda#audio=aac"
-    dom2_lq:
-      - rtsp://user:12332145@192.168.108.122:554/ch0_0
-      - "ffmpeg:dom2_lq#video=h264#hardware=cuda#audio=aac"
+    # dom2_lq:
+    #   - rtsp://user:12332145@192.168.108.122:554/ch0_1
+    #   - "ffmpeg:dom2_lq#video=h264#hardware=cuda#audio=aac"
   webrtc:
     candidates:
       - 192.168.108.55:8555
@@ -141,7 +141,7 @@ cameras:
           roles:
             - record
             - audio
-        - path: rtsp://localhost:8554/gates_lq
+        - path: rtsp://localhost:8554/gates_hq
           input_args: preset-rtsp-restream
           roles:
             - detect
@@ -174,7 +174,7 @@ cameras:
         - 293,360,342,317,356,202,456,133,489,139,530,89,563,91,640,0,591,0,439,80,0,318,0,360
     mqtt:
       enabled: True
-      timestamp: False
+      timestamp: True
       bounding_box: True
       crop: True
       height: 270
@@ -190,7 +190,7 @@ cameras:
           roles:
             - record
             - audio
-        - path: rtsp://localhost:8554/door_lq
+        - path: rtsp://localhost:8554/door_hq
           input_args: preset-rtsp-restream
           roles:
             - detect
@@ -251,7 +251,7 @@ cameras:
           roles:
             - record
             - audio
-        - path: rtsp://localhost:8554/dvor_gates_lq
+        - path: rtsp://localhost:8554/dvor_gates_hq
           input_args: preset-rtsp-restream
           roles:
             - detect
@@ -303,7 +303,7 @@ cameras:
           roles:
             - record
             - audio
-        - path: rtsp://localhost:8554/dom2_lq
+        - path: rtsp://localhost:8554/dom2_hq
           input_args: preset-rtsp-restream
           roles:
             - detect
