@@ -58,9 +58,8 @@ birdseye:
 ffmpeg:
   global_args: -hide_banner -loglevel warning -threads 2
   hwaccel_args: preset-nvidia-h264
-  #input_args: preset-rtsp-restream-low-latency
   output_args:
-    #detect: -threads 2 -f rawvideo -pix_fmt yuv420p -an
+    detect: -threads 2 -f rawvideo -pix_fmt yuv420p -an
     record: preset-record-generic-audio-copy
 detect:
   width: 640
@@ -138,10 +137,11 @@ cameras:
           roles:
             - record
             - audio
-        - path: rtsp://localhost:8554/gates_hq
-          input_args: preset-rtsp-restream
-          roles:
             - detect
+        # - path: rtsp://localhost:8554/gates_hq
+        #   input_args: preset-rtsp-restream
+        #   roles:
+        #     - detect
     live:
       stream_name: gates_hq
       quality: 1
@@ -187,10 +187,11 @@ cameras:
           roles:
             - record
             - audio
-        - path: rtsp://localhost:8554/door_hq
-          input_args: preset-rtsp-restream
-          roles:
             - detect
+        # - path: rtsp://localhost:8554/door_hq
+        #   input_args: preset-rtsp-restream
+        #   roles:
+        #     - detect
     live:
       stream_name: door_hq
       quality: 1
@@ -248,10 +249,11 @@ cameras:
           roles:
             - record
             - audio
-        - path: rtsp://localhost:8554/dvor_gates_hq
-          input_args: preset-rtsp-restream
-          roles:
             - detect
+        # - path: rtsp://localhost:8554/dvor_gates_hq
+        #   input_args: preset-rtsp-restream
+        #   roles:
+        #     - detect
     live:
       stream_name: dvor_gates_hq
       quality: 1
@@ -300,10 +302,11 @@ cameras:
           roles:
             - record
             - audio
-        - path: rtsp://localhost:8554/dom2_hq
-          input_args: preset-rtsp-restream
-          roles:
             - detect
+        # - path: rtsp://localhost:8554/dom2_hq
+        #   input_args: preset-rtsp-restream
+        #   roles:
+        #     - detect
     live:
       stream_name: dom2_hq
       quality: 1
