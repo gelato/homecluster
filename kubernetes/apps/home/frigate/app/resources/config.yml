@@ -87,7 +87,7 @@ record:
     # post_capture: 5
     retain:
       default: 30
-      mode: motion
+      mode: active_objects
 snapshots:
   enabled: True
   clean_copy: True
@@ -324,7 +324,7 @@ cameras:
       order: 3
 ui:
   live_mode: mse
-  use_experimental: False
+  use_experimental: True
   time_format: browser
   date_style: short
   time_style: medium
