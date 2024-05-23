@@ -42,7 +42,7 @@ audio:
     fire_alarm:
       threshold: 0.8
 logger:
-  default: debug
+  default: warning
   logs:
     frigate.event: debug
 birdseye:
@@ -57,10 +57,10 @@ birdseye:
   mode: continuous
 ffmpeg:
   global_args: -hide_banner -loglevel warning -threads 2
-  hwaccel_args: preset-nvidia-h265
+  hwaccel_args: preset-nvidia-h264
   #input_args: preset-rtsp-restream-low-latency
   output_args:
-    detect: -threads 2 -f rawvideo -pix_fmt yuv420p -an
+    #detect: -threads 2 -f rawvideo -pix_fmt yuv420p -an
     record: preset-record-generic-audio-copy
 detect:
   width: 640
