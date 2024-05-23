@@ -65,7 +65,7 @@ ffmpeg:
 detect:
   width: 640
   height: 360
-  fps: 20
+  fps: 5
   enabled: True
 objects:
   track:
@@ -105,26 +105,22 @@ snapshots:
 go2rtc:
   streams:
     gates_hq:
-      - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101
-      - "ffmpeg:gates_hq#video=copy#audio=aac"
+      - ffmpeg:rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101#video=copy#audio=aac
     # gates_lq:
     #   - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102
     #   - "ffmpeg:gates_lq#video=copy#audio=aac"
     door_hq:
-      - rtsp://user:12332145@192.168.108.197:554/ch0_0
-      - "ffmpeg:door_hq#video=h264#hardware=cuda#audio=aac"
+      - ffmpeg:rtsp://user:12332145@192.168.108.197:554/ch0_0#video=h264#hardware=cuda#audio=aac
     # door_lq:
     #   - rtsp://user:12332145@192.168.108.197:554/ch0_1
     #   - "ffmpeg:door_lq#video=h264#hardware=cuda#audio=aac"
     dvor_gates_hq:
-      - rtsp://user:12332145@192.168.108.150:554/ch0_0
-      - "ffmpeg:dvor_gates_hq#video=h264#hardware=cuda#audio=aac"
+      - ffmpeg:rtsp://user:12332145@192.168.108.150:554/ch0_0#video=h264#hardware=cuda#audio=aac
     # dvor_gates_lq:
     #   - rtsp://user:12332145@192.168.108.150:554/ch0_1
     #   - "ffmpeg:dvor_gates_lq#video=h264#hardware=cuda#audio=aac"
     dom2_hq:
-      - rtsp://user:12332145@192.168.108.122:554/ch0_0
-      - "ffmpeg:dom2_hq#video=h264#hardware=cuda#audio=aac"
+      - ffmpeg:rtsp://user:12332145@192.168.108.122:554/ch0_0#video=h264#hardware=cuda#audio=aac
     # dom2_lq:
     #   - rtsp://user:12332145@192.168.108.122:554/ch0_1
     #   - "ffmpeg:dom2_lq#video=h264#hardware=cuda#audio=aac"
@@ -166,7 +162,7 @@ cameras:
           - bus
       guests:
         coordinates: 495,189,469,143,348,239,369,303
-        inertia: 70
+        inertia: 35
         objects:
           - person
     motion:
