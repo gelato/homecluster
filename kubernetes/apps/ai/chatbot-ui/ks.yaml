@@ -9,7 +9,7 @@ metadata:
     substitution.flux.home.arpa/enabled: "true"
 spec:
   targetNamespace: ai
-  path: ./kubernetes/main/apps/ai/chatbot-ui/app
+  path: ./kubernetes/apps/ai/chatbot-ui/app
   prune: true
   sourceRef:
     kind: GitRepository

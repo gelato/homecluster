@@ -7,7 +7,7 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: ai
-  path: ./kubernetes/main/apps/ai/localai/app
+  path: ./kubernetes/apps/ai/localai/app
   prune: true
   sourceRef:
     kind: GitRepository
