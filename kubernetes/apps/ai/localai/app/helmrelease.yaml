@@ -1,0 +1,125 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.thesteamedcrab.com/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app localai
+  namespace: ai
+spec:
+  interval: 30m
+  chart:
+    spec:
+      # renovate: registryUrl=https://go-skynet.github.io/helm-charts/
+      chart: local-ai
+      version: 3.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: go-skynet
+        namespace: flux-system
+
+  maxHistory: 3
+
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  uninstall:
+    keepHistory: false
+
+  values:
+    replicaCount: 1
+
+    deployment:
+      runtimeClassName: nvidia
+      image:
+        repository: quay.io/go-skynet/local-ai
+        tag: v2.15.0
+
+      env:
+        rebuild: false
+        debug: true
+        OPENAI_API_KEY: "sk-XXXXXXXXXXXXXXXXXXXX"
+        #preload_models: '[{ "id": "huggingface@thebloke__open-llama-13b-open-instruct-ggml__open-llama-13b-open-instruct.ggmlv3.q3_k_m.bin", "name": "gpt-3.5-turbo", "overrides": { "f16": true, "mmap": true }}]'
+
+    resources:
+      requests:
+        cpu: 200m
+        memory: 12G
+        nvidia.com/gpu: 1
+      limits:
+        memory: 12G
+        nvidia.com/gpu: 1
+
+    models:
+      forceDownload: false
+      #list:
+      #  - url: "https://gpt4all.io/models/ggml-gpt4all-j.bin" #working
+      #  - url: "https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.1-GGUF/resolve/main/mistral-7b-instruct-v0.1.Q4_K_M.gguf"
+      #  - url: "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/resolve/main/llama-2-7b-chat.ggmlv3.q4_0.bin"
+      #  - url: "https://huggingface.co/TheBloke/Luna-AI-Llama2-Uncensored-GGUF/resolve/main/luna-ai-llama2-uncensored.Q4_0.gguf"
+      #  - url: "https://huggingface.co/chitanda/llama2.7b.chat.reclor.gpt35turbo1106.dpo-sft.H100.w4.v2.0"
+
+    persistence:
+      models:
+        enabled: true
+        annotations: {}
+        storageClass: longhorn-storage
+        accessModes: ReadWriteMany
+        size: 200Gi
+        globalMount: /models
+
+      output:
+        enabled: true
+        annotations: {}
+        storageClass: longhorn-storage
+        accessModes: ReadWriteMany
+        size: 10Gi
+        globalMount: /tmp/generated
+
+    service:
+      annotations:
+        io.cilium/lb-ipam-ips: ${SVC_LOCALAI_ADDR}
+      type: LoadBalancer
+      ports:
+        http:
+          port: 8080
+
+    ingress:
+      enabled: true
+      ingressClassName: internal
+      annotations:
+        nginx.ingress.kubernetes.io/whitelist-source-range: |
+          10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      hosts:
+        - host: &host localai.${SECRET_DOMAIN}
+          paths:
+            - path: /
+              pathType: Prefix
+
+    affinity:
+      #podAntiAffinity:
+      #  requiredDuringSchedulingIgnoredDuringExecution:
+      #    - labelSelector:
+      #        matchExpressions:
+      #          - key: app.kubernetes.io/name
+      #            operator: In
+      #            values: ["jellyfin", "frigate", "ollama"]
+      #      topologyKey: kubernetes.io/hostname
+
+      # nodeAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     nodeSelectorTerms:
+      #       - matchExpressions:
+      #           - key: intel.feature.node.kubernetes.io/gpu
+      #             operator: In
+      #             values:
+      #               - "true"
+
+    # nodeSelector:
+    #   intel.feature.node.kubernetes.io/gpu: "true"

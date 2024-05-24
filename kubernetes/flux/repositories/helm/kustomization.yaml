@@ -25,3 +25,5 @@ resources:
   - ./repos/victoriametrics.yaml
   - ./repos/robusta.yaml
   - ./repos/harbor.yaml
+  - ./repos/go-skynet.yaml
+  - ./repos/k8sgpt.yaml
