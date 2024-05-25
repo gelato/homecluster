@@ -73,7 +73,6 @@ spec:
 
     ingress:
       main:
-        identifier: main
         enabled: true
         className: internal
         hosts:
