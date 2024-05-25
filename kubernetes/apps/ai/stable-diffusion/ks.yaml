@@ -8,10 +8,10 @@ metadata:
 spec:
   interval: 30m
   targetNamespace: ai
-  path: ./kubernetes/main/apps/ai/stable-diffusion/ui
+  path: ./kubernetes/apps/ai/stable-diffusion/ui
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-ops-kubernetes
+    name: home-kubernetes
   wait: true
 
