@@ -15,8 +15,6 @@ spec:
     kind: GitRepository
     name: home-kubernetes
   wait: true
-  dependsOn:
-    - name: system-external-secrets-stores
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
