@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.1.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -65,6 +65,7 @@ spec:
           #         app.kubernetes.io/name: *app
     service:
       main:
+        controller: main
         type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: 192.168.108.80
@@ -75,6 +76,7 @@ spec:
             port: *port
     serviceMonitor:
       main:
+        serviceName: main
         enabled: true
     persistence:
       config:
