@@ -52,30 +52,6 @@ spec:
               limits:
                 memory: 64Gi
                 nvidia.com/gpu: 1
-
-
-        # pod:
-        #   affinity:
-        #     nodeAffinity:
-        #       requiredDuringSchedulingIgnoredDuringExecution:
-        #         nodeSelectorTerms:
-        #           - matchExpressions:
-        #               - key: intel.feature.node.kubernetes.io/gpu
-        #                 operator: In
-        #                 values:
-        #                   - "true"
-            #podAntiAffinity:
-            #  requiredDuringSchedulingIgnoredDuringExecution:
-            #    - labelSelector:
-            #        matchExpressions:
-            #          - key: app.kubernetes.io/name
-            #            operator: In
-            #            values: ["jellyfin", "frigate", "localai"]
-            #      topologyKey: kubernetes.io/hostname
-
-          # nodeSelector:
-          #   intel.feature.node.kubernetes.io/gpu: "true"
-
     service:
       main:
         controller: main

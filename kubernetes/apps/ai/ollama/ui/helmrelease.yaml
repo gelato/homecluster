@@ -37,20 +37,19 @@ spec:
               tag: main
             env:
               OLLAMA_API_BASE_URL: http://ollama.ai.svc:11434/api
+              OLLAMA_BASE_URL: https://chat.skynerv.com
             resources:
               requests:
                 cpu: 20m
                 memory: 2Gi
               limits:
                 memory: 2Gi
-
     service:
       main:
         controller: main
         ports:
           http:
             port: &port 8080
-
     ingress:
       main:
         enabled: true
