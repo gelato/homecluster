@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.5.0
+      version: 3.1.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -66,12 +66,14 @@ spec:
 
     service:
       main:
+        controller: main
         ports:
           http:
             port: &httpPort 7860
 
     ingress:
       main:
+        identifier: main
         enabled: true
         className: internal
         hosts:
