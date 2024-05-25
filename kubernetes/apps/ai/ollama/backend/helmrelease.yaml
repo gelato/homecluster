@@ -12,7 +12,7 @@ spec:
       version: 3.1.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s-charts
+        name: bjw-s
         namespace: flux-system
   maxHistory: 2
   install:
@@ -24,7 +24,12 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: nvidia-gpu-operator
+      namespace: kube-system
   values:
+    defaultPodOptions:
+      runtimeClassName: nvidia
     controllers:
       main:
         type: deployment
@@ -34,31 +39,31 @@ spec:
           main:
             image:
               repository: docker.io/ollama/ollama
-              tag: 0.1.38
+              tag: 0.1.39
             env:
               TZ: ${TIMEZONE}
-              LIBVA_DRIVER_NAME: i965
               OLLAMA_HOST: 0.0.0.0
               OLLAMA_ORIGINS: "*"
             resources:
               requests:
-                cpu: 200m
+                cpu: 20m
                 memory: 16Gi
-                gpu.intel.com/i915: "1"
+                nvidia.com/gpu: 1
               limits:
                 memory: 16Gi
-                gpu.intel.com/i915: "1"
+                nvidia.com/gpu: 1
 
-        pod:
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: intel.feature.node.kubernetes.io/gpu
-                        operator: In
-                        values:
-                          - "true"
+
+        # pod:
+        #   affinity:
+        #     nodeAffinity:
+        #       requiredDuringSchedulingIgnoredDuringExecution:
+        #         nodeSelectorTerms:
+        #           - matchExpressions:
+        #               - key: intel.feature.node.kubernetes.io/gpu
+        #                 operator: In
+        #                 values:
+        #                   - "true"
             #podAntiAffinity:
             #  requiredDuringSchedulingIgnoredDuringExecution:
             #    - labelSelector:
@@ -68,8 +73,8 @@ spec:
             #            values: ["jellyfin", "frigate", "localai"]
             #      topologyKey: kubernetes.io/hostname
 
-          nodeSelector:
-            intel.feature.node.kubernetes.io/gpu: "true"
+          # nodeSelector:
+          #   intel.feature.node.kubernetes.io/gpu: "true"
 
     service:
       main:
@@ -77,3 +82,8 @@ spec:
         ports:
           http:
             port: &port 11434
+    persistence:
+      config:
+        enabled: true
+        existingClaim: ollama-backend
+        mountPath: /root/.ollama

@@ -34,6 +34,10 @@ spec:
   uninstall:
     keepHistory: false
 
+  dependsOn:
+    - name: nvidia-gpu-operator
+      namespace: kube-system
+
   values:
     replicaCount: 1
 

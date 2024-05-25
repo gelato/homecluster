@@ -9,11 +9,11 @@ spec:
   retryInterval: 1m
   timeout: 3m
   targetNamespace: ai
-  path: "./kubernetes/main/apps/ai/ollama/backend"
+  path: "./kubernetes/apps/ai/ollama/backend"
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-ops-kubernetes
+    name: home-kubernetes
   wait: true
   dependsOn:
     - name: system-external-secrets-stores
@@ -28,11 +28,11 @@ spec:
   retryInterval: 1m
   timeout: 3m
   targetNamespace: ai
-  path: "./kubernetes/main/apps/ai/ollama/ui"
+  path: "./kubernetes/apps/ai/ollama/ui"
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-ops-kubernetes
+    name: home-kubernetes
   wait: true
   dependsOn:
     - name: ai-ollama
