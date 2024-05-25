@@ -14,4 +14,5 @@ spec:
       name: localai-api-key-secret
       key: localai-api-key
   noCache: false
-  version: v0.3.29
+  repository: ghcr.io/k8sgpt-ai/k8sgpt
+  version: v0.3.8
