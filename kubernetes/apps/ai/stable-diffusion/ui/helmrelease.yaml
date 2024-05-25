@@ -50,6 +50,7 @@ spec:
               tag: 1.9.3
               pullPolicy: IfNotPresent
             args:
+            - --medvram
             - --xformers
             - --api
             env:
