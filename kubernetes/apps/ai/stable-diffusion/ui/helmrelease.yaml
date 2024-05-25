@@ -48,8 +48,8 @@ spec:
         containers:
           main:
             image:
-              repository: ashleykza/forge
-              tag: latest
+              repository: probepark/stable-diffusion-webui-base
+              tag: 4.0.0-forge
               pullPolicy: IfNotPresent
             args:
               - --no-half-vae
