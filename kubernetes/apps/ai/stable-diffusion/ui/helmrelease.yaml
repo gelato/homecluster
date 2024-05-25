@@ -46,8 +46,8 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/gabe565/stable-diffusion/webui
-              tag: 1.9.3
+              repository: ashleykza/forge
+              tag: latest
               pullPolicy: IfNotPresent
             args:
               - --no-half-vae
