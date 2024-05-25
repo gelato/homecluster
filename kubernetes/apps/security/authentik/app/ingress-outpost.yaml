@@ -24,13 +24,3 @@ spec:
                 name: ak-outpost-authentik-embedded-outpost
                 port:
                   number: 9000
-    - host: chat.${SECRET_DOMAIN}
-      http:
-        paths:
-          - path: /outpost.goauthentik.io
-            pathType: Prefix
-            backend:
-              service:
-                name: ak-outpost-authentik-embedded-outpost
-                port:
-                  number: 9000
