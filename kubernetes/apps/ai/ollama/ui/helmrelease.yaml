@@ -33,15 +33,17 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/ollama-webui/ollama-webui
+              repository: ghcr.io/open-webui/open-webui
               tag: main
             env:
-              OLLAMA_API_BASE_URL: http://ollama.ai.svc:11434/api
-              OLLAMA_BASE_URL: https://chat.skynerv.com
+              OLLAMA_BASE_URLS: "http://ollama.ai.svc:11434"
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 20m
-                memory: 2Gi
+                memory: 1Gi
               limits:
                 memory: 2Gi
     service:
@@ -53,7 +55,9 @@ spec:
     ingress:
       main:
         enabled: true
-        className: internal
+        className: external
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         hosts:
           - host: &host chat.${SECRET_DOMAIN}
             paths:
