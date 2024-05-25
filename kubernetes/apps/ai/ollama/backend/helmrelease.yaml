@@ -86,4 +86,5 @@ spec:
       config:
         enabled: true
         existingClaim: ollama-backend
-        mountPath: /root/.ollama
+        globalMounts:
+          - path: /root/.ollama
