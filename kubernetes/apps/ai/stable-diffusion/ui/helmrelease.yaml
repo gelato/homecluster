@@ -51,6 +51,7 @@ spec:
               pullPolicy: IfNotPresent
             args:
             - --xformers
+            - --api
             env:
               IIB_ACCESS_CONTROL_ALLOWED_PATHS: /app/outputs
               TZ: ${TIMEZONE}
