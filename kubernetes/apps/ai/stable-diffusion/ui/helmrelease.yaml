@@ -50,9 +50,9 @@ spec:
               tag: 1.9.3
               pullPolicy: IfNotPresent
             args:
-            - --medvram
-            - --xformers
-            - --api
+              - --no-half-vae
+              - --xformers
+              - --api
             env:
               IIB_ACCESS_CONTROL_ALLOWED_PATHS: /app/outputs
               TZ: ${TIMEZONE}
@@ -63,7 +63,7 @@ spec:
                 memory: 1Gi
                 nvidia.com/gpu: "1"
               limits:
-                memory: 16Gi
+                memory: 24Gi
                 nvidia.com/gpu: "1"
 
     service:
