@@ -48,8 +48,8 @@ spec:
         containers:
           main:
             image:
-              repository: probepark/stable-diffusion-webui-base
-              tag: 4.0.0-forge
+              repository: ghcr.io/yummiii/sd-webui-forge-docker
+              tag: latest
               pullPolicy: IfNotPresent
             args:
               - --no-half-vae
