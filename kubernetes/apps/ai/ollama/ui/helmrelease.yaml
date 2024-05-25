@@ -56,7 +56,7 @@ spec:
         enabled: true
         className: internal
         hosts:
-          - host: &host ollama.${SECRET_DOMAIN}
+          - host: &host chat.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
