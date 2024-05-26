@@ -55,6 +55,8 @@ spec:
               - --no-half-vae
               - --xformers
               - --api
+              - --listen
+              - --server-name 0.0.0.0
             env:
               IIB_ACCESS_CONTROL_ALLOWED_PATHS: /app/outputs
               TZ: ${TIMEZONE}
