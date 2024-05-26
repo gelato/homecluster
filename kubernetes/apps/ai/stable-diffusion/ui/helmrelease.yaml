@@ -60,6 +60,7 @@ spec:
             env:
               IIB_ACCESS_CONTROL_ALLOWED_PATHS: /app/outputs
               TZ: ${TIMEZONE}
+              ARGS: --listen --enable-insecure-extension-access --server-name 0.0.0.0
 
             resources:
               requests:
