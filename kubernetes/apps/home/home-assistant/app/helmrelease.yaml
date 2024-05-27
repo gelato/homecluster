@@ -63,6 +63,8 @@ spec:
             runAsNonRoot: true
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
+          nodeSelector:
+            sonoff.feature.node.kubernetes.io/dongle-e: "true"
     service:
       main:
         controller: main
@@ -101,5 +103,12 @@ spec:
       config:
         enabled: true
         existingClaim: home-assistant
+      usb:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/bus/usb
+        hostPathType: Directory
+        globalMounts:
+        - path: /dev/bus/usb
       tmp:
         type: emptyDir
