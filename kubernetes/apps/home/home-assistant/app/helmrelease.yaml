@@ -47,10 +47,10 @@ spec:
                 enabled: false
               startup:
                 enabled: false
-            securityContext:
+            # securityContext:
               # privileged: true
-              capabilities:
-                add: ["CAP_SYS_RAWIO"]
+              # capabilities:
+              #   add: ["CAP_SYS_RAWIO"]
             # securityContext:
             #   allowPrivilegeEscalation: false
             #   readOnlyRootFilesystem: true
