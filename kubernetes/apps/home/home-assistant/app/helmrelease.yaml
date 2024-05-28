@@ -48,7 +48,7 @@ spec:
               startup:
                 enabled: false
             securityContext:
-              privileged: true
+              # privileged: true
               capabilities:
                 add: ["CAP_SYS_RAWIO"]
             # securityContext:
