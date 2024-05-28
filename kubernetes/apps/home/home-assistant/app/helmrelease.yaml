@@ -50,7 +50,9 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              privileged: true
+              capabilities:
+                add: ["CAP_SYS_RAWIO"]
             resources:
               requests:
                 cpu: 10m
@@ -107,7 +109,6 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /dev/ttyACM0
-        hostPathType: CharDevice
         globalMounts:
         - path: /dev/ttyACM0
       tmp:
