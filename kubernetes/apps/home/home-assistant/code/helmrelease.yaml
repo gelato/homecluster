@@ -65,7 +65,7 @@ spec:
                   - key: app.kubernetes.io/name
                     operator: In
                     values: ["home-assistant"]
-                topologyKey: kubernetes.io/hostname
+                # topologyKey: kubernetes.io/hostname
     service:
       main:
         controller: main
