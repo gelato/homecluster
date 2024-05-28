@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: longhorn
-      version: 1.6.1
+      version: 1.6.2
       sourceRef:
         kind: HelmRepository
         name: longhorn
@@ -27,6 +27,12 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    global:
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Equal"
+          value: ""
+          effect: "NoSchedule"
     persistence:
       defaultClass: true
       defaultClassReplicaCount: 1
