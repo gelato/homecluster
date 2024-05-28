@@ -47,6 +47,10 @@ spec:
                 enabled: false
               startup:
                 enabled: false
+              securityContext:
+                privileged: true
+                capabilities:
+                  add: ["CAP_SYS_RAWIO"]
             # securityContext:
             #   allowPrivilegeEscalation: false
             #   readOnlyRootFilesystem: true
@@ -58,8 +62,8 @@ spec:
                 memory: 1Gi
         pod:
           securityContext:
-            runAsUser: 568
-            runAsGroup: 568
+            runAsUser: 1000
+            runAsGroup: 1000
             runAsNonRoot: true
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
