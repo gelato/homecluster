@@ -11,3 +11,4 @@ resources:
   # - ./intel-device-plugin/ks.yaml
   - ./nvidia-gpu-operator/ks.yaml
   # - ./renovate/ks.yaml
+  - ./generic-device-plugin/ks.yaml
