@@ -62,11 +62,11 @@ spec:
               requiredDuringSchedulingIgnoredDuringExecution:
               - labelSelector:
                   matchExpressions:
-                  - key: app.kubernetes.io/instance
+                  - key: app.kubernetes.io/name
                     operator: In
                     values:
                       - home-assistant
-                topologyKey: home-domain.beta.kubernetes.io/zone
+                topologyKey: kubernetes.io/hostname
     service:
       main:
         controller: main
