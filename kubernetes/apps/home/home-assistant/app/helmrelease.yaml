@@ -64,7 +64,7 @@ spec:
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
-            runAsNonRoot: false
+            runAsNonRoot: true
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
           nodeSelector:
