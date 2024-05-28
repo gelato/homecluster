@@ -22,7 +22,7 @@ spec:
           service:
             name: s3-console
             port:
-              name: https-console
+              name: http-console
         path: /
         pathType: Prefix
   tls:
@@ -54,7 +54,7 @@ spec:
           service:
             name: minio
             port:
-              name: https-minio
+              name: http-minio
         path: /
         pathType: Prefix
   tls:
@@ -87,7 +87,7 @@ spec:
           service:
             name: minio
             port:
-              name: https-minio
+              name: http-minio
         path: /
         pathType: Prefix
   tls:
