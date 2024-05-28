@@ -106,9 +106,9 @@ spec:
       usb:
         enabled: true
         type: hostPath
-        hostPath: /dev/bus/usb
-        hostPathType: Directory
+        hostPath: /dev/ttyACM0
+        hostPathType: File
         globalMounts:
-        - path: /dev/bus/usb
+        - path: /dev/ttyACM0
       tmp:
         type: emptyDir
