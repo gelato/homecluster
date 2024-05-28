@@ -33,7 +33,7 @@ spec:
             args:
               - --log-level
               - info
-              - --device=$(DEVICE_SONOFF_ZIGBEE)
+              - --device $(DEVICE_SONOFF_ZIGBEE)
             env:
               DEVICE_SONOFF_ZIGBEE: |-
                 name: sonoff_zigbee
