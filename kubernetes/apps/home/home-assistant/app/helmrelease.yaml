@@ -107,7 +107,7 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /dev/ttyACM0
-        hostPathType: File
+        hostPathType: CharDevice
         globalMounts:
         - path: /dev/ttyACM0
       tmp:
