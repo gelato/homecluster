@@ -57,15 +57,16 @@ spec:
             runAsGroup: 568
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
-          podAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                - key: app.kubernetes.io/instance
-                  operator: In
-                  values:
-                  - home-assistant
-              topologyKey: failure-domain.beta.kubernetes.io/zone
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                  - key: app.kubernetes.io/instance
+                    operator: In
+                    values:
+                    - home-assistant
+                topologyKey: home-domain.beta.kubernetes.io/zone
     service:
       main:
         controller: main
