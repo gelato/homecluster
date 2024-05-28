@@ -35,7 +35,7 @@ spec:
               - info
               - --device=$(DEVICE_SERIAL)
             env:
-              DEVICE_SONOFF_ZIGBEE: |-
+              DEVICE_SERIAL: |-
                 name: sonoff_zigbee
                 groups:
                   - paths:
