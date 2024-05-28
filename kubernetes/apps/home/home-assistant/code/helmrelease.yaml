@@ -63,9 +63,9 @@ spec:
               - labelSelector:
                   matchExpressions:
                   - key: app.kubernetes.io/instance
-                    operator: Exists
+                    operator: In
                     values:
-                    - home-assistant
+                      - home-assistant
                 topologyKey: home-domain.beta.kubernetes.io/zone
     service:
       main:
