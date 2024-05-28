@@ -40,6 +40,9 @@ spec:
         maxParallel: 8
       destinationPath: s3://cloudnative-pg/
       endpointURL: https://minio.storage.svc.cluster.local
+      endpointCA:
+        name: kube-root-ca.crt
+        key: ca.crt
       # Note: serverName version needs to be inclemented
       # when recovering from an existing cnpg cluster
       serverName: &currentCluster postgres16
