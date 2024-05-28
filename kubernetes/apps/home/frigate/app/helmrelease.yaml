@@ -72,7 +72,6 @@ spec:
               requests:
                 cpu: 10m
               limits:
-                memory: 30Gi
                 nvidia.com/gpu: 1
         # pod:
         #   affinity:
