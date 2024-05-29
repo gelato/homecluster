@@ -47,22 +47,22 @@ spec:
                 enabled: false
               startup:
                 enabled: false
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+            # securityContext:
+            #   allowPrivilegeEscalation: false
+            #   readOnlyRootFilesystem: true
+            #   capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 10m
               limits:
                 memory: 1Gi
         pod:
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            runAsNonRoot: true
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
+          # securityContext:
+          #   runAsUser: 568
+          #   runAsGroup: 568
+          #   runAsNonRoot: true
+          #   fsGroup: 568
+          #   fsGroupChangePolicy: OnRootMismatch
           nodeSelector:
             sonoff.feature.node.kubernetes.io/dongle-e: "true"
     service:
