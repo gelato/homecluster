@@ -92,8 +92,7 @@ spec:
         enabled: true
         existingClaim: stable-diffusion-data-pvc
         globalMounts:
-          - path: /data
-          - path: /app/repositories
+          - path: /app/sd-webui
 
       outputs:
         enabled: true
