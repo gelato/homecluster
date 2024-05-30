@@ -10,9 +10,9 @@ stringData:
 
     - job_name: minio-job
       metrics_path: /minio/v2/metrics/cluster
-      scheme: https
-      tls_config:
-        insecure_skip_verify: true
+      scheme: http
+      # tls_config:
+      #   insecure_skip_verify: true
       static_configs:
       - targets: [minio.storage.svc.cluster.local]
 
