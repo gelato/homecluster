@@ -34,3 +34,7 @@ spec:
   wait: true
   dependsOn:
     - name: ai-ollama
+  postBuild:
+    substitute:
+      APP: *app
+      GATUS_SUBDOMAIN: chat
