@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: grafana
@@ -420,7 +420,7 @@ spec:
       - vonage-status-panel
     extraInitContainers:
       - name: "load-vm-ds-plugin"
-        image: "curlimages/curl:7.85.0"
+        image: "curlimages/curl:8.8.0"
         command: [ "/bin/sh" ]
         workingDir: "/var/lib/grafana"
         securityContext:
