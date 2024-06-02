@@ -25,7 +25,7 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    architecture: standalone
+    architecture: replication
     fullnameOverride: "redis-sentinel"
     commonConfiguration: |-
       # Enable AOF https://redis.io/topics/persistence#append-only-file
