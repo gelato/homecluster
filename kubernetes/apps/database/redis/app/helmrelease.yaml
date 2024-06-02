@@ -76,11 +76,8 @@ spec:
     sentinel:
       enabled: true
       masterSet: redis-sentinel
-    masterService:
-      enabled: true
-      type: ClusterIP
-      ports:
-        redis: 6379
+      masterService:
+        enabled: true
     networkPolicy:
       enabled: false
     metrics:
