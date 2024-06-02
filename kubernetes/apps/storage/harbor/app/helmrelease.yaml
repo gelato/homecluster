@@ -258,7 +258,7 @@ spec:
       vulnType: "os,library"
       severity: "HIGH,CRITICAL"
       ignoreUnfixed: true
-      insecure: false
+      insecure: true
       gitHubToken: ${HARBOR_GH_TOKEN}
       skipUpdate: false
       offlineScan: true
