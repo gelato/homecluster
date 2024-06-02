@@ -31,7 +31,6 @@ spec:
     ipFamily:
       ipv6:
         enabled: false
-    existingSecretAdminPassword: &secret harbor-secret
     imagePullPolicy: IfNotPresent
     updateStrategy:
       type: Recreate
@@ -75,8 +74,6 @@ spec:
       persistentVolumeClaim:
         registry:
           existingClaim: "harbor-registry"
-        chartmuseum:
-          existingClaim: "harbor-chartmuseum"
         jobservice:
           jobLog:
             existingClaim: "harbor-jobservice"
@@ -101,6 +98,10 @@ spec:
           multipartcopythresholdsize: "1073741824"
           accesskey: ${S3_ACCESS_KEY}
           secretkey: ${S3_SECRET_KEY}
+
+    existingSecretAdminPassword: "harbor-secret"
+    existingSecretAdminPasswordKey: "HARBOR_ADMIN_PASSWORD"
+
     database:
       type: external
       external:
