@@ -99,7 +99,7 @@ spec:
           accesskey: ${S3_ACCESS_KEY}
           secretkey: ${S3_SECRET_KEY}
 
-    existingSecretAdminPassword: "harbor-secret"
+    existingSecretAdminPassword: &secret "harbor-secret"
     existingSecretAdminPasswordKey: "HARBOR_ADMIN_PASSWORD"
 
     database:
