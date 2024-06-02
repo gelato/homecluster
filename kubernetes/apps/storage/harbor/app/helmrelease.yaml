@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: harbor
-      version: 1.14.0
+      version: 1.14.2
       sourceRef:
         kind: HelmRepository
         name: harbor
@@ -250,6 +250,9 @@ spec:
     notary:
       enabled: false
     trivy:
+      image:
+        repository: goharbor/trivy-adapter-photon
+        tag: v2.11.0-rc1
       replicas: 2
       vulnType: "os,library"
       severity: "HIGH,CRITICAL"
