@@ -115,7 +115,7 @@ spec:
       type: external
       external:
         sentinelMasterSet: ""
-        addr: "redis-sentinel.database.svc.cluster.local:6379"
+        addr: "redis-sentinel-master.database.svc.cluster.local:6379"
         coreDatabaseIndex: "69"
         jobserviceDatabaseIndex: "68"
         registryDatabaseIndex: "67"
