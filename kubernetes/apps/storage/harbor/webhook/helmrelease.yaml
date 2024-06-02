@@ -8,7 +8,7 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: app-template
+      chart: harbor-webhook
       version: 0.7.0
       sourceRef:
         kind: HelmRepository
