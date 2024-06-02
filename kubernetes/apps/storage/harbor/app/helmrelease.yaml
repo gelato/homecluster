@@ -258,7 +258,7 @@ spec:
       severity: "HIGH,CRITICAL"
       ignoreUnfixed: true
       insecure: true
-      gitHubToken: ${HARBOR_GH_TOKEN}
+      # gitHubToken: ${HARBOR_GH_TOKEN}
       skipUpdate: false
       offlineScan: true
       resources:
