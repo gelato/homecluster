@@ -250,6 +250,7 @@ spec:
     notary:
       enabled: false
     trivy:
+      enabled: true
       image:
         repository: aquasec/harbor-scanner-trivy
         tag: 0.31.2
