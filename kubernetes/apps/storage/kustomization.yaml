@@ -7,4 +7,4 @@ resources:
   - ./minio/ks.yaml
   - ./samba-operator/ks.yaml
   - ./samba-share/ks.yaml
-  # - ./harbor/ks.yaml
+  - ./harbor/ks.yaml
