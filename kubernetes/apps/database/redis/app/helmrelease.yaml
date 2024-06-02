@@ -46,15 +46,6 @@ spec:
     auth:
       enabled: false
       sentinel: false
-    master:
-      resources:
-        requests:
-          cpu: 10m
-          memory: 1Gi
-        limits:
-          memory: 3Gi
-      persistence:
-        enabled: false
     replica:
       replicaCount: 2
       updateStrategy:
@@ -85,6 +76,8 @@ spec:
     sentinel:
       enabled: true
       masterSet: redis-sentinel
+    masterService:
+      enabled: true
     networkPolicy:
       enabled: false
     metrics:
