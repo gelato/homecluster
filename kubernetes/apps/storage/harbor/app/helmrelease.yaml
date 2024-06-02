@@ -251,8 +251,8 @@ spec:
       enabled: false
     trivy:
       image:
-        repository: goharbor/trivy-adapter-photon
-        tag: v2.11.0-rc1
+        repository: aquasec/harbor-scanner-trivy
+        tag: 0.31.2
       replicas: 2
       vulnType: "os,library"
       severity: "HIGH,CRITICAL"
