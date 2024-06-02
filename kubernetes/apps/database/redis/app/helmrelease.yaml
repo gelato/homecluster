@@ -26,11 +26,23 @@ spec:
     keepHistory: false
   values:
     architecture: standalone
+    fullnameOverride: "redis-sentinel"
     commonConfiguration: |-
       # Enable AOF https://redis.io/topics/persistence#append-only-file
       appendonly yes
       # Disable RDB persistence, AOF persistence already enabled.
       databases 80
+      maxmemory 1800mb
+      maxmemory-policy allkeys-lru
+      maxclients 20000
+      maxmemory-samples 5
+      timeout 60
+      tcp-keepalive 300
+      lazyfree-lazy-eviction yes
+      lazyfree-lazy-expire yes
+      replica-ignore-maxmemory no
+      repl-diskless-sync yes
+      save ""
     auth:
       enabled: false
       sentinel: false
@@ -44,20 +56,43 @@ spec:
       persistence:
         enabled: false
     replica:
-      persistence:
+      replicaCount: 2
+      updateStrategy:
+        type: RollingUpdate
+      persistentVolume:
         enabled: false
+      resources:
+        requests:
+          memory: 1Gi
+          cpu: 10m
+        limits:
+          memory: 10Gi
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: redis
+                topologyKey: kubernetes.io/hostname
+            - weight: 90
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: redis
+                topologyKey: "topology.kubernetes.io/zone"
     sentinel:
-      enabled: false
-      masterSet: redis-master
-      getMasterTimeout: 10
-      startupProbe:
-        failureThreshold: 2
-      persistence:
-        enabled: false
+      enabled: true
+      masterSet: redis-sentinel
     networkPolicy:
       enabled: false
     metrics:
-      enabled: false
+      enabled: true
+      image:
+        repository: bitnami/redis-exporter
+        tag: 1.55.0-debian-11-r0
+        redisTargetHost: redis-sentinel
       serviceMonitor:
         enabled: true
-        interval: 1m
+        interval: 20s

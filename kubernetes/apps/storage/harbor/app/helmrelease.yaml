@@ -28,6 +28,9 @@ spec:
   values:
     logLevel: debug
     externalURL: "https://harbor.${SECRET_DOMAIN}"
+    ipFamily:
+      ipv6:
+        enabled: false
     existingSecretAdminPassword: &secret harbor-secret
     imagePullPolicy: IfNotPresent
     updateStrategy:
@@ -49,12 +52,13 @@ spec:
         hosts:
           core: harbor.${SECRET_DOMAIN}
         annotations:
-          ingress.kubernetes.io/ssl-redirect: "true"
-          ingress.kubernetes.io/proxy-body-size: "0"
           nginx.ingress.kubernetes.io/ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/proxy-buffering: "off"
+          nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
-          nginx.ingress.kubernetes.io/custom-http-errors: "418"
-          nginx.ingress.kubernetes.io/proxy-connect-timeout: "480"
+          nginx.ingress.kubernetes.io/proxy-connect-timeout: "15"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "1200"
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "1200"
       loadBalancer:
         name: harbor
         IP: "192.168.108.88"
@@ -80,6 +84,23 @@ spec:
             existingClaim: "harbor-jobservice-scandata"
         trivy:
           existingClaim: "harbor-trivy"
+      imageChartStorage:
+        disableredirect: true
+        type: s3
+        s3:
+          region: us-east-1
+          chunksize: "33554432"
+          storageclass: STANDARD
+          v4auth: true
+          secure: false
+          encrypt: false
+          bucket: harbor
+          regionendpoint: https://minio.storage.svc
+          multipartcopychunksize: "335544320"
+          multipartcopymaxconcurrency: 32
+          multipartcopythresholdsize: "1073741824"
+          accesskey: ${S3_ACCESS_KEY}
+          secretkey: ${S3_SECRET_KEY}
     database:
       type: external
       external:
@@ -102,85 +123,181 @@ spec:
         cacheLayerDatabaseIndex: "64"
         username: ""
         password: ""
+    portal:
+      revisionHistoryLimit: 3
+      replicas: 2
+      resources:
+        requests:
+          memory: 256Mi
+          cpu: 20m
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: portal
+                topologyKey: kubernetes.io/hostname
+            - weight: 90
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: portal
+                topologyKey: "topology.kubernetes.io/zone"
     core:
-      replicas: 1
-      revisionHistoryLimit: 10
+      revisionHistoryLimit: 3
+      serviceAccountName: ""
+      replicas: 2
       startupProbe:
         enabled: true
         initialDelaySeconds: 10
+      gdpr:
+        deleteUser: true
       resources:
-       requests:
-         memory: 256Mi
-         cpu: 10m
+        requests:
+          memory: 1Gi
+          cpu: 10m
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: core
+                topologyKey: kubernetes.io/hostname
+            - weight: 90
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: core
+                topologyKey: "topology.kubernetes.io/zone"
     jobservice:
+      revisionHistoryLimit: 3
       replicas: 1
-      revisionHistoryLimit: 10
+      maxJobWorkers: 30
+      resources:
+        requests:
+          memory: 1Gi
+          cpu: 10m
+        limits:
+          memory: 4Gi
+      reaper:
+        # the max time to wait for a task to finish, if unfinished after max_update_hours, the task will be mark as error, but the task will continue to run, default value is 24
+        max_update_hours: 24
+        # the max time for execution in running state without new task created
+        max_dangling_hours: 48
+      jobLoggers:
+        - file
+      loggerSweeperDuration: 2 #days
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: jobservice
+                topologyKey: kubernetes.io/hostname
+            - weight: 90
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: jobservice
+                topologyKey: "topology.kubernetes.io/zone"
+    registry:
+      # set the service account to be used, default if left empty
+      serviceAccountName: ""
+      registry:
+        resources:
+          requests:
+            memory: 2Gi
+            cpu: 20m
+      controller:
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 50m
+      replicas: 2
+      revisionHistoryLimit: 3
+      upload_purging:
+        enabled: true
+        age: 6h
+        interval: 1h
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: registry
+                topologyKey: kubernetes.io/hostname
+            - weight: 90
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: registry
+                topologyKey: "topology.kubernetes.io/zone"
+
+      # credentials:
+      #   username: "harbor_registry_user"
+      #   password: "secret"
+      #   htpasswd: "secret"
+
+    notary:
+      enabled: false
+    trivy:
+      replicas: 2
+      vulnType: "os,library"
+      severity: "HIGH,CRITICAL"
+      ignoreUnfixed: true
+      insecure: false
+      gitHubToken: ${HARBOR_GH_TOKEN}
+      skipUpdate: false
+      offlineScan: true
+      resources:
+        requests:
+          cpu: 10m
+          memory: 2Gi
+        limits:
+          cpu: 10m
+          memory: 4Gi
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: trivy
+                topologyKey: kubernetes.io/hostname
+    exporter:
+      replicas: 1
       resources:
         requests:
           memory: 256Mi
           cpu: 10m
-      maxJobWorkers: 10
-      jobLoggers:
-        - database
-      loggerSweeperDuration: 14
-      notification:
-        webhook_job_max_retry: 3
-        webhook_job_http_client_timeout: 3
-      reaper:
-        max_update_hours: 24
-        max_dangling_hours: 168
-    registry:
-      registry:
-        resources:
-          requests:
-            memory: 256Mi
-            cpu: 10m
-      controller:
-        resources:
-         requests:
-           memory: 256Mi
-           cpu: 10m
-      replicas: 1
-      revisionHistoryLimit: 10
-      relativeurls: true
-      credentials:
-        # If using existingSecret, the key must be REGISTRY_PASSWD and REGISTRY_HTPASSWD
-        existingSecret: "harbor-secret"
-      upload_purging:
-        enabled: true
-        age: 168h
-        # the interval of the purge operations
-        interval: 24h
-        dryrun: false
-    notary:
-      enabled: false
-    trivy:
-      enabled: true
-      replicas: 1
-      resources:
-        requests:
-          cpu: 20m
-          memory: 512Mi
-        limits:
-          cpu: 300m
-          memory: 1Gi
-      vulnType: "os,library"
-      severity: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
-      ignoreUnfixed: false
-      insecure: true
-      skipUpdate: false
-      skipJavaDBUpdate: false
-      offlineScan: false
-      securityCheck: "vuln"
-      timeout: 5m0s
-    exporter:
-      replicas: 1
-      revisionHistoryLimit: 10
-      resources:
-       requests:
-         memory: 256Mi
-         cpu: 10m
-      cacheDuration: 23
+      revisionHistoryLimit: 1
+      podAnnotations: {}
+      serviceAccountName: ""
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: exporter
+                topologyKey: kubernetes.io/hostname
+            - weight: 90
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: exporter
+                topologyKey: "topology.kubernetes.io/zone"
+      cacheDuration: 30
       cacheCleanInterval: 14400
     metrics:
       enabled: true
@@ -196,5 +313,11 @@ spec:
       exporter:
         path: /metrics
         port: 8001
-    serviceMonitor:
+      serviceMonitor:
+        enabled: true
+        interval: "60s"
+        metricRelabelings: []
+        relabelings: []
+    cache:
       enabled: true
+      expireHours: 4
