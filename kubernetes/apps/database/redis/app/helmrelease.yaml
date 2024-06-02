@@ -46,6 +46,8 @@ spec:
     auth:
       enabled: false
       sentinel: false
+    rbac:
+      create: true
     replica:
       replicaCount: 2
       updateStrategy:
@@ -58,6 +60,7 @@ spec:
           cpu: 10m
         limits:
           memory: 10Gi
+      automountServiceAccountToken: true
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
