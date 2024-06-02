@@ -250,15 +250,15 @@ spec:
       enabled: false
     trivy:
       enabled: true
-      image:
-        repository: aquasec/harbor-scanner-trivy
-        tag: 0.31.2
+      # image:
+      #   repository: aquasec/harbor-scanner-trivy
+      #   tag: 0.31.2
       replicas: 2
       vulnType: "os,library"
       severity: "HIGH,CRITICAL"
       ignoreUnfixed: true
       insecure: true
-      # gitHubToken: ${HARBOR_GH_TOKEN}
+      gitHubToken: ${HARBOR_GH_TOKEN}
       skipUpdate: false
       offlineScan: true
       resources:
@@ -266,7 +266,6 @@ spec:
           cpu: 10m
           memory: 2Gi
         limits:
-          cpu: 10m
           memory: 4Gi
       affinity:
         podAntiAffinity:
