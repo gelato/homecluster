@@ -92,7 +92,7 @@ spec:
           secure: false
           encrypt: false
           bucket: harbor
-          regionendpoint: https://minio.storage.svc
+          regionendpoint: http://minio.storage.svc
           multipartcopychunksize: "335544320"
           multipartcopymaxconcurrency: 32
           multipartcopythresholdsize: "1073741824"
