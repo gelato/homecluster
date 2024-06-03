@@ -5,4 +5,4 @@ kind: Kustomization
 resources:
   # - ./google-coral-device.yaml
   # - ./intel-gpu-device.yaml
-  # - ./zigbee-sonoff-dongle.yaml
+  - ./zigbee-sonoff-dongle.yaml
