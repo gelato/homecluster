@@ -6,8 +6,6 @@ metadata:
   name: nvidia-gpu-operator
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: node-feature-discovery
   path: ./kubernetes/apps/kube-system/nvidia-gpu-operator/app
   prune: true
   sourceRef:
