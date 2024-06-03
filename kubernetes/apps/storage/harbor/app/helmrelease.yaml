@@ -84,8 +84,8 @@ spec:
       imageChartStorage:
         disableredirect: true
         type: s3
-        filesystem:
-          rootdirectory: /storage
+        # filesystem:
+        #   rootdirectory: /storage
         s3:
           region: us-east-1
           chunksize: "33554432"
