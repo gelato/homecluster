@@ -83,7 +83,9 @@ spec:
           existingClaim: "harbor-trivy"
       imageChartStorage:
         disableredirect: true
-        type: s3
+        type: filesystem
+        filesystem:
+          rootdirectory: /storage
         s3:
           region: us-east-1
           chunksize: "33554432"
