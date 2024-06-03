@@ -83,7 +83,7 @@ spec:
           existingClaim: "harbor-trivy"
       imageChartStorage:
         disableredirect: true
-        type: filesystem
+        type: s3
         filesystem:
           rootdirectory: /storage
         s3:
