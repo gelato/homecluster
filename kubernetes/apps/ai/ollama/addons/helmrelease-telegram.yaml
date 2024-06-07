@@ -38,9 +38,9 @@ spec:
               OLLAMA_BASE_URL: "http://ollama.ai.svc"
               OLLAMA_PORT: 11434
               TIMEOUT: 20
-              TOKEN: ${TOKEN}
-              ADMIN_IDS: ${ADMIN_ID}
-              USER_IDS: ${USER_IDS}
+            envFrom:
+            - secretRef:
+                name: my-secret
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
