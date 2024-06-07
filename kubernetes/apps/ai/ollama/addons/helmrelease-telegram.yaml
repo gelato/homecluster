@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app openwebui
+  name: &app ollama-addon-telegram
 spec:
   interval: 30m
   chart:
@@ -25,7 +25,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      openwebui:
+      telegram:
         type: deployment
         annotations:
           reloader.stakater.com/auto: "true"
@@ -55,45 +55,10 @@ spec:
                 enabled: true
               startup:
                 enabled: false
-        # pod:
-        #   securityContext:
-        #     runAsUser: 568
-        #     runAsGroup: 568
-        #     runAsNonRoot: true
-        #     fsGroup: 568
-        #     fsGroupChangePolicy: OnRootMismatch
-    service:
-      app:
-        controller: openwebui
-        ports:
-          http:
-            port: 8080
-    ingress:
-      app:
-        className: external
-        annotations:
-          external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
-          nginx.ingress.kubernetes.io/auth-url: |-
-            http://ak-outpost-authentik-embedded-outpost.security.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
-          nginx.ingress.kubernetes.io/auth-signin: |-
-            https://chat.${SECRET_DOMAIN}/outpost.goauthentik.io/start?rd=$escaped_request_uri
-          nginx.ingress.kubernetes.io/auth-response-headers: |-
-            Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
-          nginx.ingress.kubernetes.io/auth-snippet: |
-            proxy_set_header X-Forwarded-Host $http_host;
-        hosts:
-          - host: &host "chat.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-    persistence:
-      config:
-        enabled: true
-        existingClaim: *app
-        globalMounts:
-          - path: /app/backend/data
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
