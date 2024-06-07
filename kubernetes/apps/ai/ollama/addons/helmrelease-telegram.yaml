@@ -34,6 +34,10 @@ spec:
             image:
               repository: ruecat/ollama-telegram
               tag: latest
+            env:
+              OLLAMA_BASE_URL: ollama.ai.svc
+              OLLAMA_PORT: 11434
+              TIMEOUT: 20
             envFrom:
             - secretRef:
                 name: ollama-telesecret
