@@ -40,6 +40,7 @@ spec:
               TIMEOUT: 20
               TOKEN: ${TOKEN}
               ADMIN_IDS: ${ADMIN_ID}
+              USER_IDS: ${USER_IDS}
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
