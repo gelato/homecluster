@@ -40,7 +40,7 @@ spec:
               TIMEOUT: 20
             envFrom:
             - secretRef:
-                name: my-secret
+                name: ollama-telesecret
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
