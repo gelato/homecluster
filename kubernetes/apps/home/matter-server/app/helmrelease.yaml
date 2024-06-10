@@ -99,5 +99,3 @@ spec:
         tls:
           - hosts:
               - *host
-        tls:
-          - hosts: [*host]
