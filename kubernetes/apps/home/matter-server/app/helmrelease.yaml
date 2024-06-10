@@ -110,6 +110,3 @@ spec:
                 service:
                   identifier: app
                   port: api
-        tls:
-          - hosts:
-              - *host
