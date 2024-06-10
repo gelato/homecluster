@@ -48,7 +48,7 @@ spec:
               TZ: "${TIMEZONE}"
               MATTER_SERVER__INSTANCE_NAME: Matter-Server
               MATTER_SERVER__PORT: &port 5580
-              MATTER_SERVER__APPLICATION_URL: &host matter.skynerv.com
+              MATTER_SERVER__APPLICATION_URL: &host matter.${SECRET_DOMAIN}
               MATTER_SERVER__LOG_LEVEL: info
             probes:
               liveness:
@@ -90,11 +90,14 @@ spec:
       app:
         className: internal
         hosts:
-        - host: *host
-          paths:
-          - path: /
-            service:
-              identifier: app
-              port: http
+          - host: *host
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
         tls:
           - hosts: [*host]
