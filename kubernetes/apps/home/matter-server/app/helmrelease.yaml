@@ -30,12 +30,12 @@ spec:
         type: statefulset
         annotations:
           reloader.stakater.com/auto: "true"
-          k8s.v1.cni.cncf.io/networks: |
-            [{
-              "name":"multus-iot",
-              "namespace": "network",
-              "ips": ["192.168.108.111/24"]
-            }]
+          # k8s.v1.cni.cncf.io/networks: |
+          #   [{
+          #     "name":"multus-iot",
+          #     "namespace": "network",
+          #     "ips": ["192.168.108.111/24"]
+          #   }]
         pod:
           securityContext:
             runAsUser: 568
