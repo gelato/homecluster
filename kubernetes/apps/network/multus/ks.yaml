@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: multus
+  name: &app multus
   namespace: flux-system
 spec:
   targetNamespace: network
@@ -28,7 +28,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: multus-components
+  name: &app multus-components
   namespace: flux-system
 spec:
   targetNamespace: network
