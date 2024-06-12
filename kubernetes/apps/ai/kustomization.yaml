@@ -5,4 +5,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./ollama/ks.yaml
-  - ./stable-diffusion/ks.yaml
+  # - ./stable-diffusion/ks.yaml
