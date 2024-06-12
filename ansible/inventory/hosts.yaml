@@ -8,7 +8,7 @@ kubernetes:
           ansible_host: "192.168.108.149"
         "sart":
           ansible_user: "root"
-          ansible_host: "192.168.108.212"
+          ansible_host: "192.168.108.209"
         "eri":
           ansible_user: "root"
           ansible_host: "192.168.108.238"
@@ -19,4 +19,4 @@ kubernetes:
           ansible_host: "192.168.108.199"
         "weilai":
           ansible_user: "root"
-          ansible_host: "192.168.108.209"
+          ansible_host: "192.168.108.212"
