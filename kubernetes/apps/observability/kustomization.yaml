@@ -11,6 +11,6 @@ resources:
   - ./smartctl-exporter/ks.yaml
   # - ./unpoller/ks.yaml
   - ./vector/ks.yaml
-  # - ./victoria-metrics/ks.yaml
+  - ./victoria-metrics/ks.yaml
   - ./grafana/ks.yaml
   # - ./ntfy/ks.yaml
