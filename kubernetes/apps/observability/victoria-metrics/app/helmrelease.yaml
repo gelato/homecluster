@@ -262,15 +262,9 @@ spec:
         # this can be configured directly in chart but it can
         #   be a bit unweildy to manage
         configSecret: alertmanager-secret
-        # I needed this for talos using local-hostpath - YMMV
-        #
-        securityContext:
-          runAsGroup: 2000
-          runAsNonRoot: true
-          runAsUser: 1000
-          fsGroup: 2000
-          seccompProfile:
-            type: RuntimeDefault
+
+        secrets:
+          - alertmanager-pushover-secret
 
         storage:
           volumeClaimTemplate:
