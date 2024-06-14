@@ -122,7 +122,7 @@ spec:
           extraArgs:
             dedup.minScrapeInterval: 30s
             search.minStalenessInterval: 5m
-            vmalert.proxyURL: http://vmaler.${SECRET_DOMAIN}
+            vmalert.proxyURL: http://vmalert.${SECRET_DOMAIN}
           storage:
             volumeClaimTemplate:
               spec:
