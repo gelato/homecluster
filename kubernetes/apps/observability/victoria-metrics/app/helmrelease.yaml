@@ -334,6 +334,17 @@ spec:
         # wheter we should create a service scrape resource for node-exporter
         enabled: true
 
+        # spec for VMServiceScrape crd
+        # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
+        spec:
+          jobLabel: app.kubernetes.io/instance
+          endpoints:
+            - port: metrics
+              metricRelabelConfigs:
+                - action: drop
+                  source_labels: [mountpoint]
+                  regex: "/var/lib/kubelet/pods.+"
+
 
     # Scrape configs
     kubelet:
@@ -383,6 +394,23 @@ spec:
           - sourceLabels: ["__name__"]
             regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
             action: drop
+        endpoints:
+          - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+            # bearerTokenSecret:
+            #   key: ""
+            port: https
+            scheme: https
+            tlsConfig:
+              caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+              serverName: kubernetes
+        jobLabel: component
+        namespaceSelector:
+          matchNames:
+            - kube-system
+        selector:
+          matchLabels:
+            component: apiserver
+            provider: kubernetes
 
     # Add kubeControllerManager scrape
     kubeControllerManager:
@@ -421,6 +449,16 @@ spec:
     # Add kubeScheduler scrape
     kubeScheduler:
       enabled: false
+      endpoints: *cp
+      service:
+        enabled: true
+        port: 10259
+        targetPort: 10259
+
+      spec:
+        endpoints:
+          - port: http-metrics
+            insecureSkipVerify: true
 
     # Add kubeEtcd scrape
     kubeEtcd:
