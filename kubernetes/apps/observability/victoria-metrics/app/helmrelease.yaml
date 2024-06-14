@@ -21,7 +21,6 @@ spec:
       retries: 3
   upgrade:
     cleanupOnFail: true
-    crds: CreateReplace
     remediation:
       retries: 3
   uninstall:
@@ -37,64 +36,25 @@ spec:
       operator:
         disable_prometheus_converter: false # Ensure we keep enabled the converter to sync prom rules to VM rules
         enable_converter_ownership: true # Required to allow VM to remove VM rules it imports if a prometheus rule is deleted
-      env:
-        - name: VM_VMSINGLEDEFAULT_CONFIGRELOADERCPU
-          value: 100m
-        - name: VM_VMSINGLEDEFAULT_CONFIGRELOADERMEMORY
-          value: 100Mi
-        - name: VM_VMALERTDEFAULT_CONFIGRELOADERCPU
-          value: 100m
-        - name: VM_VMALERTDEFAULT_CONFIGRELOADERMEMORY
-          value: 100Mi
-        - name: VM_VMAGENTDEFAULT_CONFIGRELOADERCPU
-          value: 100m
-        - name: VM_VMAGENTDEFAULT_CONFIGRELOADERMEMORY
-          value: 100Mi
-        - name: VM_VMALERTMANAGER_CONFIGRELOADERCPU
-          value: 100m
-        - name: VM_VMALERTMANAGER_CONFIGRELOADERMEMORY
-          value: 100Mi
-      resources:
-        requests:
-          cpu: 20m
-          memory: 100Mi
-          ephemeral-storage: 1Gi
-        limits:
-          memory: 100Mi
-          ephemeral-storage: 2Gi
     serviceAccount:
       # -- Specifies whether a service account should be created
       create: true
     # Main VM Cluster in HA mode.
-     # Main VM Cluster in HA mode.
     vmcluster:
       enabled: true
       spec:
         # Duration to keep metrics
         retentionPeriod: "2" # this is months unless a character prefix is added (1d, 1w, etc)
         extraArgs:
-          dedup.minScrapeInterval: 30s
+          dedup.minScrapeInterval: "60s" # Only needed for HA
         replicationFactor: 3
         # Storage backend
         vmstorage:
-          replicaCount: 3
+          replicaCount: 3 # HA - but prefer 3 as i have 3 notes & using local-hostpath
           # required for HA vmagents
-          resources:
-            requests:
-              cpu: 100m
-              memory: 512Mi
-            limits:
-              cpu: 500m
-              memory: 1536Mi
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: vmstorage
           extraArgs:
-            dedup.minScrapeInterval: 30s
+            dedup.minScrapeInterval: 60s # Only needed for HA
+            search.maxConcurrentRequests: "6"
           storage:
             volumeClaimTemplate:
               spec:
@@ -104,26 +64,19 @@ spec:
                     storage: 20Gi
         # Query backend
         vmselect:
-          replicaCount: 2 # HA
-          resources:
-            requests:
-              cpu: 100m
-              memory: 256Mi
-            limits:
-              cpu: 750m
-              memory: 2Gi
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: vmselect
+          replicaCount: 3 # HA
           cacheMountPath: /select-cache
           extraArgs:
-            dedup.minScrapeInterval: 30s
-            search.minStalenessInterval: 5m
-            vmalert.proxyURL: http://vmalert.${SECRET_DOMAIN}
+            dedup.minScrapeInterval: "60s" # should be equal to VMAgent's scrapeInterval (default 30s)
+            search.minStalenessInterval: "5m"
+            search.maxConcurrentRequests: "6"
+            vmalert.proxyURL: "http://vmalert.${SECRET_DOMAIN}"
+          resources:
+            requests:
+              cpu: 205m
+              memory: 500Mi
+            limits:
+              memory: 2Gi
           storage:
             volumeClaimTemplate:
               spec:
@@ -134,46 +87,58 @@ spec:
         # Data ingestion backend
         vminsert:
           replicaCount: 2 # HA
-          resources:
-            requests:
-              cpu: 100m
-              memory: 256Mi
-            limits:
-              cpu: 500m
-              memory: 256Mi
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: vminsert
           extraArgs:
             maxLabelsPerTimeseries: "90" # More needed if you are scraping a LOT of stuff and having issues
+            # insert.maxConcurrentRequests: 10
+          resources:
+            requests:
+              cpu: 105m
+              memory: 300Mi
+            limits:
+              memory: 600Mi
+      ingress:
+        storage:
+          enabled: true
+          ingressClassName: internal
+          hosts:
+            - &hoststorage vmstorage.${SECRET_DOMAIN}
+          tls:
+            - hosts:
+                - *hoststorage
 
-      # VM Alerting (however, this just watches & passes alerts to alertmanager)
+        select:
+          enabled: true
+          ingressClassName: internal
+          hosts:
+            - &hostselect vmselect.${SECRET_DOMAIN}
+          tls:
+            - hosts:
+                - *hostselect
+
+        insert:
+          enabled: true
+          ingressClassName: internal
+          hosts:
+            - &hostinsert vminsert.${SECRET_DOMAIN}
+          tls:
+            - hosts:
+                - *hostinsert
+    # VM Alerting (however, this just watches & passes alerts to prom-alertmanager below...)
     vmalert:
       enabled: true
       spec:
-        replicaCount: 2
-        resources:
-          requests:
-            cpu: 50m
-            memory: 128Mi
-          limits:
-            cpu: 150m
-            memory: 256Mi
-        topologySpreadConstraints:
-          - maxSkew: 1
-            topologyKey: kubernetes.io/hostname
-            whenUnsatisfiable: DoNotSchedule
-            labelSelector:
-              matchLabels:
-                app.kubernetes.io/name: vmalert
-        extraArgs:
-          external.url: https://vmalert.${SECRET_DOMAIN}
+        replicaCount: 2 # HA
+        evaluationInterval: "60s"
         notifiers:
-          - url: http://vmalertmanager-victoria-metrics.observability.svc.cluster.local:9093
+          - selector:
+              namespaceSelector:
+                matchNames:
+                  - observability
+                  - kube-system
+                  - storage
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: victoria-metrics-k8s-stack
       ingress:
         enabled: true
         ingressClassName: internal
@@ -183,32 +148,29 @@ spec:
           - hosts:
               - *hostalert
 
-     # VM Data scraping
+    # VM Data scraping
     vmagent:
       enabled: true
       spec:
-        replicaCount: 1
-        shardCount: 2
-        scrapeInterval: 30s
-        externalLabels:
-          cluster: main
-        resources:
-          requests:
-            cpu: 50m
-            memory: 256Mi
-          limits:
-            cpu: 400m
-            memory: 512Mi
-        topologySpreadConstraints:
-          - maxSkew: 1
-            topologyKey: kubernetes.io/hostname
-            whenUnsatisfiable: DoNotSchedule
-            labelSelector:
-              matchLabels:
-                app.kubernetes.io/name: vmagent
+        replicaCount: 2
+        shardCount: 3
+        scrapeInterval: "60s"
         additionalScrapeConfigs:
           name: vm-additional-scrape-configs
           key: prometheus-additional.yaml
+        extraArgs:
+          promscrape.streamParse: "true"
+          # Do not store original labels in vmagent's memory by default. This reduces the amount of memory used by vmagent
+          # but makes vmagent debugging UI less informative. See: https://docs.victoriametrics.com/vmagent/#relabel-debug
+          promscrape.dropOriginalLabels: "false"
+        externalLabels:
+          cluster: ark
+        resources:
+          requests:
+            cpu: 205m
+            memory: 500Mi
+          limits:
+            memory: 2Gi
       ingress:
         enabled: true
         ingressClassName: internal
@@ -226,7 +188,6 @@ spec:
         tls:
           - hosts:
               - *hostagent
-
     # Single-binary vm cluster alternative (liteweight, non-HA)
     vmsingle:
       enabled: false
@@ -244,30 +205,31 @@ spec:
       rules:
         etcd: true
         general: true
-        k8s: true
-        kubeApiserver: true
-        kubeApiserverAvailability: true
-        kubeApiserverBurnrate: true
-        kubeApiserverHistogram: true
-        kubeApiserverSlos: true
-        kubelet: true
+        k8s: false
+        kubeApiserver: false
+        kubeApiserverAvailability: false
+        kubeApiserverBurnrate: false
+        kubeApiserverHistogram: false
+        kubeApiserverSlos: false
+        kubelet: false
         kubePrometheusGeneral: true
         kubePrometheusNodeRecording: true
-        kubernetesApps: true
-        kubernetesResources: true
-        kubernetesStorage: true
-        kubernetesSystem: true
-        kubeScheduler: true
+        kubernetesApps: false
+        kubernetesResources: false
+        kubernetesStorage: false
+        kubernetesSystem: false
+        kubeScheduler: false
         kubeStateMetrics: true
         network: true
         node: true
-        vmagent: true
-        vmsingle: true
-        vmhealth: true
+        vmagent: false
+        vmsingle: false
+        vmcluster: false
+        vmhealth: false
         alertmanager: true
 
       # -- Runbook url prefix for default rules
-      runbookUrl: https://runbooks.${SECRET_DOMAIN}
+      runbookUrl: https://runbooks.skynerv.com
 
       ## Reduce app namespace alert scope
       appNamespacesTarget: ".*"
@@ -321,13 +283,6 @@ spec:
     # prometheus-node-exporter dependency chart configuration. For possible values refer to https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-node-exporter/values.yaml
     prometheus-node-exporter:
       enabled: true
-      prometheus:
-        monitor:
-          relabelings:
-            - action: replace
-              targetLabel: "instance"
-              sourceLabels:
-                - "__meta_kubernetes_pod_node_name"
 
       ## all values for prometheus-node-exporter helm chart can be specified here
       podLabels:
@@ -353,56 +308,41 @@ spec:
                   source_labels: [mountpoint]
                   regex: "/var/lib/kubelet/pods.+"
 
+    # kube-state-metrics dependency chart configuration. For possible values refer to https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-state-metrics/values.yaml
+    kube-state-metrics:
+      enabled: true
+      prometheus:
+        monitor:
+          enabled: true
 
-    # Scrape configs
+
+    # Add Kubelet scrape
     kubelet:
       enabled: true
+      # -- Enable scraping /metrics/cadvisor from kubelet's service
+      cadvisor: true
+      # -- Enable scraping /metrics/probes from kubelet's service
+      probes: true
+      # spec for VMNodeScrape crd
+      # https://docs.victoriametrics.com/operator/api.html#vmnodescrapespec
       spec:
-        interval: 30s
-        serviceMonitor:
-          cAdvisorRelabelings:
-            - action: replace
-              sourceLabels: [__metrics_path__]
-              targetLabel: metrics_path
-            - action: replace
-              targetLabel: instance
-              sourceLabels:
-                - "node"
-          relabelings:
-            - action: replace
-              sourceLabels: [__metrics_path__]
-              targetLabel: metrics_path
-          metricRelabelings:
-            - action: drop
-              regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
-              sourceLabels: [__name__]
-            - action: drop
-              regex: "etcd_request_duration_seconds_bucket"
-              sourceLabels: [__name__]
-            - action: drop
-              regex: (scheduler_plugin_execution_duration_seconds_bucket)
-              sourceLabels: [__name__]
-            - action: drop
-              regex: (workqueue_work_duration_seconds_bucket)
-              sourceLabels: [__name__]
+        scheme: "https"
+        honorLabels: true
+        interval: "30s"
+        scrapeTimeout: "5s"
+        tlsConfig:
+          insecureSkipVerify: true
+          caFile: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+        bearerTokenFile: "/var/run/secrets/kubernetes.io/serviceaccount/token"
         # drop high cardinality label and useless metrics for cadvisor and kubelet
         metricRelabelConfigs:
           - action: labeldrop
-            regex: (uid|pod_uid|id)
+            regex: (uid)
           - action: labeldrop
-            regex: (name)
+            regex: (id|name)
           - action: drop
             source_labels: [__name__]
             regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
-          - action: drop
-            source_labels: [__name__]
-            regex: (container_tasks_state|container_memory_failures_total)
-          - action: drop
-            source_labels: [__name__]
-            regex: (container_blkio_device_usage_total)
-          - action: drop
-            source_labels: [__name__]
-            regex: (prober_probe_duration_seconds_bucket)
         relabelConfigs:
           - action: labelmap
             regex: __meta_kubernetes_node_label_(.+)
@@ -410,36 +350,15 @@ spec:
             targetLabel: metrics_path
           - targetLabel: "job"
             replacement: "kubelet"
-
-
-    # kube-state-metrics dependency chart configuration. For possible values refer to https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-state-metrics/values.yaml
-    kube-state-metrics:
-      enabled: true
-      prometheus:
-        monitor:
-          relabelings:
-            - action: replace
-              targetLabel: "instance"
-              sourceLabels:
-                - "__meta_kubernetes_pod_node_name"
+        # ignore timestamps of cadvisor's metrics by default
+        # more info here https://github.com/VictoriaMetrics/VictoriaMetrics/issues/4697#issuecomment-1656540535
+        honorTimestamps: false
 
     # Add Kubeapi scrape
     kubeApiServer:
       enabled: true
-      serviceMonitor:
-        metricRelabelings:
-          - action: drop
-            regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
-            sourceLabels: [__name__]
-          - action: drop
-            regex: "etcd_request_duration_seconds_bucket"
-            sourceLabels: [__name__]
-          - action: drop
-            regex: (scheduler_plugin_execution_duration_seconds_bucket)
-            sourceLabels: [__name__]
-          - action: drop
-            regex: (workqueue_work_duration_seconds_bucket)
-            sourceLabels: [__name__]
+      # spec for VMServiceScrape crd
+      # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
       spec:
         endpoints:
           - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
@@ -464,38 +383,21 @@ spec:
       enabled: true
       endpoints: &cp
         - 192.168.108.149
-        - 192.168.108.238
-        - 192.168.108.209
       service:
         enabled: true
-        port: 10257
-        targetPort: 10257
-      serviceMonitor:
-        enabled: true
-        https: true
-        insecureSkipVerify: true
-        metricRelabelings:
-          - action: drop
-            regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
-            sourceLabels: [__name__]
-          - action: drop
-            regex: "etcd_request_duration_seconds_bucket"
-            sourceLabels: [__name__]
-          - action: drop
-            regex: (scheduler_plugin_execution_duration_seconds_bucket)
-            sourceLabels: [__name__]
-          - action: drop
-            regex: (workqueue_work_duration_seconds_bucket)
-            sourceLabels: [__name__]
+        port: 10259
+        targetPort: 10259
       spec:
-        scheme: "https"
-        honorLabels: true
-        interval: "30s"
-        scrapeTimeout: "5s"
-        tlsConfig:
-          insecureSkipVerify: true
-          caFile: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-        bearerTokenFile: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+        jobLabel: component
+        endpoints:
+          - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+            # bearerTokenSecret:
+            #   key: ""
+            port: http-metrics
+            scheme: https
+            tlsConfig:
+              caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+              serverName: kubernetes
 
     # -Component scraping kubeDns. Use either this or coreDns
     kubeDns:
@@ -503,8 +405,6 @@ spec:
 
     # -- Component scraping coreDns. Use either this or kubeDns
     coreDns:
-      spec:
-        jobLabel: "jobLabel"
       enabled: true
       service:
         enabled: true
@@ -512,46 +412,23 @@ spec:
         targetPort: 9153
         selector:
           k8s-app: kube-dns
-      serviceMonitor:
-        metricRelabelings:
-          - action: drop
-            regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
-            sourceLabels: [__name__]
-          - action: drop
-            regex: "etcd_request_duration_seconds_bucket"
-            sourceLabels: [__name__]
-          - action: drop
-            regex: (scheduler_plugin_execution_duration_seconds_bucket)
-            sourceLabels: [__name__]
-          - action: drop
-            regex: (workqueue_work_duration_seconds_bucket)
-            sourceLabels: [__name__]
+      # spec for VMServiceScrape crd
+      # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
+      spec:
+        jobLabel: component
+        endpoints:
+          - port: http-metrics
+            bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
 
     # Add kubeScheduler scrape
     kubeScheduler:
-      enabled: true
+      enabled: false
       endpoints: *cp
       service:
         enabled: true
         port: 10259
         targetPort: 10259
-      serviceMonitor:
-        enabled: true
-        https: true
-        insecureSkipVerify: true
-        metricRelabelings:
-          - action: drop
-            regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
-            sourceLabels: [__name__]
-          - action: drop
-            regex: "etcd_request_duration_seconds_bucket"
-            sourceLabels: [__name__]
-          - action: drop
-            regex: (scheduler_plugin_execution_duration_seconds_bucket)
-            sourceLabels: [__name__]
-          - action: drop
-            regex: (workqueue_work_duration_seconds_bucket)
-            sourceLabels: [__name__]
+
       spec:
         endpoints:
           - port: http-metrics
@@ -565,25 +442,14 @@ spec:
         enabled: true
         port: 2381
         targetPort: 2381
-      serviceMonitor:
-        metricRelabelings:
-          - action: drop
-            regex: (apiserver_request_duration_seconds_bucket|apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket|apiserver_request_sli_duration_seconds_bucket)
-            sourceLabels: [__name__]
-          - action: drop
-            regex: "etcd_request_duration_seconds_bucket"
-            sourceLabels: [__name__]
-          - action: drop
-            regex: (scheduler_plugin_execution_duration_seconds_bucket)
-            sourceLabels: [__name__]
-          - action: drop
-            regex: (workqueue_work_duration_seconds_bucket)
-            sourceLabels: [__name__]
       spec:
         endpoints:
           - port: http-metrics
             scheme: http
 
+    # Enable deployment of grafana
+    # I chose to deploy this seperately and manage it myself
+    #   insetad of trusting the stack chart
     grafana:
       enabled: false
 
