@@ -149,7 +149,7 @@ spec:
                   app.kubernetes.io/name: vminsert
           extraArgs:
             maxLabelsPerTimeseries: "90" # More needed if you are scraping a LOT of stuff and having issues
-            
+
       # VM Alerting (however, this just watches & passes alerts to alertmanager)
     vmalert:
       enabled: true
@@ -172,7 +172,7 @@ spec:
         extraArgs:
           external.url: https://vmalert.${SECRET_DOMAIN}
         notifiers:
-          - url: http://alertmanager.observability.svc.cluster.local:9093
+          - url: http://vmalertmanager-victoria-metrics.observability.svc.cluster.local:9093
       ingress:
         enabled: true
         ingressClassName: internal
@@ -294,7 +294,7 @@ spec:
               - *hostam
       spec:
         externalURL: https://alertmanager.${SECRET_DOMAIN}
-        replicaCount: 1
+        replicaCount: 2
         # Import Alertmanager config from a existing secret
         # this can be configured directly in chart but it can
         #   be a bit unweildy to manage
