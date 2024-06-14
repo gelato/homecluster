@@ -440,6 +440,24 @@ spec:
           - action: drop
             regex: (workqueue_work_duration_seconds_bucket)
             sourceLabels: [__name__]
+      spec:
+        endpoints:
+          - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+            # bearerTokenSecret:
+            #   key: ""
+            port: https
+            scheme: https
+            tlsConfig:
+              caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+              serverName: kubernetes
+        jobLabel: component
+        namespaceSelector:
+          matchNames:
+            - kube-system
+        selector:
+          matchLabels:
+            component: apiserver
+            provider: kubernetes
 
     # Add kubeControllerManager scrape
     kubeControllerManager:
