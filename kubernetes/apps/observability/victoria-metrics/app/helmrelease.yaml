@@ -122,7 +122,7 @@ spec:
           extraArgs:
             dedup.minScrapeInterval: 30s
             search.minStalenessInterval: 5m
-            vmalert.proxyURL: http://vmalert-victoria-metrics:8080
+            vmalert.proxyURL: http://vmaler.${SECRET_DOMAIN}
           storage:
             volumeClaimTemplate:
               spec:
@@ -149,6 +149,7 @@ spec:
                   app.kubernetes.io/name: vminsert
           extraArgs:
             maxLabelsPerTimeseries: "90" # More needed if you are scraping a LOT of stuff and having issues
+            
       # VM Alerting (however, this just watches & passes alerts to alertmanager)
     vmalert:
       enabled: true
