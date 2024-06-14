@@ -50,52 +50,81 @@ spec:
         replicationFactor: 3
         # Storage backend
         vmstorage:
-          replicaCount: 3 # HA - but prefer 3 as i have 3 notes & using local-hostpath
+          replicaCount: 3
           # required for HA vmagents
-          extraArgs:
-            dedup.minScrapeInterval: 60s # Only needed for HA
-            search.maxConcurrentRequests: "6"
-          storage:
-            volumeClaimTemplate:
-              spec:
-                storageClassName: longhorn-storage
-                resources:
-                  requests:
-                    storage: 20Gi
-        # Query backend
-        vmselect:
-          replicaCount: 3 # HA
-          cacheMountPath: /select-cache
-          extraArgs:
-            dedup.minScrapeInterval: "60s" # should be equal to VMAgent's scrapeInterval (default 30s)
-            search.minStalenessInterval: "5m"
-            search.maxConcurrentRequests: "6"
-            vmalert.proxyURL: "http://vmalert.${SECRET_DOMAIN}"
           resources:
             requests:
-              cpu: 205m
-              memory: 500Mi
+              cpu: 100m
+              memory: 512Mi
             limits:
-              memory: 2Gi
+              cpu: 500m
+              memory: 1536Mi
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: vmstorage
+          extraArgs:
+            dedup.minScrapeInterval: 30s
           storage:
             volumeClaimTemplate:
               spec:
-                storageClassName: longhorn-storage
+                storageClassName: longhorn-fast
+                resources:
+                  requests:
+                    storage: 10Gi
+         # Query backend
+        vmselect:
+          replicaCount: 2 # HA
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 750m
+              memory: 2Gi
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: vmselect
+          cacheMountPath: /select-cache
+          extraArgs:
+            dedup.minScrapeInterval: 30s
+            search.minStalenessInterval: 5m
+            vmalert.proxyURL: http://vmalert.${SECRET_DOMAIN}
+          storage:
+            volumeClaimTemplate:
+              spec:
+                storageClassName: longhorn-fast
                 resources:
                   requests:
                     storage: 2Gi
+
         # Data ingestion backend
         vminsert:
           replicaCount: 2 # HA
-          extraArgs:
-            maxLabelsPerTimeseries: "90" # More needed if you are scraping a LOT of stuff and having issues
-            # insert.maxConcurrentRequests: 10
           resources:
             requests:
-              cpu: 105m
-              memory: 300Mi
+              cpu: 100m
+              memory: 256Mi
             limits:
-              memory: 600Mi
+              cpu: 500m
+              memory: 256Mi
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: vminsert
+          extraArgs:
+            maxLabelsPerTimeseries: "90" # More needed if you are scraping a LOT of stuff and having issues
+
       ingress:
         storage:
           enabled: true
@@ -123,27 +152,34 @@ spec:
           tls:
             - hosts:
                 - *hostinsert
-    # VM Alerting (however, this just watches & passes alerts to prom-alertmanager below...)
+    # VM Alerting (however, this just watches & passes alerts to alertmanager)
     vmalert:
       enabled: true
       spec:
-        replicaCount: 2 # HA
-        evaluationInterval: "60s"
+        replicaCount: 2
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            cpu: 150m
+            memory: 256Mi
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: vmalert
+        extraArgs:
+          external.url: https://vmalert.${SECRET_DOMAIN}
         notifiers:
-          - selector:
-              namespaceSelector:
-                matchNames:
-                  - observability
-                  - kube-system
-                  - storage
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: victoria-metrics-k8s-stack
+          - url: http://alertmanager.observability.svc.cluster.local:9093
       ingress:
         enabled: true
         ingressClassName: internal
         hosts:
-          - &hostalert vmalert.${SECRET_DOMAIN}
+          - vmalert.${SECRET_DOMAIN}
         tls:
           - hosts:
               - *hostalert
@@ -152,25 +188,28 @@ spec:
     vmagent:
       enabled: true
       spec:
-        replicaCount: 2
-        shardCount: 3
-        scrapeInterval: "60s"
-        additionalScrapeConfigs:
-          name: vm-additional-scrape-configs
-          key: prometheus-additional.yaml
-        extraArgs:
-          promscrape.streamParse: "true"
-          # Do not store original labels in vmagent's memory by default. This reduces the amount of memory used by vmagent
-          # but makes vmagent debugging UI less informative. See: https://docs.victoriametrics.com/vmagent/#relabel-debug
-          promscrape.dropOriginalLabels: "false"
+        replicaCount: 1
+        shardCount: 2
+        scrapeInterval: 30s
         externalLabels:
           cluster: ark
         resources:
           requests:
-            cpu: 205m
-            memory: 500Mi
+            cpu: 50m
+            memory: 256Mi
           limits:
+            cpu: 400m
             memory: 2Gi
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: vmagent
+        additionalScrapeConfigs:
+          name: vm-additional-scrape-configs
+          key: prometheus-additional.yaml
       ingress:
         enabled: true
         ingressClassName: internal
@@ -245,7 +284,7 @@ spec:
     # VMalert isnt fully featured and VM acknowledge its a favourite
     # for example,
     alertmanager:
-      # enabled: false
+      enabled: false
 
       ingress:
         enabled: true
