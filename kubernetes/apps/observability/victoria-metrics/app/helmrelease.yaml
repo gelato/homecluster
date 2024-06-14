@@ -487,6 +487,15 @@ spec:
           - action: drop
             regex: (workqueue_work_duration_seconds_bucket)
             sourceLabels: [__name__]
+      spec:
+        scheme: "https"
+        honorLabels: true
+        interval: "30s"
+        scrapeTimeout: "5s"
+        tlsConfig:
+          insecureSkipVerify: true
+          caFile: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+        bearerTokenFile: "/var/run/secrets/kubernetes.io/serviceaccount/token"
 
     # -Component scraping kubeDns. Use either this or coreDns
     kubeDns:
@@ -543,6 +552,10 @@ spec:
           - action: drop
             regex: (workqueue_work_duration_seconds_bucket)
             sourceLabels: [__name__]
+      spec:
+        endpoints:
+          - port: http-metrics
+            insecureSkipVerify: true
 
     # Add kubeEtcd scrape
     kubeEtcd:
@@ -566,6 +579,10 @@ spec:
           - action: drop
             regex: (workqueue_work_duration_seconds_bucket)
             sourceLabels: [__name__]
+      spec:
+        endpoints:
+          - port: http-metrics
+            scheme: http
 
     grafana:
       enabled: false
