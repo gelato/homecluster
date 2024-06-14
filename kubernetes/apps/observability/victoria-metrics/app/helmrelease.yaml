@@ -294,7 +294,7 @@ spec:
               - *hostam
       spec:
         externalURL: https://alertmanager.${SECRET_DOMAIN}
-        replicaCount: 2
+        replicaCount: 1
         # Import Alertmanager config from a existing secret
         # this can be configured directly in chart but it can
         #   be a bit unweildy to manage
