@@ -20,6 +20,28 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: &app alertmanager
+  namespace: flux-system
+  labels:
+    substitution.flux.home.arpa/enabled: "true"
+spec:
+  targetNamespace: observability
+  path: "./kubernetes/apps/observability/victoria-metrics/alertmanager/"
+  prune: true
+  wait: false
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes
+  interval: 30m
+  retryInterval: 1m
+  timeout: 3m
+  postBuild:
+    substitute:
+      APP: *app
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: &app victoriametrics
   namespace: flux-system
   labels:
@@ -28,6 +50,7 @@ spec:
   targetNamespace: observability
   dependsOn:
     - name: victoriametrics-crd
+    - name: alertmanager
     - name: longhorn
   path: "./kubernetes/apps/observability/victoria-metrics/app/"
   prune: true
