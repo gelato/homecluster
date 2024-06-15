@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./scrapes/extrascrapes.yaml
-  - ./alertmanagerconfig.yaml
   # - ./scrapes/vmpodscrape.yaml
   - ./scrapes/servicescrape.yaml
   - ./rules/oom.yaml
