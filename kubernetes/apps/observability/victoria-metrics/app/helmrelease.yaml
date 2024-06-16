@@ -416,7 +416,7 @@ spec:
 
       ## If your kube controller manager is not deployed as a pod, specify IPs it can be found on
       ##
-      endpoints:
+      endpoints: &cp
         - 192.168.108.250
 
       ## If using kubeControllerManager.endpoints only the port and targetPort are used
