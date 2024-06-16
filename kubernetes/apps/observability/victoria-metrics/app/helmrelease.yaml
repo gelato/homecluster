@@ -363,7 +363,7 @@ spec:
       # spec for VMServiceScrape crd
       # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
       spec:
-        jobLabel: component
+        jobLabel: kube-dns
         endpoints:
           - port: http-metrics
             bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
