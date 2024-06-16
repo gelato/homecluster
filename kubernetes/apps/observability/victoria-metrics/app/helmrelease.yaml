@@ -410,17 +410,28 @@ spec:
             component: apiserver
             provider: kubernetes
 
-    # Add kubeControllerManager scrape
+   # -- Component scraping the kube controller manager
     kubeControllerManager:
       enabled: true
-      endpoints: &cp
-        - 192.168.108.149
+
+      ## If your kube controller manager is not deployed as a pod, specify IPs it can be found on
+      ##
+      endpoints:
+        - 192.168.108.250
+
+      ## If using kubeControllerManager.endpoints only the port and targetPort are used
+      ##
       service:
         enabled: true
-        port: 10259
-        targetPort: 10259
+        port: 10257
+        targetPort: 10257
+        # selector:
+        #   component: kube-controller-manager
+
+      # spec for VMServiceScrape crd
+      # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
       spec:
-        jobLabel: component
+        jobLabel: jobLabel
         endpoints:
           - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
             # bearerTokenSecret:
@@ -429,7 +440,7 @@ spec:
             scheme: https
             tlsConfig:
               caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-              serverName: kubernetes
+              serverName: ark
 
     # -Component scraping kubeDns. Use either this or coreDns
     kubeDns:
