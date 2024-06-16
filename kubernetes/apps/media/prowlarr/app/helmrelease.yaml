@@ -96,7 +96,7 @@ spec:
           - hosts:
               - *host
 
-     persistence:
+    persistence:
       config:
         existingClaim: prowlarr-config
       tmp:
