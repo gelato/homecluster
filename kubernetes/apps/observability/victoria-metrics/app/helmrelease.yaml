@@ -302,7 +302,7 @@ spec:
             tlsConfig:
               caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
               serverName: localhost
-        jobLabel: component
+        jobLabel: kube-apiserver
         namespaceSelector:
           matchNames:
             - kube-system
