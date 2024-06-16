@@ -333,8 +333,6 @@ spec:
         - 192.168.108.238
       service:
         enabled: true
-        port: 10259
-        targetPort: 10259
       spec:
         metricRelabelConfigs:
           # Remove duplicate metrics
@@ -358,8 +356,6 @@ spec:
       enabled: true
       service:
         enabled: true
-        port: 9153
-        targetPort: 9153
         selector:
           k8s-app: kube-dns
       # spec for VMServiceScrape crd
@@ -376,8 +372,6 @@ spec:
       endpoints: *cp
       service:
         enabled: true
-        port: 10259
-        targetPort: 10259
 
       spec:
         metricRelabelConfigs:
