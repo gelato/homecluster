@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: victoria-metrics-stack
-  namespace: monitoring
+  namespace: observability
 spec:
   interval: 30m
   chart:
@@ -34,6 +34,9 @@ spec:
       operator:
         disable_prometheus_converter: false # Ensure we keep enabled the converter to sync prom rules to VM rules
         enable_converter_ownership: true # Required to allow VM to remove VM rules it imports if a prometheus rule is deleted
+    serviceAccount:
+      # -- Specifies whether a service account should be created
+      create: true
     # Main VM Cluster in HA mode.
     vmcluster:
       enabled: true
@@ -312,7 +315,7 @@ spec:
 
     # Add kubeControllerManager scrape
     kubeControllerManager:
-      enabled: false
+      enabled: true
       endpoints: &cp
         - 192.168.108.209
         - 192.168.108.149
@@ -322,23 +325,47 @@ spec:
         port: 10259
         targetPort: 10259
       spec:
+        jobLabel: component
+        endpoints:
+          - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+            # bearerTokenSecret:
+            #   key: ""
+            port: http-metrics
+            scheme: https
+            tlsConfig:
+              caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+              serverName: kubernetes
+
+  # -- Component scraping coreDns. Use either this or kubeDns
+    coreDns:
+      enabled: true
+      service:
+        enabled: true
+        port: 9153
+        targetPort: 9153
+        selector:
+          k8s-app: kube-dns
+      # spec for VMServiceScrape crd
+      # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
+      spec:
+        jobLabel: component
         endpoints:
           - port: http-metrics
-            scheme: http
+            bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
 
     # Add kubeScheduler scrape
     kubeScheduler:
       enabled: false
-      # endpoints: *cp
-      # service:
-      #   enabled: true
-      #   port: 10259
-      #   targetPort: 10259
-      #
-      # spec:
-      #   endpoints:
-      #     - port: http-metrics
-      #       insecureSkipVerify: true
+      endpoints: *cp
+      service:
+        enabled: true
+        port: 10259
+        targetPort: 10259
+
+      spec:
+        endpoints:
+          - port: http-metrics
+            insecureSkipVerify: true
 
     # Add kubeEtcd scrape
     kubeEtcd:
