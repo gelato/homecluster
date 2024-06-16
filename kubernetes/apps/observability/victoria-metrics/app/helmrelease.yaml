@@ -328,7 +328,9 @@ spec:
     kubeControllerManager:
       enabled: true
       endpoints: &cp
-        - 192.168.108.250
+        - 192.168.108.149
+        - 192.168.108.209
+        - 192.168.108.238
       service:
         enabled: true
         port: 10259
@@ -393,10 +395,7 @@ spec:
     # Add kubeEtcd scrape
     kubeEtcd:
       enabled: true
-      endpoints:
-        - 192.168.108.149
-        - 192.168.108.209
-        - 192.168.108.238
+      endpoints: *cp
       service:
         enabled: true
         port: 2381
