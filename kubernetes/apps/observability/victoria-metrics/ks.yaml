@@ -28,7 +28,6 @@ spec:
   targetNamespace: observability
   dependsOn:
     - name: victoriametrics-crd
-    - name: alertmanager
     - name: longhorn
   path: "./kubernetes/apps/observability/victoria-metrics/app/"
   prune: true
