@@ -148,6 +148,15 @@ spec:
       ingress:
         enabled: true
         ingressClassName: internal
+        annotations:
+          nginx.ingress.kubernetes.io/auth-url: |-
+            http://ak-outpost-authentik-embedded-outpost.security.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
+          nginx.ingress.kubernetes.io/auth-signin: |-
+            https://vmagent.${SECRET_DOMAIN}/outpost.goauthentik.io/start?rd=$escaped_request_uri
+          nginx.ingress.kubernetes.io/auth-response-headers: |-
+            Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
+          nginx.ingress.kubernetes.io/auth-snippet: |
+            proxy_set_header X-Forwarded-Host $http_host;
         hosts:
           - &hostagent vmagent.${SECRET_DOMAIN}
         tls:
@@ -236,6 +245,14 @@ spec:
     kubelet:
       enabled: true
       spec:
+        scheme: "https"
+        honorLabels: true
+        interval: "30s"
+        scrapeTimeout: "5s"
+        tlsConfig:
+          insecureSkipVerify: true
+          caFile: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+        bearerTokenFile: "/var/run/secrets/kubernetes.io/serviceaccount/token"
         metricRelabelConfigs:
           # Drop high cardinality labels
           - action: labeldrop
