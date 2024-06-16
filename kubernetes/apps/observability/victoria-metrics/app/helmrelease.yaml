@@ -291,11 +291,12 @@ spec:
             scheme: https
             tlsConfig:
               caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-              serverName: kubernetes
+              serverName: ark
         jobLabel: component
         namespaceSelector:
           matchNames:
             - kube-system
+            - default
         selector:
           matchLabels:
             component: apiserver
