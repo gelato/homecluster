@@ -45,8 +45,6 @@ spec:
       spec:
         # Duration to keep metrics
         retentionPeriod: "2" # this is months unless a character prefix is added (1d, 1w, etc)
-        extraArgs:
-          dedup.minScrapeInterval: "60s" # Only needed for HA
         replicationFactor: 3
         # Storage backend
         vmstorage:
@@ -80,10 +78,22 @@ spec:
           replicaCount: 3 # HA
           cacheMountPath: /select-cache
           extraArgs:
-            dedup.minScrapeInterval: "60s" # should be equal to VMAgent's scrapeInterval (default 30s)
-            search.minStalenessInterval: "5m"
-            search.maxConcurrentRequests: "6"
-            vmalert.proxyURL: "http://vmalert.${secret_DOMAIN}"
+            dedup.minScrapeInterval: 5s
+            vmstorageDialTimeout: 5s
+            replicationFactor: "2"
+            loggerTimezone: ${TIMEZONE}
+            search.denyPartialResponse: "false"
+            search.disableCache: "true"
+            search.latencyOffset: 15s
+            search.maxConcurrentRequests: "400"
+            search.maxPointsPerTimeseries: "999999999"
+            search.maxQueryDuration: 300s
+            search.maxQueryLen: 32768
+            search.maxSamplesPerQuery: "999999999"
+            search.maxSamplesPerSeries: "999999999"
+            search.maxSeries: "999999999"
+            search.maxUniqueTimeseries: "999999999"
+            http.shutdownDelay: "30s"
           resources:
             requests:
               cpu: 10m
@@ -190,14 +200,19 @@ spec:
     vmagent:
       enabled: true
       spec:
-        replicaCount: 3
         shardCount: 2
-        scrapeInterval: "60s"
+        extraArgs:
+          promscrape.discovery.concurrency: "2000"
+        sortLabels: "true"
+        scrapeInterval: "5s"
         additionalScrapeConfigs:
           name: vm-additional-scrape-configs
           key: prometheus-additional.yaml
         externalLabels:
-          cluster: main
+          cluster: ark
+        remoteWriteSettings:
+          label:
+            cluster: ark
         resources:
           requests:
             cpu: 10m
