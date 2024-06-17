@@ -435,7 +435,7 @@ spec:
 
     # Add kubeScheduler scrape
     kubeScheduler:
-      enabled: false
+      enabled: true
       endpoints: *cp
       service:
         enabled: true
