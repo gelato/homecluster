@@ -49,7 +49,8 @@ spec:
                 enabled: false
             securityContext:
               privileged: true
-              readOnlyRootFilesystem: true
+              #CHANGEME ON THE NEXT UPDATE
+              readOnlyRootFilesystem: false
               capabilities:
                 add:
                   - NET_ADMIN
