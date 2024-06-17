@@ -203,7 +203,6 @@ spec:
         shardCount: 2
         extraArgs:
           promscrape.discovery.concurrency: "2000"
-        sortLabels: "true"
         scrapeInterval: "5s"
         additionalScrapeConfigs:
           name: vm-additional-scrape-configs
