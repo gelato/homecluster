@@ -335,7 +335,6 @@ spec:
             tlsConfig:
               caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
               serverName: localhost
-              insecureSkipVerify: true
 
   # -- Component scraping coreDns. Use either this or kubeDns
     coreDns:
