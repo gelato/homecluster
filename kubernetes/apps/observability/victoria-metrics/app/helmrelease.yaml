@@ -25,6 +25,8 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  driftDetection:
+    mode: enabled
   values:
     fullnameOverride: victoria-metrics
 
@@ -53,6 +55,19 @@ spec:
           extraArgs:
             dedup.minScrapeInterval: 60s # Only needed for HA
             search.maxConcurrentRequests: "6"
+          resources:
+            requests:
+              cpu: 10m
+              memory: 300Mi
+            limits:
+              memory: 6Gi
+          topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: vmstorage
           storage:
             volumeClaimTemplate:
               spec:
@@ -62,13 +77,26 @@ spec:
                     storage: 10Gi
         # Query backend
         vmselect:
-          replicaCount: 2 # HA
+          replicaCount: 3 # HA
           cacheMountPath: /select-cache
           extraArgs:
             dedup.minScrapeInterval: "60s" # should be equal to VMAgent's scrapeInterval (default 30s)
             search.minStalenessInterval: "5m"
             search.maxConcurrentRequests: "6"
             vmalert.proxyURL: "http://vmalert.${secret_DOMAIN}"
+          resources:
+            requests:
+              cpu: 10m
+              memory: 300Mi
+            limits:
+              memory: 6Gi
+          topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: vmselect
           storage:
             volumeClaimTemplate:
               spec:
@@ -78,16 +106,23 @@ spec:
                     storage: 2Gi
         # Data ingestion backend
         vminsert:
-          replicaCount: 2 # HA
+          replicaCount: 3 # HA
           extraArgs:
             maxLabelsPerTimeseries: "90" # More needed if you are scraping a LOT of stuff and having issues
             # insert.maxConcurrentRequests: 10
           resources:
             requests:
-              cpu: 105m
+              cpu: 10m
               memory: 300Mi
             limits:
-              memory: 600Mi
+              memory: 6Gi
+          topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: vminsert
       ingress:
         storage:
           enabled: true
@@ -119,8 +154,22 @@ spec:
     vmalert:
       enabled: true
       spec:
-        replicaCount: 2 # HA
+        replicaCount: 3 # HA
         evaluationInterval: "60s"
+        resources:
+          requests:
+            cpu: 10m
+            memory: 128Mi
+          limits:
+            cpu: 150m
+            memory: 6Gi
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: vmalert
         notifiers:
           - selector:
               namespaceSelector:
@@ -141,13 +190,28 @@ spec:
     vmagent:
       enabled: true
       spec:
-        replicaCount: 1
+        replicaCount: 3
         shardCount: 2
         scrapeInterval: "60s"
         additionalScrapeConfigs:
           name: vm-additional-scrape-configs
           key: prometheus-additional.yaml
-
+        externalLabels:
+          cluster: main
+        resources:
+          requests:
+            cpu: 10m
+            memory: 256Mi
+          limits:
+            cpu: 400m
+            memory: 6Gi
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: vmagent
       ingress:
         enabled: true
         ingressClassName: internal
@@ -304,7 +368,7 @@ spec:
           matchLabels:
             component: apiserver
             provider: kubernetes
-        metricRelabelConfigs:
+        # metricRelabelConfigs:
           # Remove high cardinality metrics
           # - sourceLabels: ["__name__"]
           #   regex: (etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
