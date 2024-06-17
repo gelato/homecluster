@@ -51,7 +51,7 @@ spec:
           replicaCount: 3 # HA - but prefer 3 as i have 3 notes & using local-hostpath
           # required for HA vmagents
           extraArgs:
-            dedup.minScrapeInterval: 60s # Only needed for HA
+            dedup.minScrapeInterval: 10s # Only needed for HA
             search.maxConcurrentRequests: "6"
           resources:
             requests:
@@ -78,9 +78,8 @@ spec:
           replicaCount: 3 # HA
           cacheMountPath: /select-cache
           extraArgs:
-            dedup.minScrapeInterval: 5s
+            dedup.minScrapeInterval: 10s
             vmstorageDialTimeout: 5s
-            replicationFactor: "2"
             loggerTimezone: ${TIMEZONE}
             search.denyPartialResponse: "false"
             search.disableCache: "true"
@@ -203,7 +202,7 @@ spec:
         shardCount: 2
         extraArgs:
           promscrape.discovery.concurrency: "2000"
-        scrapeInterval: "5s"
+        scrapeInterval: "10s"
         additionalScrapeConfigs:
           name: vm-additional-scrape-configs
           key: prometheus-additional.yaml
