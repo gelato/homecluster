@@ -404,7 +404,7 @@ spec:
         port: 10259
         targetPort: 10259
       spec:
-        jobLabel: kube-controller-manager
+        jobLabel: component
         endpoints:
           - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
             # bearerTokenSecret:
@@ -413,7 +413,7 @@ spec:
             scheme: https
             tlsConfig:
               caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-              serverName: localhost
+              serverName: kubernetes
               insecureSkipVerify: true
 
   # -- Component scraping coreDns. Use either this or kubeDns
