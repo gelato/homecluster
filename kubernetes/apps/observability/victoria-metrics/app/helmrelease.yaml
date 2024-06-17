@@ -372,7 +372,7 @@ spec:
             scheme: https
             tlsConfig:
               caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-              serverName: localhost
+              serverName: ark
         jobLabel: apiserver
         namespaceSelector:
           matchNames:
