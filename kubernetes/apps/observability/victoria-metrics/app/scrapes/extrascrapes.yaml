@@ -70,6 +70,19 @@ stringData:
           regex: (.+)
           target_label: __metrics_path__
           replacement: /api/v1/nodes/$1/proxy/metrics
+    - job_name: "kubernetes-controller-manager"
+      scheme: https
+      tls_config:
+        ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        insecure_skip_verify: true
+      bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+      kubernetes_sd_configs:
+        - role: node
+      relabel_configs:
+        - if: '{job=~"victoria-metrics-kube-controller-manager"}'
+          source_labels: [job]
+          target_label: job
+          replacement: kube-controller-manager
     - job_name: "kubernetes-nodes-cadvisor"
       scheme: https
       tls_config:

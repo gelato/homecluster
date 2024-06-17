@@ -415,12 +415,6 @@ spec:
               caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
               serverName: kubernetes
               insecureSkipVerify: true
-        metricRelabelConfigs:
-          # Remove duplicate labels provided by k3s
-          - if: '{job=~"victoria-metrics-kube-controller-manager"}'
-            source_labels: [job]
-            target_label: job
-            replacement: kube-controller-manager
 
   # -- Component scraping coreDns. Use either this or kubeDns
     coreDns:
