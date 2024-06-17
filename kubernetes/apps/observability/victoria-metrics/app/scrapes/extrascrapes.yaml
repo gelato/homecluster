@@ -82,10 +82,8 @@ stringData:
           - 192.168.108.209:10259
           - 192.168.108.238:10259
       relabel_configs:
-        - if: '{job=~"victoria-metrics-kube-controller-manager"}'
-          source_labels: [job]
-          target_label: job
-          replacement: kube-controller-manager
+          - target_label: job
+            replacement: kube-controller-manager
     - job_name: "kubernetes-nodes-cadvisor"
       scheme: https
       tls_config:
