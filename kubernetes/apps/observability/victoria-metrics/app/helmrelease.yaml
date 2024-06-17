@@ -363,25 +363,25 @@ spec:
     # Add Kubeapi scrape
     kubeApiServer:
       enabled: true
-      spec:
-        endpoints:
-          - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-            # bearerTokenSecret:
-            #   key: ""
-            port: https
-            scheme: https
-            tlsConfig:
-              caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-              serverName: kubernetes
-        jobLabel: component
-        namespaceSelector:
-          matchNames:
-            - kube-system
-            - default
-        selector:
-          matchLabels:
-            component: apiserver
-            provider: kubernetes
+      # spec:
+      #   endpoints:
+      #     - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      #       # bearerTokenSecret:
+      #       #   key: ""
+      #       port: https
+      #       scheme: https
+      #       tlsConfig:
+      #         caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      #         serverName: kubernetes
+      #   jobLabel: component
+      #   namespaceSelector:
+      #     matchNames:
+      #       - kube-system
+      #       - default
+      #   selector:
+      #     matchLabels:
+      #       component: apiserver
+      #       provider: kubernetes
         # metricRelabelConfigs:
           # Remove high cardinality metrics
           # - sourceLabels: ["__name__"]
