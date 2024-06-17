@@ -470,7 +470,11 @@ spec:
     # I chose to deploy these seperately and manage it myself
     #   insetad of trusting the stack chart
     kube-state-metrics:
-      enabled: false
+      enabled: true
+      resources:
+        requests:
+          cpu: 10m
+          memory: 128Mi
 
     # Enable deployment of prom-note-exporter contianers
     # I chose to deploy these seperately and manage it myself
