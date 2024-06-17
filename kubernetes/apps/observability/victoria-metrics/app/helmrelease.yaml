@@ -394,7 +394,7 @@ spec:
     # I chose to deploy these seperately and manage it myself
     #   insetad of trusting the stack chart
     prometheus-node-exporter:
-      enabled: false
+      enabled: true
 
     # Enable deployment of grafana
     # I chose to deploy this seperately and manage it myself
