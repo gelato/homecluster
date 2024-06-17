@@ -450,15 +450,14 @@ spec:
 
       spec:
         endpoints:
-          endpoints:
-            - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-              # bearerTokenSecret:
-              #   key: ""
-              port: http-metrics
-              scheme: https
-              tlsConfig:
-                caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-                insecureSkipVerify: true
+          - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+            # bearerTokenSecret:
+            #   key: ""
+            port: http-metrics
+            scheme: https
+            tlsConfig:
+              caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+              insecureSkipVerify: true
 
     kubeProxy:
       enabled: false # Disabled because eBPF
