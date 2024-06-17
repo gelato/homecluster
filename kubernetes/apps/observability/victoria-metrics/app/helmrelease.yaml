@@ -88,7 +88,7 @@ spec:
             search.maxConcurrentRequests: "400"
             search.maxPointsPerTimeseries: "999999999"
             search.maxQueryDuration: 300s
-            search.maxQueryLen: 32768
+            search.maxQueryLen: "32768"
             search.maxSamplesPerQuery: "999999999"
             search.maxSamplesPerSeries: "999999999"
             search.maxSeries: "999999999"
