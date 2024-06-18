@@ -44,14 +44,14 @@ spec:
       enabled: true
       spec:
         # Duration to keep metrics
-        retentionPeriod: "5d" # this is months unless a character prefix is added (1d, 1w, etc)
+        retentionPeriod: "2" # this is months unless a character prefix is added (1d, 1w, etc)
         replicationFactor: 2
         # Storage backend
         vmstorage:
           replicaCount: 2 # HA - but prefer 3 as i have 3 notes & using local-hostpath
           # required for HA vmagents
           extraArgs:
-            dedup.minScrapeInterval: 10s # Only needed for HA
+            dedup.minScrapeInterval: 60s # Only needed for HA
             search.maxConcurrentRequests: "6"
           resources:
             requests:
@@ -72,13 +72,13 @@ spec:
                 storageClassName: longhorn-fast
                 resources:
                   requests:
-                    storage: 10Gi
+                    storage: 50Gi
         # Query backend
         vmselect:
           replicaCount: 2 # HA
           cacheMountPath: /select-cache
           extraArgs:
-            dedup.minScrapeInterval: 10s
+            dedup.minScrapeInterval: 60s
             vmstorageDialTimeout: 5s
             loggerTimezone: ${TIMEZONE}
             search.denyPartialResponse: "false"
@@ -202,7 +202,7 @@ spec:
         shardCount: 2
         extraArgs:
           promscrape.discovery.concurrency: "2000"
-        scrapeInterval: "10s"
+        scrapeInterval: "30s"
         additionalScrapeConfigs:
           name: vm-additional-scrape-configs
           key: prometheus-additional.yaml
@@ -362,19 +362,6 @@ spec:
     # Add Kubeapi scrape
     kubeApiServer:
       enabled: true
-      # spec:
-      #   metricRelabelConfigs:
-      #     # Remove duplicate labels provided by k3s
-      #     - action: keep
-      #       sourceLabels: ["__name__"]
-      #       regex: (aggregator_openapi|aggregator_unavailable|apiextensions_openapi|apiserver_admission|apiserver_audit|apiserver_cache|apiserver_cel|apiserver_client|apiserver_crd|apiserver_current|apiserver_envelope|apiserver_flowcontrol|apiserver_init|apiserver_kube|apiserver_longrunning|apiserver_request|apiserver_requested|apiserver_response|apiserver_selfrequest|apiserver_storage|apiserver_terminated|apiserver_tls|apiserver_watch|apiserver_webhooks|authenticated_user|authentication|disabled_metric|etcd_bookmark|etcd_lease|etcd_request|field_validation|get_token|go|grpc_client|hidden_metric|kube_apiserver|kubernetes_build|kubernetes_feature|node_authorizer|pod_security|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|registered_metric|rest_client|scrape_duration|scrape_samples|scrape_series|serviceaccount_legacy|serviceaccount_stale|serviceaccount_valid|watch_cache|workqueue)_(.+)
-      #     # Drop high cardinality labels
-      #     - action: drop
-      #       sourceLabels: ["__name__"]
-      #       regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
-      #     - action: drop
-      #       sourceLabels: ["__name__"]
-      #       regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
 
     # Add kubeControllerManager scrape
     kubeControllerManager:
@@ -466,6 +453,29 @@ spec:
     #   insetad of trusting the stack chart
     prometheus-node-exporter:
       enabled: true
+      ## all values for prometheus-node-exporter helm chart can be specified here
+      podLabels:
+        ## Add the 'node-exporter' label to be used by serviceMonitor to match standard common usage in rules and grafana dashboards
+        ##
+        jobLabel: node-exporter
+      extraArgs:
+        - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+        - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+
+      vmServiceScrape:
+        # whether we should create a service scrape resource for node-exporter
+        enabled: true
+
+        # spec for VMServiceScrape crd
+        # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
+        spec:
+          jobLabel: jobLabel
+          endpoints:
+            - port: metrics
+              metricRelabelConfigs:
+                - action: drop
+                  source_labels: [mountpoint]
+                  regex: "/var/lib/kubelet/pods.+"
 
     # Enable deployment of grafana
     # I chose to deploy this seperately and manage it myself
