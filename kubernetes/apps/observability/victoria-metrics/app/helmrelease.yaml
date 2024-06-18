@@ -189,7 +189,7 @@ spec:
       spec:
         shardCount: 2
         extraArgs:
-          sortLabels: true
+          sortLabels: "true"
         scrapeInterval: "30s"
         additionalScrapeConfigs:
           name: vm-additional-scrape-configs
