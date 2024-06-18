@@ -48,7 +48,7 @@ spec:
         replicationFactor: 2
         # Storage backend
         vmstorage:
-          replicaCount: 3 # HA - but prefer 3 as i have 3 notes & using local-hostpath
+          replicaCount: 2 # HA - but prefer 3 as i have 3 notes & using local-hostpath
           # required for HA vmagents
           extraArgs:
             dedup.minScrapeInterval: 10s # Only needed for HA
