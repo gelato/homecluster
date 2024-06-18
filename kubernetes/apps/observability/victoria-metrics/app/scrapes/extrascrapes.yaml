@@ -127,6 +127,9 @@ stringData:
         - action: drop
           source_labels: [__meta_kubernetes_pod_container_init]
           regex: true
+        - action: drop
+          source_labels: [apiserver_request_duration_seconds_bucket,etcd_request_duration_seconds_bucket]
+          regex: true
         - action: keep_if_equal
           source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_port, __meta_kubernetes_pod_container_port_number]
         - source_labels:
