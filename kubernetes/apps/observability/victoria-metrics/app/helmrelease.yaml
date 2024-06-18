@@ -81,18 +81,6 @@ spec:
             dedup.minScrapeInterval: 60s
             vmstorageDialTimeout: 5s
             loggerTimezone: ${TIMEZONE}
-            search.denyPartialResponse: "false"
-            search.disableCache: "true"
-            search.latencyOffset: 15s
-            search.maxConcurrentRequests: "400"
-            search.maxPointsPerTimeseries: "999999999"
-            search.maxQueryDuration: 300s
-            search.maxQueryLen: "32768"
-            search.maxSamplesPerQuery: "999999999"
-            search.maxSamplesPerSeries: "999999999"
-            search.maxSeries: "999999999"
-            search.maxUniqueTimeseries: "999999999"
-            http.shutdownDelay: "30s"
           resources:
             requests:
               cpu: 10m
@@ -201,7 +189,7 @@ spec:
       spec:
         shardCount: 2
         extraArgs:
-          promscrape.discovery.concurrency: "2000"
+          sortLabels: true
         scrapeInterval: "30s"
         additionalScrapeConfigs:
           name: vm-additional-scrape-configs
