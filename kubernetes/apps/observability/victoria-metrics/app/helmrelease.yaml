@@ -427,8 +427,6 @@ spec:
             scheme: http
 
     # Enable deployment of kube state metrics contianers
-    # I chose to deploy these seperately and manage it myself
-    #   insetad of trusting the stack chart
     kube-state-metrics:
       enabled: true
       resources:
