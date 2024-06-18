@@ -435,6 +435,11 @@ spec:
         requests:
           cpu: 10m
           memory: 128Mi
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Equal"
+          value: ""
+          effect: "NoSchedule"
 
     # Enable deployment of prom-note-exporter contianers
     # I chose to deploy these seperately and manage it myself
