@@ -64,7 +64,7 @@ ffmpeg:
 detect:
   width: 640
   height: 360
-  fps: 5
+  fps: 8
   enabled: True
 objects:
   track:
@@ -83,8 +83,8 @@ record:
   export:
     timelapse_args: "-vf setpts=0.04*PTS -r 30"
   events:
-    # pre_capture: 5
-    # post_capture: 5
+    pre_capture: 5
+    post_capture: 5
     retain:
       default: 30
       mode: active_objects
@@ -104,25 +104,23 @@ snapshots:
 go2rtc:
   streams:
     gates_hq:
-      - ffmpeg:rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/101#video=copy#audio=aac
-    # gates_lq:
-    #   - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102
-    #   - "ffmpeg:gates_lq#video=copy#audio=aac"
+      - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101
+      - "ffmpeg:gates_hq#video=copy#audio=aac"
+    gates_lq:
+      - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102
+      - "ffmpeg:gates_lq#video=copy#audio=aac"
     door_hq:
       - ffmpeg:rtsp://user:12332145@192.168.108.197:554/ch0_0#video=h264#hardware=cuda#audio=aac
-    # door_lq:
-    #   - rtsp://user:12332145@192.168.108.197:554/ch0_1
-    #   - "ffmpeg:door_lq#video=h264#hardware=cuda#audio=aac"
+    door_lq:
+      - ffmpeg:rtsp://user:12332145@192.168.108.197:554/ch0_1#video=h264#hardware=cuda#audio=aac
     dvor_gates_hq:
       - ffmpeg:rtsp://user:12332145@192.168.108.150:554/ch0_0#video=h264#hardware=cuda#audio=aac
-    # dvor_gates_lq:
-    #   - rtsp://user:12332145@192.168.108.150:554/ch0_1
-    #   - "ffmpeg:dvor_gates_lq#video=h264#hardware=cuda#audio=aac"
+    dvor_gates_lq:
+      - ffmpeg:rtsp://user:12332145@192.168.108.150:554/ch0_1#video=h264#hardware=cuda#audio=aac
     dom2_hq:
       - ffmpeg:rtsp://user:12332145@192.168.108.122:554/ch0_0#video=h264#hardware=cuda#audio=aac
-    # dom2_lq:
-    #   - rtsp://user:12332145@192.168.108.122:554/ch0_1
-    #   - "ffmpeg:dom2_lq#video=h264#hardware=cuda#audio=aac"
+    dom2_lq:
+      - ffmpeg:rtsp://user:12332145@192.168.108.122:554/ch0_1#video=h264#hardware=cuda#audio=aac
   webrtc:
     candidates:
       - 192.168.108.55:8555
@@ -187,11 +185,10 @@ cameras:
           roles:
             - record
             - audio
+        - path: rtsp://localhost:8554/door_lq
+          input_args: preset-rtsp-restream
+          roles:
             - detect
-        # - path: rtsp://localhost:8554/door_hq
-        #   input_args: preset-rtsp-restream
-        #   roles:
-        #     - detect
     live:
       stream_name: door_hq
       quality: 1
@@ -207,7 +204,7 @@ cameras:
           - dog
           - car
       dvor:
-        coordinates: 541,148,410,142,360,170,275,299,519,305
+        coordinates: 541,148,410,142,372,212,302,274,516,290
         inertia: 10
         objects:
           - car
@@ -249,11 +246,10 @@ cameras:
           roles:
             - record
             - audio
+        - path: rtsp://localhost:8554/dvor_gates_lq
+          input_args: preset-rtsp-restream
+          roles:
             - detect
-        # - path: rtsp://localhost:8554/dvor_gates_hq
-        #   input_args: preset-rtsp-restream
-        #   roles:
-        #     - detect
     live:
       stream_name: dvor_gates_hq
       quality: 1
@@ -262,24 +258,24 @@ cameras:
       mask: []
     zones:
       inside_gates:
-        coordinates: 145,166,328,168,319,33,194,40
+        coordinates: 164,189,351,190,332,22,256,22,198,32,201,94
         inertia: 10
         objects:
           - person
           - dog
           - car
       at_the_door:
-        coordinates: 0,307,66,360,90,301,121,219,110,175,51,177
+        coordinates: 0,307,98,338,146,168,82,170
         inertia: 10
         objects:
           - person
       in_the_garden:
-        coordinates: 640,360,640,163,563,100,357,80,413,360
+        coordinates: 640,360,640,65,404,0,342,92,431,360
         inertia: 10
         objects:
           - person
       driveway:
-        coordinates: 89,360,333,360,321,231,136,228
+        coordinates: 112,360,409,360,374,232,156,232
         inertia: 10
         objects:
           - person
@@ -302,17 +298,27 @@ cameras:
           roles:
             - record
             - audio
+        - path: rtsp://localhost:8554/dom2_lq
+          input_args: preset-rtsp-restream
+          roles:
             - detect
-        # - path: rtsp://localhost:8554/dom2_hq
-        #   input_args: preset-rtsp-restream
-        #   roles:
-        #     - detect
     live:
       stream_name: dom2_hq
       quality: 1
     webui_url: "http://192.168.108.122:8899/"
     motion:
       mask: []
+    zones:
+      kacheli:
+        coordinates: 0,295,24,189,143,198,124,311
+        inertia: 10
+        objects:
+          - person
+      dom2_tropinka:
+        coordinates: 252,173,293,171,309,360,179,360
+        inertia: 10
+        objects:
+          - person
     mqtt:
       enabled: True
       timestamp: False
