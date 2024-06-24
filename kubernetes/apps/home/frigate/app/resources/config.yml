@@ -104,10 +104,10 @@ snapshots:
 go2rtc:
   streams:
     gates_hq:
-      - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/101
+      - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/101
       - "ffmpeg:gates_hq#video=copy#audio=aac"
     gates_lq:
-      - rtsp://admin:12332145@192.168.108.103:8554/Streaming/Channels/102
+      - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/102
       - "ffmpeg:gates_lq#video=copy#audio=aac"
     door_hq:
       - ffmpeg:rtsp://user:12332145@192.168.108.197:554/ch0_0#video=h264#hardware=cuda#audio=aac
@@ -135,11 +135,10 @@ cameras:
           roles:
             - record
             - audio
+        - path: rtsp://localhost:8554/gates_lq
+          input_args: preset-rtsp-restream
+          roles:
             - detect
-        # - path: rtsp://localhost:8554/gates_hq
-        #   input_args: preset-rtsp-restream
-        #   roles:
-        #     - detect
     live:
       stream_name: gates_hq
       quality: 1
