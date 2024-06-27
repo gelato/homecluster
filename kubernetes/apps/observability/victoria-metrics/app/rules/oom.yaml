@@ -14,7 +14,7 @@ spec:
         == 1'
       for: 0m
       labels:
-        severity: warning
+        severity: critical
       annotations:
         summary: Kubernetes container oom killer (instance {{ $labels.instance }})
         description: "Container {{ $labels.container }} in pod {{ $labels.namespace
@@ -25,7 +25,7 @@ spec:
         node_uname_info{nodename=~".+"}
       for: 0m
       labels:
-        severity: warning
+        severity: critical
       annotations:
         summary: Host OOM kill detected (instance {{ $labels.instance }})
         description: "OOM kill detected\n  VALUE = {{ $value }}\n  LABELS = {{ $labels
