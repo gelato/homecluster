@@ -45,7 +45,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/sonarr-develop
-              tag: 4.0.5.1740@sha256:3890ecfb9628a528b2e8c511addc08ed5b875868d8e72bcbc9a1828af477444d
+              tag: 4.0.5.1778@sha256:3a8ae93c8ca3522b62e7923718f6f2fecb0e214927f94ba52b6db7e5c4c0366f
             env:
               COMPlus_EnableDiagnostics: "0"
               PUSHOVER_DEBUG: "false"
