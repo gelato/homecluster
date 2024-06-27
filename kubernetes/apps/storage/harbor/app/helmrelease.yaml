@@ -85,7 +85,7 @@ spec:
         disableredirect: true
         type: filesystem
         filesystem:
-          rootdirectory: /storage
+          rootdirectory: /mnt/storage
         # s3:
         #   region: us-east-1
         #   chunksize: "33554432"
@@ -132,6 +132,11 @@ spec:
         requests:
           memory: 256Mi
           cpu: 20m
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: "true"
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          effect: "NoSchedule"
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -160,6 +165,11 @@ spec:
         requests:
           memory: 1Gi
           cpu: 10m
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: "true"
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          effect: "NoSchedule"
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -193,6 +203,11 @@ spec:
       jobLoggers:
         - file
       loggerSweeperDuration: 2 #days
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: "true"
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          effect: "NoSchedule"
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -227,6 +242,11 @@ spec:
         enabled: true
         age: 6h
         interval: 1h
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: "true"
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          effect: "NoSchedule"
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -269,6 +289,11 @@ spec:
           memory: 2Gi
         limits:
           memory: 4Gi
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: "true"
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          effect: "NoSchedule"
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -287,6 +312,11 @@ spec:
       revisionHistoryLimit: 1
       podAnnotations: {}
       serviceAccountName: ""
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: "true"
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          effect: "NoSchedule"
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
