@@ -66,19 +66,19 @@ spec:
               limits:
                 memory: 256M
         containers:
-          # unregistered:
-          #   image: *image
-          #   env: *env
-          #   args: [
-          #     "prune",
-          #     "--exclude-category", "manual",
-          #     "--include-tag", "unregistered",
-          #     "--with-data",
-          #     # "--dry-run",
-          #     "--server", "qbittorrent.media.svc.cluster.local",
-          #     "--port", "8049"
-          #   ]
-          #   resources: *resources
+          unregistered:
+            image: *image
+            env: *env
+            args: [
+              "prune",
+              "--exclude-category", "manual",
+              "--include-tag", "unregistered",
+              "--with-data",
+              # "--dry-run",
+              "--server", "qbittorrent.media.svc.cluster.local",
+              "--port", "8049"
+            ]
+            resources: *resources
           expired:
             image: *image
             env: *env
@@ -87,6 +87,7 @@ spec:
               "--exclude-category", "manual",
               "--exclude-category", "overload",
               # "--include-tag", "expired", # defined in config.yaml
+              "--exclude-tag": "activity:24h",
               "--include-tag", "added:7d",
               "--with-data",
               # "--dry-run",
