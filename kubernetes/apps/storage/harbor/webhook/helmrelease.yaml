@@ -50,7 +50,6 @@ spec:
           - '^ghcr.io'
         excludes:
           - '.*goharbor.*'
-          - '*.buroa.*'
         replace: 'harbor.skynerv.com/local-github'
         checkUpstream: false
         #authSecretName: harbor-image-pull-secret
