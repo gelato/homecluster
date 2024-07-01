@@ -45,7 +45,7 @@ spec:
       snapshotterReplicaCount: 1
     defaultSettings:
       defaultReplicaCount: 1
-      backupTarget: s3://bkp-cluster@us-east-1/
+      backupTarget: s3://longhorn@us-east-1/
       backupTargetCredentialSecret: s3-secret
       taintToleration: node-role.kubernetes.io/control-plane:NoSchedule
     pspEnable: false
