@@ -45,7 +45,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: "false"
               ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info
               ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
-              ZIGBEE2MQTT_CONFIG_ADVANCED_EXT_PAN_ID: '["${zigbee_ext_pan_id}"]'
+              ZIGBEE2MQTT_CONFIG_ADVANCED_EXT_PAN_ID: '["{zigbee_ext_pan_id}"]'
               ZIGBEE2MQTT_CONFIG_ADVANCED_PAN_ID:
                 valueFrom:
                   secretKeyRef:
