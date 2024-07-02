@@ -42,8 +42,8 @@ spec:
               tag: 2024061005@sha256:70266c18ab682e27ade0dc6e0befc40b1a038ecefb1d77f7ef479e7d7b12cdf6
             env:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
-              JELLYFIN_FFmpeg__probesize: 2G
-              JELLYFIN_FFmpeg__analyzeduration: 200M
+              JELLYFIN_FFmpeg__probesize: 50000000
+              JELLYFIN_FFmpeg__analyzeduration: 50000000
             resources:
               requests:
                 memory: 9248M
