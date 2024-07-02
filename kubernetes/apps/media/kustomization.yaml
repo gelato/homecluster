@@ -10,6 +10,6 @@ resources:
   - ./radarr/ks.yaml
   - ./sonarr/ks.yaml
   - ./sftpgo/ks.yaml
-  # - ./jellyfin/ks.yaml
+  - ./jellyfin/ks.yaml
   - ./recyclarr/ks.yaml
   - ./jellyseerr/ks.yaml
