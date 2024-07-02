@@ -41,6 +41,8 @@ spec:
               repository: jellyfin/jellyfin
               tag: 2024061005@sha256:70266c18ab682e27ade0dc6e0befc40b1a038ecefb1d77f7ef479e7d7b12cdf6
             env:
+              NVIDIA_VISIBLE_DEVICES: all
+              NVIDIA_DRIVER_CAPABILITIES: all
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               JELLYFIN_FFmpeg__probesize: 1G
               JELLYFIN_FFmpeg__analyzeduration: 200M
