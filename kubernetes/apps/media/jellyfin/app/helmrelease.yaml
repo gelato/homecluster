@@ -17,8 +17,8 @@ spec:
         namespace: flux-system
   interval: 30m
   values:
-    # defaultPodOptions:
-    #   runtimeClassName: nvidia
+    defaultPodOptions:
+      runtimeClassName: nvidia
     controllers:
       main:
         type: statefulset
@@ -33,6 +33,7 @@ spec:
             fsGroupChangePolicy: "OnRootMismatch"
             supplementalGroups:
               - 44
+              - 110
               - 993
         containers:
           main:
@@ -40,18 +41,18 @@ spec:
               repository: jellyfin/jellyfin
               tag: 2024070105@sha256:5259f3dc8c24dc4c844f1a29f9b30b97c26cfbb089bb7f210ea72f6758ffb84f
             env:
-              # NVIDIA_VISIBLE_DEVICES: all
-              # NVIDIA_DRIVER_CAPABILITIES: all
-              # DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
+              NVIDIA_VISIBLE_DEVICES: all
+              NVIDIA_DRIVER_CAPABILITIES: all
+              DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               JELLYFIN_FFmpeg__probesize: 1G
               JELLYFIN_FFmpeg__analyzeduration: 200M
             resources:
               requests:
                 memory: 10M
-                gpu.intel.com/i915: 1
+                # gpu.intel.com/i915: 1
               limits:
-                # nvidia.com/gpu: 1
-                gpu.intel.com/i915: 1
+                nvidia.com/gpu: 1
+                # gpu.intel.com/i915: 1
                 memory: 9248M
     service:
       main:
