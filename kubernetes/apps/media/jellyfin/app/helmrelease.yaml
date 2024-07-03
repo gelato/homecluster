@@ -43,9 +43,9 @@ spec:
             env:
               NVIDIA_VISIBLE_DEVICES: all
               NVIDIA_DRIVER_CAPABILITIES: all
-              DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
-              JELLYFIN_FFmpeg__probesize: 1G
-              JELLYFIN_FFmpeg__analyzeduration: 200M
+              # DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
+              # JELLYFIN_FFmpeg__probesize: 1G
+              # JELLYFIN_FFmpeg__analyzeduration: 200M
             resources:
               requests:
                 memory: 9248M
