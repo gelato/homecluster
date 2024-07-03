@@ -48,7 +48,7 @@ spec:
               JELLYFIN_FFmpeg__analyzeduration: 200M
             resources:
               requests:
-                memory: 1000M
+                memory: 100M
               limits:
                 # nvidia.com/gpu: 1
                 gpu.intel.com/i915: "1"
