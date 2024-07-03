@@ -91,9 +91,9 @@ spec:
         globalMounts:
           - path: /config
       transcode:
-        existingClaim: jellyfin-transcodes
+        existingClaim: jellyfin-transcode
         globalMounts:
-          - path: /cache/transcode
+          - path: /cache/transcodes
       media:
         existingClaim: media-storage
         globalMounts:
