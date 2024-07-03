@@ -33,8 +33,7 @@ spec:
             fsGroupChangePolicy: "OnRootMismatch"
             supplementalGroups:
               - 44
-              - 109
-              - 568
+              - 993
         containers:
           main:
             image:
@@ -54,8 +53,6 @@ spec:
                 # nvidia.com/gpu: 1
                 gpu.intel.com/i915: 1
                 memory: 9248M
-            securityContext:
-              privileged: true
     service:
       main:
         controller: main
