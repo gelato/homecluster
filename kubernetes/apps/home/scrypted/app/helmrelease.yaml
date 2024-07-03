@@ -18,6 +18,7 @@ spec:
   values:
     defaultPodOptions:
       runtimeClassName: nvidia
+      hostNetwork: true
     controllers:
       scrypted:
         annotations:
