@@ -35,7 +35,6 @@ spec:
               - 44
               - 110
               - 993
-            privileged: true
         containers:
           main:
             image:
