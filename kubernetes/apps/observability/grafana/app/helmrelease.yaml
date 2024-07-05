@@ -114,15 +114,6 @@ spec:
             allowUiUpdates: true
             options:
               path: /var/lib/grafana/dashboards/storage
-          - name: "loki"
-            orgId: 1
-            folder: "Loki"
-            type: file
-            disableDeletion: false
-            editable: true
-            allowUiUpdates: true
-            options:
-              path: /var/lib/grafana/dashboards/loki
           - name: 'grafana-dashboards-kubernetes'
             orgId: 1
             folder: 'Kubernetes-ng'
@@ -339,13 +330,6 @@ spec:
             name: VictoriaMetrics
             type: victoriametrics-datasource
             url: http://vmselect-victoria-metrics.observability.svc:8481/select/0/prometheus
-          - name: Loki
-            type: loki
-            uid: loki
-            access: proxy
-            url: http://loki-gateway.observability.svc.cluster.local
-            jsonData:
-              maxLines: 250
           - name: Alertmanager
             type: alertmanager
             uid: alertmanager
