@@ -33,7 +33,7 @@ spec:
       namespace: storage
   values:
     defaultPodOptions:
-      runtimeClassName: nvidia-cdi
+      runtimeClassName: nvidia
     controllers:
       main:
         annotations:
