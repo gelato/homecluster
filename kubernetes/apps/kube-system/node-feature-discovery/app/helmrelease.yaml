@@ -30,5 +30,8 @@ spec:
       config:
         core:
           sources: ["custom", "pci", "usb"]
+    master:
+        config:
+          extraLabelNs: ["nvidia.com"]
     prometheus:
       enable: true
