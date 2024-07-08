@@ -26,10 +26,33 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    enableNodeFeatureApi: true
+    featureGates:
+      NodeFeatureAPI: true
     worker:
       config:
         core:
-          sources: ["custom", "pci", "usb"]
+          sources:
+            pci:
+              deviceClassWhitelist:
+              - "02"
+              - "0200"
+              - "0207"
+              - "0300"
+              - "0302"
+              deviceLabelFields:
+              - vendor
+            usb:
+              deviceClassWhitelist:
+                - "0e"
+                - "ef"
+                - "fe"
+                - "ff"
+              deviceLabelFields:
+                - "class"
+                - "vendor"
+                - "device"
+            custom:
     master:
         config:
           extraLabelNs: ["nvidia.com"]
