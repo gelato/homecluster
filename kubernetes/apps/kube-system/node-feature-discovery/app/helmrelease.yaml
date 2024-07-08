@@ -52,7 +52,6 @@ spec:
                 - "class"
                 - "vendor"
                 - "device"
-            custom:
     master:
         config:
           extraLabelNs: ["nvidia.com"]
