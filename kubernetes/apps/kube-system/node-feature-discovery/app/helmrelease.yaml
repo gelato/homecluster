@@ -33,27 +33,13 @@ spec:
       config:
         core:
           sources:
-            pci:
-              deviceClassWhitelist:
-                - "02"
-                - "0200"
-                - "0207"
-                - "0300"
-                - "0302"
-              deviceLabelFields:
-                - vendor
-            usb:
-              deviceClassWhitelist:
-                - "0e"
-                - "ef"
-                - "fe"
-                - "ff"
-              deviceLabelFields:
-                - "class"
-                - "vendor"
-                - "device"
+            - pci
+            - system
+            - usb
     master:
         config:
-          extraLabelNs: ["nvidia.com"]
+          extraLabelNs:
+            - nvidia.com
+            - gpu.intel.com
     prometheus:
       enable: true
