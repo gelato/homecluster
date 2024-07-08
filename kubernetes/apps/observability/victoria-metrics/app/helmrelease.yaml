@@ -481,4 +481,4 @@ spec:
 
     ## install prometheus operator crds
     prometheus-operator-crds:
-      enabled: false
+      enabled: true
