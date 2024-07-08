@@ -161,9 +161,9 @@ spec:
       strategy: single
 
     driver:
-      enabled: true
+      enabled: false
       nvidiaDriverCRD:
-        enabled: true
+        enabled: false
         deployDefaultCR: true
         driverType: gpu
         nodeSelector: {}
