@@ -36,6 +36,7 @@ spec:
             - pci
             - system
             - usb
+            - custom
     master:
         config:
           extraLabelNs:
