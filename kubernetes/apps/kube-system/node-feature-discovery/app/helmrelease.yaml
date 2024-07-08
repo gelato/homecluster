@@ -30,6 +30,21 @@ spec:
     featureGates:
       NodeFeatureAPI: true
     worker:
+      annotations:
+        configmap.reloader.stakater.com/reload: "nfd-worker-conf"
+      tolerations:
+        - key: "node-role.kubernetes.io/master"
+          operator: "Exists"
+        - effect: "NoExecute"
+          operator: "Exists"
+        - effect: "NoSchedule"
+          operator: "Exists"
+      resources:
+        requests:
+          cpu: 5m
+          memory: 64M
+        limits:
+          memory: 64M
       config:
         core:
           sources:
@@ -37,10 +52,51 @@ spec:
             - system
             - usb
             - custom
+        sources:
+          pci:
+            deviceClassWhitelist:
+            - "02"
+            - "0200"
+            - "0207"
+            - "0300"
+            - "0302"
+            deviceLabelFields:
+            - vendor
+          usb:
+            deviceClassWhitelist:
+              - "02"
+              - "0e"
+              - "ef"
+              - "fe"
+              - "ff"
+            deviceLabelFields:
+              - "class"
+              - "vendor"
+              - "device"
     master:
-        config:
-          extraLabelNs:
-            - nvidia.com
-            - gpu.intel.com
+      tolerations:
+        - effect: "NoExecute"
+          operator: "Exists"
+        - effect: "NoSchedule"
+          operator: "Exists"
+      resources:
+        requests:
+          cpu: 5m
+          memory: 64M
+        limits:
+          memory: 64M
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: "node-role.kubernetes.io/master"
+                    operator: In
+                    values: [""]
+      config:
+        extraLabelNs:
+          - nvidia.com
+          - gpu.intel.com
     prometheus:
       enable: true
