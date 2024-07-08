@@ -9,5 +9,5 @@ resources:
   # - ./amd-device-plugin/ks.yaml
   - ./node-feature-discovery/ks.yaml
   - ./intel-device-plugin/ks.yaml
-  - ./nvidia-gpu-operator/ks.yaml
+  # - ./nvidia-gpu-operator/ks.yaml
   # - ./renovate/ks.yaml
