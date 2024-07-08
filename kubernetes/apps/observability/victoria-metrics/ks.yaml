@@ -27,7 +27,7 @@ metadata:
 spec:
   targetNamespace: observability
   dependsOn:
-    - name: victoriametrics-crd
+    # - name: victoriametrics-crd
     - name: longhorn
   path: "./kubernetes/apps/observability/victoria-metrics/app/"
   prune: true
