@@ -35,6 +35,7 @@ spec:
       enabled: false
     driver:
       enabled: true
+      version: 550.90.07
     toolkit:
       enabled: true
       env:
