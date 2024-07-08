@@ -35,13 +35,13 @@ spec:
           sources:
             pci:
               deviceClassWhitelist:
-              - "02"
-              - "0200"
-              - "0207"
-              - "0300"
-              - "0302"
+                - "02"
+                - "0200"
+                - "0207"
+                - "0300"
+                - "0302"
               deviceLabelFields:
-              - vendor
+                - vendor
             usb:
               deviceClassWhitelist:
                 - "0e"
@@ -52,6 +52,7 @@ spec:
                 - "class"
                 - "vendor"
                 - "device"
+            custom:
     master:
         config:
           extraLabelNs: ["nvidia.com"]
