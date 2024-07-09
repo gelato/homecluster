@@ -3,7 +3,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: smartctl-exporter-rules
+  name: smartctl-exporter-promrules
 spec:
   groups:
     - name: smartctl-exporter.rules
