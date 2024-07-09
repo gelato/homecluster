@@ -474,3 +474,7 @@ spec:
     #   insetad of trusting the stack chart
     grafana:
       enabled: false
+
+    ## install prometheus operator crds
+    prometheus-operator-crds:
+      enabled: true
