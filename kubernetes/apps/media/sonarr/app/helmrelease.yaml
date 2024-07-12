@@ -98,6 +98,7 @@ spec:
                       operator: In
                       values:
                         - jellyfin
+                topologyKey: "kubernetes.io/hostname"
     service:
       main:
         controller: main
