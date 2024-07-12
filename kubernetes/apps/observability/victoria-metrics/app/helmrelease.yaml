@@ -515,7 +515,7 @@ spec:
           memory: 100Mi
           ephemeral-storage: 1Gi
         limits:
-          memory: 150Mi
+          memory: 1Gi
           ephemeral-storage: 2Gi
       ## all values for prometheus-node-exporter helm chart can be specified here
       podLabels:
