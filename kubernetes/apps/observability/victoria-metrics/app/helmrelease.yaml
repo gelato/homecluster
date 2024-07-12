@@ -32,14 +32,36 @@ spec:
 
     # VM Operator deployment
     victoria-metrics-operator:
+      nameOverride: operator
       enabled: true
       cleanupCRD: true
+      env:
+        - name: VM_VMALERTDEFAULT_CONFIGRELOADERCPU
+          value: 100m
+        - name: VM_VMALERTDEFAULT_CONFIGRELOADERMEMORY
+          value: 100Mi
+        - name: VM_VMAGENTDEFAULT_CONFIGRELOADERCPU
+          value: 100m
+        - name: VM_VMAGENTDEFAULT_CONFIGRELOADERMEMORY
+          value: 100Mi
+        - name: VM_VMALERTMANAGER_CONFIGRELOADERCPU
+          value: 100m
+        - name: VM_VMALERTMANAGER_CONFIGRELOADERMEMORY
+          value: 100Mi
       operator:
         disable_prometheus_converter: false # Ensure we keep enabled the converter to sync prom rules to VM rules
         enable_converter_ownership: true # Required to allow VM to remove VM rules it imports if a prometheus rule is deleted
     serviceAccount:
       # -- Specifies whether a service account should be created
       create: true
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+          ephemeral-storage: 1Gi
+        limits:
+          memory: 100Mi
+          ephemeral-storage: 2Gi
     # Main VM Cluster in HA mode.
     vmcluster:
       enabled: true
@@ -56,10 +78,12 @@ spec:
             search.maxConcurrentRequests: "6"
           resources:
             requests:
-              cpu: 10m
-              memory: 300Mi
+              cpu: 40m
+              memory: 1.5G
+              ephemeral-storage: 1Gi
             limits:
-              memory: 6Gi
+              memory: 1.8G
+              ephemeral-storage: 2Gi
           topologySpreadConstraints:
           - maxSkew: 1
             topologyKey: kubernetes.io/hostname
@@ -70,7 +94,7 @@ spec:
           storage:
             volumeClaimTemplate:
               spec:
-                storageClassName: longhorn-fast
+                storageClassName: longhorn-storage
                 resources:
                   requests:
                     storage: 50Gi
@@ -84,10 +108,12 @@ spec:
             loggerTimezone: ${TIMEZONE}
           resources:
             requests:
-              cpu: 10m
-              memory: 300Mi
+              cpu: 40m
+              memory: 1.5G
+              ephemeral-storage: 1Gi
             limits:
-              memory: 6Gi
+              memory: 1.8G
+              ephemeral-storage: 2Gi
           topologySpreadConstraints:
           - maxSkew: 1
             topologyKey: kubernetes.io/hostname
@@ -98,7 +124,7 @@ spec:
           storage:
             volumeClaimTemplate:
               spec:
-                storageClassName: longhorn-fast
+                storageClassName: longhorn-storage
                 resources:
                   requests:
                     storage: 2Gi
@@ -110,10 +136,12 @@ spec:
             # insert.maxConcurrentRequests: 10
           resources:
             requests:
-              cpu: 10m
-              memory: 300Mi
+              cpu: 40m
+              memory: 1.5G
+              ephemeral-storage: 1Gi
             limits:
-              memory: 6Gi
+              memory: 1.8G
+              ephemeral-storage: 2Gi
           topologySpreadConstraints:
           - maxSkew: 1
             topologyKey: kubernetes.io/hostname
@@ -156,11 +184,12 @@ spec:
         evaluationInterval: "60s"
         resources:
           requests:
-            cpu: 10m
-            memory: 128Mi
+            cpu: 50m
+            memory: 100Mi
+            ephemeral-storage: 1Gi
           limits:
-            cpu: 150m
-            memory: 6Gi
+            memory: 200Mi
+            ephemeral-storage: 2Gi
         topologySpreadConstraints:
           - maxSkew: 1
             topologyKey: kubernetes.io/hostname
@@ -191,6 +220,8 @@ spec:
         shardCount: 2
         extraArgs:
           sortLabels: "true"
+          promscrape.dropOriginalLabels: "false"
+          promscrape.maxDroppedTargets: "12000"
         scrapeInterval: "30s"
         additionalScrapeConfigs:
           name: vm-additional-scrape-configs
@@ -202,11 +233,12 @@ spec:
             cluster: ark
         resources:
           requests:
-            cpu: 10m
-            memory: 256Mi
+            cpu: 20m
+            memory: 200Mi
+            ephemeral-storage: 1Gi
           limits:
-            cpu: 400m
-            memory: 6Gi
+            memory: 500Mi
+            ephemeral-storage: 2Gi
         topologySpreadConstraints:
           - maxSkew: 1
             topologyKey: kubernetes.io/hostname
@@ -279,6 +311,12 @@ spec:
 
       ingress:
         enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Infrastructure
+          gethomepage.dev/name: VM AlertManager
+          gethomepage.dev/icon: si-victoriametrics
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
         ingressClassName: internal
         hosts:
           - &hostam alertmanager.${SECRET_DOMAIN}
@@ -286,6 +324,14 @@ spec:
           - hosts:
               - *hostam
       spec:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+            ephemeral-storage: 1Gi
+          limits:
+            memory: 250Mi
+            ephemeral-storage: 2Gi
         externalURL: https://alertmanager.${SECRET_DOMAIN}
         replicaCount: 2
         # Import Alertmanager config from a existing secret
@@ -305,7 +351,7 @@ spec:
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: longhorn-fast
+              storageClassName: longhorn-storage
               resources:
                 requests:
                   storage: 50Mi
@@ -430,10 +476,25 @@ spec:
     # Enable deployment of kube state metrics contianers
     kube-state-metrics:
       enabled: true
+      fullnameOverride: kube-state-metrics
+      vmServiceScrape:
+        spec:
+          endpoints:
+          - port: http
+            honorLabels: true
+            metricRelabelConfigs:
+              - action: labeldrop
+                regex: (container_id|image_id)
+      metricLabelsAllowlist:
+        - pods=[*]
       resources:
         requests:
           cpu: 10m
-          memory: 128Mi
+          memory: 100Mi
+          ephemeral-storage: 1Gi
+        limits:
+          memory: 100Mi
+          ephemeral-storage: 2Gi
       tolerations:
         - key: "node-role.kubernetes.io/control-plane"
           operator: "Equal"
@@ -445,6 +506,17 @@ spec:
     #   insetad of trusting the stack chart
     prometheus-node-exporter:
       enabled: true
+      fullnameOverride: node-exporter
+      image:
+        pullPolicy: Always
+      resources:
+        requests:
+          cpu: 10m
+          memory: 100Mi
+          ephemeral-storage: 1Gi
+        limits:
+          memory: 150Mi
+          ephemeral-storage: 2Gi
       ## all values for prometheus-node-exporter helm chart can be specified here
       podLabels:
         ## Add the 'node-exporter' label to be used by serviceMonitor to match standard common usage in rules and grafana dashboards

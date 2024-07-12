@@ -7,6 +7,8 @@ metadata:
 type: Opaque
 stringData:
   alertmanager.yaml: |
+    global:
+          resolve_timeout: 5m
     receivers:
       - name: "null"
       - name: "pushover"

@@ -5,6 +5,7 @@ resources:
   - ./helmrelease.yaml
   - ./alertmanagerconfig.yaml
   - ./scrapes/extrascrapes.yaml
+  - ./scrapes/fluxmonitor.yaml
   # - ./scrapes/vmpodscrape.yaml
   - ./scrapes/servicescrape.yaml
   - ./rules/oom.yaml
