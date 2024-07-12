@@ -30,7 +30,6 @@ spec:
           reloader.stakater.com/auto: "true"
         initContainers:
           init-db:
-            order: 1
             image:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
@@ -39,7 +38,6 @@ spec:
                   name: gatus-secret
           # TODO: Convert this to a proper 'sidecar' container someday
           init-config:
-            order: 2
             image: &configSyncImage
               repository: ghcr.io/kiwigrid/k8s-sidecar
               tag: 1.27.4@sha256:f6ed71d0f9f1175df8c4b8c674b339a74785384d25fdad21b3c3dc0554109286
@@ -110,6 +108,7 @@ spec:
             port: *port
     serviceMonitor:
       main:
+        serviceName: main
         enabled: true
     ingress:
       main:
