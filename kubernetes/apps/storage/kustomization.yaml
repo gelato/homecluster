@@ -8,3 +8,4 @@ resources:
   - ./samba-operator/ks.yaml
   - ./samba-share/ks.yaml
   - ./harbor/ks.yaml
+  - ./democratic-csi/ks.yaml
