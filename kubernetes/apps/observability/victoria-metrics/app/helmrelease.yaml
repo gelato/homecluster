@@ -79,7 +79,7 @@ spec:
           resources:
             requests:
               cpu: 40m
-              memory: 1.5G
+              memory: 100Mi
               ephemeral-storage: 1Gi
             limits:
               memory: 1.8G
@@ -109,7 +109,7 @@ spec:
           resources:
             requests:
               cpu: 40m
-              memory: 1.5G
+              memory: 100Mi
               ephemeral-storage: 1Gi
             limits:
               memory: 1.8G
@@ -137,7 +137,7 @@ spec:
           resources:
             requests:
               cpu: 40m
-              memory: 100m
+              memory: 100Mi
               ephemeral-storage: 1Gi
             limits:
               memory: 1.8G
