@@ -82,7 +82,7 @@ spec:
               memory: 100Mi
               ephemeral-storage: 1Gi
             limits:
-              memory: 1.8G
+              memory: 3.5G
               ephemeral-storage: 2Gi
           topologySpreadConstraints:
           - maxSkew: 1
