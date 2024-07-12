@@ -55,7 +55,7 @@ spec:
               RADARR__PORT: &port 8049
               RADARR__LOG_LEVEL: info
               RADARR__THEME: dark
-              TZ: Europe/Simferopol
+              TZ: ${TIMEZONE}
             envFrom: *envFrom
             probes:
               liveness: &probes

@@ -32,6 +32,8 @@ spec:
             image:
               repository: ghcr.io/koush/scrypted
               tag: v0.114.0-jammy-full
+            env:
+              TZ: ${TIMEZONE}
             probes:
               liveness:
                 enabled: true

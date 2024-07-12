@@ -34,7 +34,7 @@ spec:
         type: cronjob
         cronjob: &cronJobSpec
           schedule: "@hourly"
-          timeZone: &timeZone Europe/Simferopol
+          timeZone: &timeZone ${TIMEZONE}
           concurrencyPolicy: Forbid
           successfulJobsHistory: 1
           failedJobsHistory: 1

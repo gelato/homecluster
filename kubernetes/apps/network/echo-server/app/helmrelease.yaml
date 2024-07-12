@@ -32,6 +32,7 @@ spec:
               repository: ghcr.io/mendhak/http-https-echo
               tag: 33
             env:
+              TZ: ${TIMEZONE}
               HTTP_PORT: &port 8080
               LOG_WITHOUT_NEWLINE: true
               LOG_IGNORE_PATH: /healthz
