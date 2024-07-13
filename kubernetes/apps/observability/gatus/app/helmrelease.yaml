@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -20,50 +20,61 @@ spec:
   upgrade:
     cleanupOnFail: true
     remediation:
+      strategy: rollback
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
-      main:
+      gatus:
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          dnsConfig:
+            options:
+              - { name: ndots, value: "1" }
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            runAsGroup: 65534
+            fsGroup: 65534
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile: { type: RuntimeDefault }
         initContainers:
           init-db:
             image:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
-            envFrom: &envFrom
+            envFrom:
               - secretRef:
-                  name: gatus-secret
-          # TODO: Convert this to a proper 'sidecar' container someday
+                  name: gatus
           init-config:
             dependsOn: init-db
-            image: &configSyncImage
+            image:
               repository: ghcr.io/kiwigrid/k8s-sidecar
-              tag: 1.27.4@sha256:f6ed71d0f9f1175df8c4b8c674b339a74785384d25fdad21b3c3dc0554109286
-            env: &configSyncEnv
+              tag: 1.27.5@sha256:1fc88232e223a6977c626510372a74ca1f73af073e3c361719ccf02f223c8a12
+            env:
               FOLDER: /config
               LABEL: gatus.io/enabled
               NAMESPACE: ALL
               RESOURCE: both
               UNIQUE_FILENAMES: true
-              METHOD: LIST
-            resources: &resources
+              METHOD: WATCH
+            restartPolicy: Always
+            resources:
               requests:
                 cpu: 10m
               limits:
-                memory: 128Mi
+                memory: 256Mi
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/twin/gatus
               tag: v5.11.0@sha256:eb0374eb55e3ff84ec8f9ea10342ddb623cfba23e5836138896cde01f11cf23d
             env:
-              TZ: ${TIMEZONE}
               GATUS_CONFIG_PATH: /config
-              CUSTOM_WEB_PORT: &port 80
-            envFrom: *envFrom
+              GATUS_DELAY_START_SECONDS: 5
+            envFrom:
+              - secretRef:
+                  name: gatus
             probes:
               liveness: &probes
                 enabled: true
@@ -71,45 +82,30 @@ spec:
                 spec:
                   httpGet:
                     path: /health
-                    port: *port
+                    port: &port 8080
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
-              startup:
-                enabled: false
-            securityContext: &securityContext
+            securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
-            resources: *resources
-          config-sync:
-            image: *configSyncImage
-            env:
-              <<: *configSyncEnv
-              METHOD: WATCH
-            securityContext: *securityContext
-            resources: *resources
-        pod:
-          dnsConfig:
-            options:
-              - { name: ndots, value: "1" }
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            runAsNonRoot: true
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 256Mi
     service:
-      main:
-        controller: main
+      app:
+        controller: gatus
         ports:
           http:
             port: *port
     serviceMonitor:
-      main:
-        serviceName: main
+      app:
+        serviceName: gatus
         endpoints:
           - port: http
             scheme: http
@@ -117,31 +113,26 @@ spec:
             interval: 1m
             scrapeTimeout: 10s
     ingress:
-      main:
-        enabled: true
-        className: external
+      app:
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
+        className: external
         hosts:
-          - host: &host status.${SECRET_DOMAIN}
+          - host: status.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
-                  identifier: main
+                  identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *host
     serviceAccount:
       create: true
       name: gatus
     persistence:
       config:
-        enabled: true
         type: emptyDir
       config-file:
         type: configMap
-        name: gatus-configmap
+        name: gatus
         globalMounts:
           - path: /config/config.yaml
             subPath: config.yaml
