@@ -506,17 +506,6 @@ spec:
     #   insetad of trusting the stack chart
     prometheus-node-exporter:
       enabled: true
-      fullnameOverride: node-exporter
-      image:
-        pullPolicy: Always
-      resources:
-        requests:
-          cpu: 10m
-          memory: 100Mi
-          ephemeral-storage: 1Gi
-        limits:
-          memory: 1Gi
-          ephemeral-storage: 2Gi
       ## all values for prometheus-node-exporter helm chart can be specified here
       podLabels:
         ## Add the 'node-exporter' label to be used by serviceMonitor to match standard common usage in rules and grafana dashboards
