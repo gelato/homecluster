@@ -100,7 +100,7 @@ spec:
                     storage: 50Gi
         # Query backend
         vmselect:
-          replicaCount: 2 # HA
+          replicaCount: 1 # HA
           cacheMountPath: /select-cache
           extraArgs:
             dedup.minScrapeInterval: 60s
@@ -130,7 +130,7 @@ spec:
                     storage: 2Gi
         # Data ingestion backend
         vminsert:
-          replicaCount: 2 # HA
+          replicaCount: 1 # HA
           extraArgs:
             maxLabelsPerTimeseries: "90" # More needed if you are scraping a LOT of stuff and having issues
             # insert.maxConcurrentRequests: 10
@@ -180,7 +180,7 @@ spec:
     vmalert:
       enabled: true
       spec:
-        replicaCount: 2 # HA
+        replicaCount: 1 # HA
         evaluationInterval: "60s"
         resources:
           requests:
@@ -217,7 +217,7 @@ spec:
     vmagent:
       enabled: true
       spec:
-        shardCount: 2
+        shardCount: 1
         extraArgs:
           sortLabels: "true"
           promscrape.dropOriginalLabels: "false"
@@ -333,7 +333,7 @@ spec:
             memory: 250Mi
             ephemeral-storage: 2Gi
         externalURL: https://alertmanager.${SECRET_DOMAIN}
-        replicaCount: 2
+        replicaCount: 1
         # Import Alertmanager config from a existing secret
         # this can be configured directly in chart but it can
         #   be a bit unweildy to manage
