@@ -12,8 +12,8 @@ debug: false
 ui:
   title: Status | Gatus
   header: Status
-  logo: https://avatars.githubusercontent.com/u/17620516?v=5
-  link: https://github.com/kashalls
+  logo: https://avatars.githubusercontent.com/u/1236528?s=400&v=4
+  link: https://github.com/gelato
   buttons:
     - name: Github
       link: https://github.com/gelato
