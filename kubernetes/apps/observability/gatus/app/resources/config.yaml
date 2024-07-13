@@ -1,5 +1,6 @@
 ---
-# Note: Gatus vars should be escaped with $${VAR_NAME} to avoid interpolation by Flux
+# As declared by lord onedr0p:
+# Gatus vars should be escaped with $${VAR_NAME} to avoid interpolation by Flux
 web:
   port: $${CUSTOM_WEB_PORT}
 storage:
@@ -11,15 +12,22 @@ debug: false
 ui:
   title: Status | Gatus
   header: Status
+  logo: https://avatars.githubusercontent.com/u/17620516?v=5
+  link: https://github.com/kashalls
+  buttons:
+    - name: Github
+      link: https://github.com/gelato
+    - name: Home Cluster
+      link: https://github.com/gelato/homecluster
 alerting:
   pushover:
     application-token: $${CUSTOM_PUSHOVER_TOKEN}
     user-key: $${CUSTOM_PUSHOVER_USER_KEY}
     default-alert:
-      description: health-check failed
+      description: healthcheck failed
       send-on-resolved: true
-      failure-threshold: 5
-      success-threshold: 2
+      failure-threshold: 3
+      success-threshold: 5
 connectivity:
   checker:
     target: 1.1.1.1:53
