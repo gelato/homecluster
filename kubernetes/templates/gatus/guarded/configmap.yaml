@@ -1,3 +1,27 @@
+# ---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: "${APP}-gatus-ep"
+#   labels:
+#     gatus.io/enabled: "true"
+# data:
+#   config.yaml: |
+#     endpoints:
+#       - name: "${APP}"
+#         group: guarded
+#         url: 1.1.1.1
+#         interval: 1m
+#         ui:
+#           hide-hostname: true
+#           hide-url: true
+#         dns:
+#           query-name: "${GATUS_SUBDOMAIN:-${APP}}.${SECRET_DOMAIN}"
+#           query-type: A
+#         conditions:
+#           - "len([BODY]) == 0"
+#         alerts:
+#           - type: pushover
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -9,16 +33,15 @@ data:
   config.yaml: |
     endpoints:
       - name: "${APP}"
-        group: guarded
-        url: 1.1.1.1
+        group: external
+        url: "https://${GATUS_SUBDOMAIN:-${APP}}.${SECRET_DOMAIN}${GATUS_PATH:-/}"
         interval: 1m
         ui:
           hide-hostname: true
           hide-url: true
-        dns:
-          query-name: "${GATUS_SUBDOMAIN:-${APP}}.${SECRET_DOMAIN}"
-          query-type: A
+        client:
+          dns-resolver: tcp://192.168.8.1:53
         conditions:
-          - "len([BODY]) == 0"
+          - "[STATUS] == ${GATUS_STATUS:-200}"
         alerts:
           - type: pushover
