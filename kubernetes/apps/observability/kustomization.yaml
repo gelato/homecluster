@@ -6,7 +6,7 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./gatus/ks.yaml
+  # - ./gatus/ks.yaml
   - ./smartctl-exporter/ks.yaml
   # - ./unpoller/ks.yaml
   - ./victoria-metrics/ks.yaml
