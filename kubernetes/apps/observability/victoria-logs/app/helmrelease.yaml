@@ -34,9 +34,7 @@ spec:
 
       ingress:
         enabled: true
-        ingressClassName: "internal"
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
+        ingressClassName: internal
         hosts:
           - name: logs.${SECRET_DOMAIN}
             path: /
