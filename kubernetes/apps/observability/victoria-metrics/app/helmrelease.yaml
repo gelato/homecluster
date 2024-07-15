@@ -188,7 +188,7 @@ spec:
     vmagent:
       enabled: true
       spec:
-        shardCount: 2
+        shardCount: 1
         extraArgs:
           sortLabels: "true"
         scrapeInterval: "30s"
