@@ -213,7 +213,7 @@ spec:
         #     whenUnsatisfiable: DoNotSchedule
         #     labelSelector:
         #       matchLabels:
-                app.kubernetes.io/name: vmagent
+                # app.kubernetes.io/name: vmagent
       ingress:
         enabled: true
         ingressClassName: internal
