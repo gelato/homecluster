@@ -38,6 +38,7 @@ rules:
     - kustomizations
     - helmreleases
     - helmrepositories
+    - helmcharts
   verbs:
     - get
     - watch
