@@ -37,6 +37,7 @@ rules:
     - buckets
     - kustomizations
     - helmreleases
+    - helmrepositories
   verbs:
     - get
     - watch
