@@ -207,13 +207,13 @@ spec:
           limits:
             cpu: 550m
             memory: 6Gi
-        # topologySpreadConstraints:
-        #   - maxSkew: 1
-        #     topologyKey: kubernetes.io/hostname
-        #     whenUnsatisfiable: DoNotSchedule
-        #     labelSelector:
-        #       matchLabels:
-                # app.kubernetes.io/name: vmagent
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: vmagent
       ingress:
         enabled: true
         ingressClassName: internal
