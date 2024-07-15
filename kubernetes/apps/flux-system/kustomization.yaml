@@ -5,4 +5,4 @@ resources:
   - ./namespace.yaml
   - ./webhooks/ks.yaml
   - ./flux-webui/ks.yaml
-  - ./capacitor/ks.yaml
+  # - ./capacitor/ks.yaml
