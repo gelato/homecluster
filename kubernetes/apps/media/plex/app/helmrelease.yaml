@@ -178,7 +178,7 @@ spec:
 
       # optional extra annotations to add to the service resource
       annotations:
-        io.cilium/lb-ipam-ips: "192.168.108.33"
+        io.cilium/lb-ipam-ips: "192.168.108.22"
 
 
     nodeSelector: {}
