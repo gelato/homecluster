@@ -39,8 +39,8 @@ spec:
       defaultFsType: ext4
       reclaimPolicy: Delete
     csi:
-      attacherReplicaCount: 1
-      provisionerReplicaCount: 1
+      attacherReplicaCount: 2
+      provisionerReplicaCount: 2
       resizerReplicaCount: 1
       snapshotterReplicaCount: 1
     defaultSettings:
