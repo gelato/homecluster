@@ -28,69 +28,69 @@ spec:
       namespace: storage
   values:
     global:
-    # -- Configure the plex image that will be used for the PMS and Worker components
-    # @default -- See below
-    plexImage:
-      # -- The image that will be used
-      repository: linuxserver/plex
-
-      # -- The image tag to use
-      tag: latest
-
-      # -- Defines when the image should be pulled. Options are Always (default), IfNotPresent, and Never
-      imagePullPolicy: Always
-
-    # -- The CluterPlex version of docker mod images to pull
-    # @default -- The appVersion for this chart
-    clusterplexVersion:
-
-    # -- The timezone configured for each pod
-    timezone: ${TIMEZONE}
-
-    # -- The process group ID that the LinuxServer Plex container will run Plex/Worker as.
-    PGID: 1000
-
-    # -- The process user ID that the LinuxServer Plex container will run Plex/Worker as.
-    PUID: 1000
-
-    sharedStorage:
-      # -- Configure the volume that will be mounted to the PMS and worker pods for a shared location for transcoding files.
+      # -- Configure the plex image that will be used for the PMS and Worker components
       # @default -- See below
-      transcode:
-        # -- Enable or disable the transcode PVC. This should only be disabled if you are not using the workers.
-        enabled: true
+      plexImage:
+        # -- The image that will be used
+        repository: linuxserver/plex
 
-        # -- Storage class for the transcode volume.
-        # If set to `-`, dynamic provisioning is disabled.
-        # If set to something else, the given storageClass is used.
-        # If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner.
-        # NOTE: This class must support ReadWriteMany otherwise you will encounter errors.
-        storageClass: longhorn-fast
+        # -- The image tag to use
+        tag: latest
 
-        # -- The size of the transcode volume.
-        size: 100Gi
+        # -- Defines when the image should be pulled. Options are Always (default), IfNotPresent, and Never
+        imagePullPolicy: Always
 
-        # -- Set to true to retain the PVC upon `helm uninstall`
-        retain: false
+      # -- The CluterPlex version of docker mod images to pull
+      # @default -- The appVersion for this chart
+      clusterplexVersion:
 
-      # -- Configure the media volume that will contain all of your media. If you need more volumes you need to add them under
-      # the pms and worker sections manually. Those volumes must already be present in the cluster.
-      # @default -- See below
-      media:
-        # -- Enables or disables the volume
-        enabled: true
+      # -- The timezone configured for each pod
+      timezone: ${TIMEZONE}
 
-        # -- If you want to reuse an existing claim, the name of the existing PVC can be passed here.
-        existingClaim: media-storage
+      # -- The process group ID that the LinuxServer Plex container will run Plex/Worker as.
+      PGID: 1000
 
-        # -- Used in conjunction with `existingClaim`. Specifies a sub-path inside the referenced volume instead of its root
-        subPath: # some-subpath
+      # -- The process user ID that the LinuxServer Plex container will run Plex/Worker as.
+      PUID: 1000
 
-        # -- Set to true to retain the PVC upon `helm uninstall`
-        retain: true
+      sharedStorage:
+        # -- Configure the volume that will be mounted to the PMS and worker pods for a shared location for transcoding files.
+        # @default -- See below
+        transcode:
+          # -- Enable or disable the transcode PVC. This should only be disabled if you are not using the workers.
+          enabled: true
 
-      # -- Use this section to add additional media mounts if necessary. You can copy the contents of the above media
-      additionalMediaVolumes: {}
+          # -- Storage class for the transcode volume.
+          # If set to `-`, dynamic provisioning is disabled.
+          # If set to something else, the given storageClass is used.
+          # If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner.
+          # NOTE: This class must support ReadWriteMany otherwise you will encounter errors.
+          storageClass: longhorn-fast
+
+          # -- The size of the transcode volume.
+          size: 100Gi
+
+          # -- Set to true to retain the PVC upon `helm uninstall`
+          retain: false
+
+        # -- Configure the media volume that will contain all of your media. If you need more volumes you need to add them under
+        # the pms and worker sections manually. Those volumes must already be present in the cluster.
+        # @default -- See below
+        media:
+          # -- Enables or disables the volume
+          enabled: true
+
+          # -- If you want to reuse an existing claim, the name of the existing PVC can be passed here.
+          existingClaim: media-storage
+
+          # -- Used in conjunction with `existingClaim`. Specifies a sub-path inside the referenced volume instead of its root
+          subPath: # some-subpath
+
+          # -- Set to true to retain the PVC upon `helm uninstall`
+          retain: true
+
+        # -- Use this section to add additional media mounts if necessary. You can copy the contents of the above media
+        additionalMediaVolumes: {}
 
 
     # -- Configure the Plex Media Server component
