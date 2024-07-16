@@ -463,7 +463,7 @@ spec:
         accessMode: ReadWriteOnce
 
         # -- The size of the volume
-        size: 1Gi
+        size: 3Gi
 
         # -- Storage Class for the codec volumes
         # If set to `-`, dynamic provisioning is disabled.
@@ -475,13 +475,13 @@ spec:
       # @default -- See below
       healthProbes:
         # -- Enable or disable the startup probe
-        startup: true
+        startup: false
 
         # -- Enable or disable the readiness probe
-        readiness: true
+        readiness: false
 
         # -- Enable or disable the liveness probe
-        liveness: true
+        liveness: false
 
       # -- Configure the resource requests and limits for the worker component
       # @default -- See below
