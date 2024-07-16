@@ -133,7 +133,7 @@ spec:
         transcodeOperatingMode: both
 
         # -- Set the Plex claim token obtained from https://plex.tv/claim
-        plexClaimToken: claim-L7KJWif9qpo7Sy-2HhYv
+        plexClaimToken: claim-m89T1FT6rvtSeE2yQ9vk
 
         # -- Set the version of Plex to use. Valid options are docker, latest, public, or a specific version.
         # [[ref](https://github.com/linuxserver/docker-plex#application-setup)]
@@ -475,13 +475,13 @@ spec:
       # @default -- See below
       healthProbes:
         # -- Enable or disable the startup probe
-        startup: false
+        startup: true
 
         # -- Enable or disable the readiness probe
-        readiness: false
+        readiness: true
 
         # -- Enable or disable the liveness probe
-        liveness: false
+        liveness: true
 
       # -- Configure the resource requests and limits for the worker component
       # @default -- See below
