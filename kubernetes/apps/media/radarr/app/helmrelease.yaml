@@ -97,7 +97,7 @@ spec:
                     - key: "app.kubernetes.io/name"
                       operator: In
                       values:
-                        - plex-media-server
+                        - jellyfin
                 topologyKey: "kubernetes.io/hostname"
     service:
       main:
