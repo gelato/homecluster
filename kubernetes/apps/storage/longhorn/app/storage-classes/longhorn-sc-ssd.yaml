@@ -1,7 +1,7 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: longhorn-storage2
+  name: longhorn-ssd
 provisioner: driver.longhorn.io
 allowVolumeExpansion: true
 reclaimPolicy: Delete
@@ -11,4 +11,10 @@ parameters:
   staleReplicaTimeout: "2880"
   fromBackup: ""
   fsType: "ext4"
-  diskSelector: "storage2"
+  diskSelector: "ssd"
+  recurringJobSelector: '[
+    {
+      "name":"snapshot-delete",
+      "isGroup":true
+    }
+  ]'

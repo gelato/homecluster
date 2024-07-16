@@ -3,7 +3,9 @@ kind: Kustomization
 resources:
  - helmrelease.yaml
  - s3-secret.sops.yaml
- - longhorn-sc-fast.yaml
- - longhorn-sc-ssd.yaml
- - longhorn-sc-storage.yaml
- - longhorn-sc-storage2.yaml
+ - ./storage-classes/longhorn-sc-fast.yaml
+ - ./storage-classes/longhorn-sc-ssd.yaml
+ - ./storage-classes/longhorn-sc-storage.yaml
+ - ./storage-classes/longhorn-sc-storage2.yaml
+ - ./jobs/filesystem-trim.yaml
+ - ./jobs/snapshot-manage.yaml
