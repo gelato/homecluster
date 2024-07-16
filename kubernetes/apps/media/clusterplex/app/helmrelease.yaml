@@ -348,7 +348,7 @@ spec:
       # If enabled, this creates a ConfigMap containing the dashboard JSON so that your Gradana instance can detect it.
       # This requires your grafana instance to have the grafana.sidecar.dashboards.enabled to be true and the searchNamespace
       # to be set to ALL otherwise this will not be discovered.
-      enableGrafanaDashboard: true
+      enableGrafanaDashboard: false
 
       # -- Enable or disable the various health check probes for this component
       # @default -- See below
