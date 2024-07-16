@@ -53,7 +53,6 @@ spec:
           # required for HA vmagents
           extraArgs:
             dedup.minScrapeInterval: 60s # Only needed for HA
-            search.maxConcurrentRequests: "6"
           resources:
             requests:
               cpu: 10m
@@ -81,6 +80,7 @@ spec:
           extraArgs:
             dedup.minScrapeInterval: 60s
             vmstorageDialTimeout: 5s
+            search.maxConcurrentRequests: "10"
             loggerTimezone: ${TIMEZONE}
           resources:
             requests:
