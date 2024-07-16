@@ -197,16 +197,12 @@ spec:
               - # -- Path.  Helm template can be passed.
                 path: /
                 pathType: Prefix
-                service:
-                  # -- Overrides the service name reference for this path
-                  name:
-                  # -- Overrides the service port reference for this path
-                  port:
 
         # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
         tls:
-          hosts:
-            - *host
+          - secretName: clusterplex
+            hosts:
+              - *host
 
       # -- Configure the volume that stores all the Plex configuration and metadata
       # @default -- See below
