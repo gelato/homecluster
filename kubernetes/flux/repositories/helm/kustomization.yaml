@@ -26,4 +26,4 @@ resources:
   - ./repos/harbor.yaml
   - ./repos/harbor-webhook.yaml
   - ./repos/democratic-csi.yaml
-  - ./repos/capacitor.yaml
+  - ./repos/clusterplex.yaml
