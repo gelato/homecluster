@@ -42,7 +42,7 @@ spec:
                     - key: "app.kubernetes.io/name"
                       operator: In
                       values:
-                        - jellyfin
+                        - plex-media-server
                 topologyKey: "kubernetes.io/hostname"
         containers:
           app:
