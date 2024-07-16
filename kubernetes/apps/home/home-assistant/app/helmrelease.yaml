@@ -65,8 +65,8 @@ spec:
           securityContext:
             runAsUser: 0
             runAsGroup: 0
-          nodeSelector:
-            sonoff.feature.node.kubernetes.io/dongle-e: "true"
+          # nodeSelector:
+          #   sonoff.feature.node.kubernetes.io/dongle-e: "true"
     service:
       main:
         controller: main
@@ -105,12 +105,12 @@ spec:
       config:
         enabled: true
         existingClaim: home-assistant
-      usb:
-        enabled: true
-        type: hostPath
-        hostPath: /dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20240122203435-if00
-        # hostPathType: CharDevice
-        globalMounts:
-        - path: /dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20240122203435-if00
+      # usb:
+      #   enabled: true
+      #   type: hostPath
+      #   hostPath: /dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20240122203435-if00
+      #   # hostPathType: CharDevice
+      #   globalMounts:
+      #   - path: /dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20240122203435-if00
       tmp:
         type: emptyDir

@@ -55,8 +55,16 @@ spec:
           securityContext:
             runAsUser: 0
             runAsGroup: 0
-          nodeSelector:
-            sonoff.feature.node.kubernetes.io/dongle-e: "true"
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: "app.kubernetes.io/name"
+                      operator: In
+                      values:
+                        - home-assistant
+                topologyKey: "kubernetes.io/hostname"
     service:
       main:
         controller: main
