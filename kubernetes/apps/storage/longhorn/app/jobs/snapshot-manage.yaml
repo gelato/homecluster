@@ -23,7 +23,7 @@ spec:
   cron: "0 */5 * * *"
   task: "snapshot-delete"
   groups:
-  - snap-retention
+  - default
   retain: 1
   concurrency: 2
   labels:

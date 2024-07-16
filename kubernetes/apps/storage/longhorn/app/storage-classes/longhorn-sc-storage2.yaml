@@ -12,9 +12,3 @@ parameters:
   fromBackup: ""
   fsType: "ext4"
   diskSelector: "storage2"
-  recurringJobSelector: '[
-    {
-      "name":"snapshot-delete",
-      "isGroup":true
-    }
-  ]'
