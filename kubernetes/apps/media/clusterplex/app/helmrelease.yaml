@@ -8,11 +8,11 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: plex-media-server
+      chart: clusterplex
       version: 0.2.1
       sourceRef:
         kind: HelmRepository
-        name: plex-media-server
+        name: clusterplex
         namespace: flux-system
   install:
     remediation:
@@ -27,216 +27,499 @@ spec:
     - name: longhorn
       namespace: storage
   values:
-    # The docker image information for the pms application
-    image:
-      registry: index.docker.io
-      repository: plexinc/pms-docker
-      # If unset use "latest"
-      tag: "latest"
-      sha: ""
-      pullPolicy: IfNotPresent
-
     global:
-      # Allow parent charts to override registry hostname
-      imageRegistry: ""
+    # -- Configure the plex image that will be used for the PMS and Worker components
+    # @default -- See below
+    plexImage:
+      # -- The image that will be used
+      repository: linuxserver/plex
 
-    ingress:
-      # Specify if an ingress resource for the pms server should be created or not
+      # -- The image tag to use
+      tag: latest
+
+      # -- Defines when the image should be pulled. Options are Always (default), IfNotPresent, and Never
+      imagePullPolicy: Always
+
+    # -- The CluterPlex version of docker mod images to pull
+    # @default -- The appVersion for this chart
+    clusterplexVersion:
+
+    # -- The timezone configured for each pod
+    timezone: ${TIMEZONE}
+
+    # -- The process group ID that the LinuxServer Plex container will run Plex/Worker as.
+    PGID: 1000
+
+    # -- The process user ID that the LinuxServer Plex container will run Plex/Worker as.
+    PUID: 1000
+
+    sharedStorage:
+      # -- Configure the volume that will be mounted to the PMS and worker pods for a shared location for transcoding files.
+      # @default -- See below
+      transcode:
+        # -- Enable or disable the transcode PVC. This should only be disabled if you are not using the workers.
+        enabled: true
+
+        # -- Storage class for the transcode volume.
+        # If set to `-`, dynamic provisioning is disabled.
+        # If set to something else, the given storageClass is used.
+        # If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner.
+        # NOTE: This class must support ReadWriteMany otherwise you will encounter errors.
+        storageClass: longhorn-fast
+
+        # -- The size of the transcode volume.
+        size: 100Gi
+
+        # -- Set to true to retain the PVC upon `helm uninstall`
+        retain: false
+
+      # -- Configure the media volume that will contain all of your media. If you need more volumes you need to add them under
+      # the pms and worker sections manually. Those volumes must already be present in the cluster.
+      # @default -- See below
+      media:
+        # -- Enables or disables the volume
+        enabled: true
+
+        # -- If you want to reuse an existing claim, the name of the existing PVC can be passed here.
+        existingClaim: media-storage
+
+        # -- Used in conjunction with `existingClaim`. Specifies a sub-path inside the referenced volume instead of its root
+        subPath: # some-subpath
+
+        # -- Set to true to retain the PVC upon `helm uninstall`
+        retain: true
+
+      # -- Use this section to add additional media mounts if necessary. You can copy the contents of the above media
+      additionalMediaVolumes: {}
+
+
+    # -- Configure the Plex Media Server component
+    # @default -- See below
+    pms:
+      # -- Enable or disable the Plex Media Server component
       enabled: true
 
-      # The ingress class that should be used
-      ingressClassName: "external"
 
-      # The url to use for the ingress reverse proxy to point at this pms instance
-      url: "https://plex.skynerv.com"
+      # -- Additional environment variables. Template enabled.
+      # Syntax options:
+      # A) TZ: UTC
+      # B) PASSWD: '{{ .Release.Name }}'
+      # C) PASSWD:
+      #      configMapKeyRef:
+      #        name: config-map-name
+      #        key: key-name
+      # D) PASSWD:
+      #      valueFrom:
+      #        secretKeyRef:
+      #          name: secret-name
+      #          key: key-name
+      #      ...
+      # E) - name: TZ
+      #      value: UTC
+      # F) - name: TZ
+      #      value: '{{ .Release.Name }}'
+      env:
+        - name: TZ
+          value: ${TIMEZONE}
 
-      # Custom annotations to put on the ingress resource
-      annotations:
-        external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
-        # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      # -- Supply the configuration items used to configure the PMS component
+      # @default -- See below
+      config:
+        # -- Set this to 1 if you want only info logging from the transcoder or 0 if you want debugging logs
+        transcoderVerbose: 1
 
-    pms:
-      # The storage class to use when provisioning the pms config volume
-      # this needs to be created manually, null will use the default
-      storageClassName: longhorn-fast
+        # -- Set the transcode operating mode. Valid options are local (No workers), remote (only remote workers), both (default, remote first then local if remote fails).
+        # If you disable the worker then this will be set to local automatically as that is the only valid option for that confguration.
+        transcodeOperatingMode: both
 
-      # the volume size to provision for the PMS database
-      configStorage: 20Gi
+        # -- Set the Plex claim token obtained from https://plex.tv/claim
+        plexClaimToken: claim-L7KJWif9qpo7Sy-2HhYv
 
+        # -- Set the version of Plex to use. Valid options are docker, latest, public, or a specific version.
+        # [[ref](https://github.com/linuxserver/docker-plex#application-setup)]
+        version: docker
+
+        # -- The port that Plex will listen on
+        port: 32400
+
+        # -- Enable or disable the local relay function. In most cases this should be left to the default (true).
+        # If you disable this, you must add the pod IP address of each worker or the pod network CIDR to Plex under the
+        # `List of IP addresses and networks that are allowed without auth` option in Plex's network configuration.
+        localRelayEnabled: true
+
+        # -- The port that the relay service will listen on
+        relayPort: 32499
+
+        # -- The IP address that plex is using. This is only utilized if you disable the localRelayEnabled option above.
+        pmsIP: ""
+
+      # -- Configure the kubernetes service associated with the the PMS component
+      # @default -- See below
+      serviceConfig:
+        # Configure the type of service
+        type: LoadBalancer
+
+        # -- Specify the externalTrafficPolicy for the service. Options: Cluster, Local
+        # [[ref](https://kubernetes.io/docs/tutorials/services/source-ip/)]
+        externalTrafficPolicy:
+
+        # -- Provide additional annotations which may be required.
+        annotations:
+          io.cilium/lb-ipam-ips: "192.168.108.22"
+
+        # -- Provide additional labels which may be required.
+        labels: {}
+
+      # -- Configure the ingress for plex here.
+      # @default -- See below
+      ingressConfig:
+        # -- Enables or disables the ingress
+        enabled: true
+
+        # -- Provide additional annotations which may be required.
+        annotations:
+          external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
+          # kubernetes.io/ingress.class: nginx
+          # kubernetes.io/tls-acme: "true"
+
+        # -- Provide additional labels which may be required.
+        labels: {}
+
+        # -- Set the ingressClass that is used for this ingress.
+        ingressClassName: external
+
+        ## Configure the hosts for the ingress
+        hosts:
+          - # -- Host address. Helm template can be passed.
+            host: &host plex.${SECRET_DOMAIN}
+            ## Configure the paths for the host
+            paths:
+              - # -- Path.  Helm template can be passed.
+                path: /
+                pathType: Prefix
+                service:
+                  # -- Overrides the service name reference for this path
+                  name:
+                  # -- Overrides the service port reference for this path
+                  port:
+
+        # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
+        tls:
+          hosts:
+            - *host
+
+      # -- Configure the volume that stores all the Plex configuration and metadata
+      # @default -- See below
+      configVolume:
+        # -- Enables or disables the volume
+        enabled: true
+
+        # -- Storage Class for the config volume.
+        # If set to `-`, dynamic provisioning is disabled.
+        # If set to something else, the given storageClass is used.
+        # If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner.
+        storageClass: longhorn-fast
+
+        # -- AccessMode for the persistent volume.
+        # Make sure to select an access mode that is supported by your storage provider!
+        # [[ref]](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes)
+        accessMode: ReadWriteOnce
+
+        # -- The amount of storage that is requested for the persistent volume.
+        size: 25Gi
+
+        # -- Set to true to retain the PVC upon `helm uninstall`
+        retain: true
+
+      # -- Enable or disable the various health check probes for this component
+      # @default -- See below
+      healthProbes:
+        # -- Enable or disable the startup probe
+        startup: true
+
+        # -- Enable or disable the readiness probe
+        readiness: true
+
+        # -- Enable or disable the liveness probe
+        liveness: true
+
+      # -- Configure the resource requests and limits for the PMS component
+      # @default -- See below
       resources:
-      # We usually recommend not to specify default resources and to leave this as a conscious
-      # choice for the user. This also increases chances charts run on environments with little
-      # resources, such as Minikube. If you do want to specify resources, uncomment the following
-      # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-        limits:
-          cpu: 4000m
-          memory: 16Gi
-          nvidia.com/gpu: 1
         requests:
-          cpu: 10m
-          memory: 512Mi
+          # -- CPU Request amount
+          cpu: 2000m
 
-    # A basic image that will convert the configmap to a file in the rclone config volume
-    # this is ignored if rclone is not enabled
-    initContainer:
+          # Memory Request Amount
+          memory: 2Gi
+
+        limits:
+          # -- CPU Limit amount
+          cpu: 4000m
+
+          # -- Memory Limit amount
+          memory: 4Gi
+
+
+
+
+    # -- Configure the orchestrator component
+    # @default -- See below
+    orchestrator:
+      # -- Enable or disable the Orchestrator component
+      enabled: true
+
       image:
-        registry: index.docker.io
-        repository: alpine
-        # If unset use latest
-        tag: 3.19.1
-        sha: ""
+        # -- image repository
+        repository: ghcr.io/pabloromeo/clusterplex_orchestrator
+
+        # -- image pull policy
         pullPolicy: IfNotPresent
 
-      # A custom script that will be run in an init container to do any setup before the PMS service starts up
-      # This will be run everytime the pod starts, make sure that some mechanism is included to prevent
-      # this from running more than once if it should only be run on the first startup.
-      script: ""
-      ###
-      ### Example init script that will import a pre-existing pms database if one has not already been setup
-      ### This pms database must be available through a URL (or some other mechanism to be pulled into the container)
-      # script: |-
-      #   #!/bin/sh
-      #   echo "fetching pre-existing pms database to import..."
-      #
-      #   if [ -d "/config/Library" ]; then
-      #     echo "PMS library already exists, exiting."
-      #     exit 0
-      #   fi
-      #
-      #   apk --update add curl
-      #   curl http://example.com/pms.tgz -o pms.tgz
-      #   tar -xvzf pms.tgz -C /config
-      #   cp -r /config/data/Library /config/Library
-      #   rm -rf /config/data pms.tgz
-      #
-      #   echo "Done."
+      # -- Additional environment variables. Template enabled.
+      # Syntax options:
+      # A) TZ: UTC
+      # B) PASSWD: '{{ .Release.Name }}'
+      # C) PASSWD:
+      #      configMapKeyRef:
+      #        name: config-map-name
+      #        key: key-name
+      # D) PASSWD:
+      #      valueFrom:
+      #        secretKeyRef:
+      #          name: secret-name
+      #          key: key-name
+      #      ...
+      # E) - name: TZ
+      #      value: UTC
+      # F) - name: TZ
+      #      value: '{{ .Release.Name }}'
+      env:
+        - name: TZ
+          value: ${TIMEZONE}
 
-    # the settings specific to rclone
-    rclone:
-      # if the rclone sidecar should be created
-      enabled: false
+      # -- Supply the configuration items used to configure the Orchestrator component
+      # @default -- See below
+      config:
+        # -- The port that the Orchestrator will listen on
+        port: 3500
 
-      # the rclone image that should be used
-      image:
-        registry: index.docker.io
-        repository: rclone/rclone
-        # If unset use latest
-        tag: 1.65.2
-        sha: ""
-        pullPolicy: IfNotPresent
+        # -- Configures how the worker is chosen when a transcoding job is initiated.
+        # Options are LOAD_CPU, LOAD_TASKS, RR, and LOAD_RANK (default).
+        # [[ref]](https://github.com/pabloromeo/clusterplex/tree/master/docs#orchestrator)
+        workerSelectionStrategy: LOAD_RANK
 
-      # The name of the secret that contains the rclone configuration file.
-      # The key must be called `rclone.conf` in the secret
-      configSecret: ""
+      # -- Configure the kubernetes service associated with the the PMS component
+      # @default -- See below
+      serviceConfig:
+        # -- Configure the type of service
+        type: ClusterIP
 
+        # -- Specify the externalTrafficPolicy for the service. Options: Cluster, Local
+        # [[ref](https://kubernetes.io/docs/tutorials/services/source-ip/)]
+        externalTrafficPolicy:
 
-      # the remote drive that should be mounted using rclone
-      # this must be in the form of `name:[/optional/path]`
-      # this remote will be mounted at `/data/name` in the PMS container
-      remotes: []
+        # -- Provide additional annotations which may be required.
+        annotations: {}
 
-      # if the remote volumes should be mounted as read only
-      readOnly: true
+        # -- Provide additional labels which may be required.
+        labels: {}
 
-      # additional arguments to give to rclone when mounting the volume
-      additionalArgs: []
+      # -- Configure a ServiceMonitor for use with Prometheus monitoring
+      # @default -- See below
+      prometheusServiceMonitor:
+        # -- Enable the ServiceMonitor creation
+        enabled: true
 
-      resources: {}
-      # We usually recommend not to specify default resources and to leave this as a conscious
-      # choice for the user. This also increases chances charts run on environments with little
-      # resources, such as Minikube. If you do want to specify resources, uncomment the following
-      # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-      # limits:
-      #   cpu: 100m
-      #   memory: 128Mi
-      # requests:
-      #   cpu: 100m
-      #   memory: 128Mi
+        # -- Provide additional additions which may be required.
+        annotations: {}
 
-    imagePullSecrets: []
-    nameOverride: ""
-    fullnameOverride: ""
+        # -- Provide additional labels which may be required.
+        labels: {}
 
-    serviceAccount:
-      # Specifies whether a service account should be created
-      create: true
-      # If the service account token should be auto mounted
-      automountServiceAccountToken: true
-      # Annotations to add to the service account
-      annotations: {}
-      # The name of the service account to use.
-      # If not set and create is true, a name is generated using the fullname template
-      name: ""
+        # -- Provide a custom selector if desired. Note that this will take precedent over the default
+        # method of using the orchestrators namespace. This usually should not be required.
+        customSelector: {}
 
-    statefulSet:
-      # optional extra annotations to add to the service resource
-      annotations: {}
+        # -- Configure how often Prometheus should scrape this metrics endpoint in seconds
+        scrapeInterval: 30s
 
-    service:
-      type: LoadBalancer
-      port: 32400
+        # -- Configure how long Prometheus should wait for the endpoint to reply before
+        # considering the request to have timed out.
+        scrapeTimeout: 10s
 
-      # optional extra annotations to add to the service resource
-      annotations:
-        io.cilium/lb-ipam-ips: "192.168.108.22"
+      # -- Configures if the Grafana dashboard for the orchestrator component is deployed to the cluster or not.
+      # If enabled, this creates a ConfigMap containing the dashboard JSON so that your Gradana instance can detect it.
+      # This requires your grafana instance to have the grafana.sidecar.dashboards.enabled to be true and the searchNamespace
+      # to be set to ALL otherwise this will not be discovered.
+      enableGrafanaDashboard: true
 
+      # -- Enable or disable the various health check probes for this component
+      # @default -- See below
+      healthProbes:
+        # -- Enable or disable the startup probe
+        startup: true
 
-    nodeSelector: {}
+        # -- Enable or disable the readiness probe
+        readiness: true
 
-    tolerations: []
+        # -- Enable or disable the liveness probe
+        liveness: true
 
-    affinity: {}
+      # -- Configure the resource requests and limits for the orchestrator component
+      # @default -- See below
+      resources:
+        requests:
+          # -- CPU Request amount
+          cpu: 200m
 
-    priorityClassName: ""
+          # Memory Request Amount
+          memory: 64Mi
 
-    # Common Labels for all resources created by this chart.
-    commonLabels: {}
+        limits:
+          # -- CPU Limit amount
+          cpu: 500m
 
-    extraEnv:
-    # extraEnv:
-      # This claim is optional, and is only used for the first startup of PMS
-      # The claim is obtained from https://www.plex.tv/claim/ is is only valid for a few minutes
-      PLEX_CLAIM: "claim-V538rWUjXVuumjBHW7yu"
-      HOSTNAME: "Clusterplex"
-      TZ: "Etc/UTC+3"
-    #   PLEX_UPDATE_CHANNEL: "5"
-      PLEX_UID: "1000"
-      PLEX_GID: "1000"
-      # a list of CIDRs that can use the server without authentication
-      # this is only used for the first startup of PMS
-      ALLOWED_NETWORKS: "192.168.0.0/16,10.111.0.0/16,10.222.0.0/16"
+          # -- Memory Limit amount
+          memory: 128Mi
 
 
-    # Optionally specify additional volume mounts for the PMS and init containers.
-    extraVolumeMounts:
-    # extraVolumeMounts:
-      - name: media-storage
-        mountPath: /media
-      - name: cluster-transcode
-        mountPath: /cluster-transcode
 
-    # Optionally specify additional volumes for the pod.
-    extraVolumes:
-    # extraVolumes:
-      - name: media-storage
-        persistentVolumeClaim:
-          claimName: media-storage
-      - name: cluster-transcode
-        persistentVolumeClaim:
-          claimName: transcode
 
-    extraContainers: []
-    # extraContainers:
-    #  - name: <container name>
-    #    args:
-    #      - ...
-    #    image: <docker images>
-    #    imagePullPolicy: IfNotPresent
-    #    resources:
-    #      limits:
-    #        memory: 128Mi
-    #      requests:
-    #        cpu: 100m
-    #        memory: 128Mi
-    #    volumeMounts:
-    #      - ...
+    # -- Configure the worker component
+    # @default -- See below
+    worker:
+      # -- Enable or disable the Worker component
+      enabled: true
+
+      # -- Additional environment variables. Template enabled.
+      # Syntax options:
+      # A) TZ: UTC
+      # B) PASSWD: '{{ .Release.Name }}'
+      # C) PASSWD:
+      #      configMapKeyRef:
+      #        name: config-map-name
+      #        key: key-name
+      # D) PASSWD:
+      #      valueFrom:
+      #        secretKeyRef:
+      #          name: secret-name
+      #          key: key-name
+      #      ...
+      # E) - name: TZ
+      #      value: UTC
+      # F) - name: TZ
+      #      value: '{{ .Release.Name }}'
+      env:
+        - name: TZ
+          value: ${TIMEZONE}
+        - name: NVIDIA_VISIBLE_DEVICES
+          value: all
+        - name: NVIDIA_DRIVER_CAPABILITIES
+          value: all
+
+      # -- Supply the configuration items used to configure the worker component
+      # @default -- See below
+      config:
+        # -- The number of instances of the worker to run
+        replicas: 2
+
+        # -- The port the worker will expose its metrics on for the orchestrator to find
+        port: 3501
+
+        # -- The frequency at which workers send stats to the orchestrator in ms
+        cpuStatInterval: 10000
+
+        # -- Controls usage of the EasyAudioDecoder 1 = ON (default) and 0 = OFF
+        eaeSupport: 1
+
+      # -- Configure the kubernetes service associated with the the PMS component
+      # @default -- See below
+      serviceConfig:
+        # Configure the type of service
+        type: ClusterIP
+
+        # -- Specify the externalTrafficPolicy for the service. Options: Cluster, Local
+        # [[ref](https://kubernetes.io/docs/tutorials/services/source-ip/)]
+        externalTrafficPolicy:
+
+        # -- Provide additional annotations which may be required.
+        annotations: {}
+
+        # -- Provide additional labels which may be required.
+        labels: {}
+
+      # -- Enable or disable the per-pod volumes that cache the codecs. This saves a great deal of time when starting the workers.
+      # @default -- See below
+      codecVolumes:
+        # -- Enable or disable the creation of the codec volumes
+        enabled: true
+
+        # -- Add any extra labels needed
+        labels: {}
+
+        # -- Add any extra annotations needed
+        annotations: {}
+
+        # -- AccessMode for the persistent volume.
+        # Make sure to select an access mode that is supported by your storage provider!
+        # [[ref]](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes)
+        accessMode: ReadWriteOnce
+
+        # -- The size of the volume
+        size: 1Gi
+
+        # -- Storage Class for the codec volumes
+        # If set to `-`, dynamic provisioning is disabled.
+        # If set to something else, the given storageClass is used.
+        # If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner.
+        storageClass: longhorn-fast
+
+      # -- Enable or disable the various health check probes for this component
+      # @default -- See below
+      healthProbes:
+        # -- Enable or disable the startup probe
+        startup: true
+
+        # -- Enable or disable the readiness probe
+        readiness: true
+
+        # -- Enable or disable the liveness probe
+        liveness: true
+
+      # -- Configure the resource requests and limits for the worker component
+      # @default -- See below
+      resources:
+        requests:
+          # -- CPU Request amount
+          cpu: 2000m
+
+          # -- Memory Request Amount
+          memory: 3Gi
+
+        limits:
+          # -- CPU Limit amount
+          cpu: 4000m
+
+          # -- Memory Limit amount
+          memory: 6Gi
+          
+          nvidia.com/gpu: 1
+
+      # -- Configure the affinity rules for the worker pods. This helps prevent multiple worker pods from
+      # being scheduled on the same node as another worker pod or as the main plex media server.
+      affinity: {}
+        # podAntiAffinity:
+        #   preferredDuringSchedulingIgnoredDuringExecution:
+        #   - podAffinityTerm:
+        #       labelSelector:
+        #         matchLabels:
+        #           name: clusterplex-worker
+        #       topologyKey: kubernetes.io/hostname
+        #     weight: 100
+        #   - podAffinityTerm:
+        #       labelSelector:
+        #         matchLabels:
+        #           name: clusterplex-pms
+        #       topologyKey: kubernetes.io/hostname
+        #     weight: 50

@@ -13,3 +13,4 @@ resources:
   - ./recyclarr/ks.yaml
   # - ./jellyseerr/ks.yaml
   # - ./plex/ks.yaml
+  - ./clusterplex/ks.yaml
