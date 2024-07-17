@@ -264,12 +264,12 @@ spec:
         hubble-dns:
           gnetId: 16612
           revision: 37
-          datasource: Prometheus
+          datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
         hubble-overview:
           gnetId: 16612
           revision: 39
-          datasource: Prometheus
+          datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
