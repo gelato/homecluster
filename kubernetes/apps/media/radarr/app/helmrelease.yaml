@@ -141,7 +141,7 @@ spec:
         existingClaim: buffer
         globalMounts:
           - path: /buffer
-      # multimedia:
-      #   existingClaim: multimedia
-      #   globalMounts:
-      #     - path: /multimedia
+      multimedia:
+        existingClaim: multimedia
+        globalMounts:
+          - path: /multimedia
