@@ -155,10 +155,6 @@ spec:
           revision: 3
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
-        node-feature-discovery:
-          url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
       storage:
         minio:
           # renovate: depName="MinIO Dashboard"
@@ -180,7 +176,7 @@ spec:
           gnetId: 20417
           revision: 2
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - { name: DS_PROMETHEUS-LONGHORN, value: Prometheus }
         longhorn:
           gnetId: 17626
           revision: 1
@@ -194,7 +190,8 @@ spec:
             - { name: DS_PROMETHEUS, value: Prometheus }
         cert-manager:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
-          datasource: VictoriaMetrics
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
         spegel:
           # renovate: depName="Spegel"
           gnetId: 18089
@@ -207,10 +204,6 @@ spec:
           revision: 34
           datasource:
             - { name: ds, value: Prometheus }
-        cluster-native:
-          gnetId: 11831
-          revision: 6
-          datasource: VictoriaMetrics
         vmagent:
           gnetId: 12683
           revision: 14
@@ -329,15 +322,10 @@ spec:
             type: prometheus
             uid: prometheus
             access: proxy
-            # url: http://thanos-query-frontend.monitoring.svc.cluster.local:9090
             url: http://vmselect-victoria-metrics.observability.svc:8481/select/0/prometheus
             jsonData:
-              prometheusType: Thanos # Prometheus for victoria-metrics
+              prometheusType: Prometheus
             isDefault: true
-          - access: proxy
-            name: VictoriaMetrics
-            type: victoriametrics-datasource
-            url: http://vmselect-victoria-metrics.observability.svc:8481/select/0/prometheus
           - name: Alertmanager
             type: alertmanager
             uid: alertmanager
