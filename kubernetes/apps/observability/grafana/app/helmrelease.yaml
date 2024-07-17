@@ -259,15 +259,18 @@ spec:
         hubble:
           gnetId: 16613
           revision: 1
-          ddatasource: Prometheus
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
         hubble-dns:
           gnetId: 16612
           revision: 37
           datasource: Prometheus
+            - { name: DS_PROMETHEUS, value: Prometheus }
         hubble-overview:
           gnetId: 16612
           revision: 39
           datasource: Prometheus
+            - { name: DS_PROMETHEUS, value: Prometheus }
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
           gnetId: 17457
@@ -315,7 +318,6 @@ spec:
         apiVersion: 1
         deleteDatasources:
           - { name: Alertmanager, orgId: 1 }
-          - { name: Loki, orgId: 1 }
           - { name: Prometheus, orgId: 1 }
         datasources:
           - name: Prometheus
