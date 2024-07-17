@@ -56,7 +56,7 @@ spec:
           servers: 1
           volumesPerServer: 1
           size: 200Gi
-          storageClassName: longhorn-storage
+          storageClassName: longhorn-storage2
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
