@@ -143,8 +143,10 @@ spec:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
           token: ''
       default:
-        ntfy:
-          url: https://raw.githubusercontent.com/binwiederhier/ntfy/main/examples/grafana-dashboard/ntfy-grafana.json
+        k3s:
+          # renovate: depName="K3S Dashboard"
+          gnetId: 16450
+          revision: 3
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
         node-feature-discovery:
@@ -174,7 +176,7 @@ spec:
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
         longhorn:
-          gnetId: 13032
+          gnetId: 17626
           revision: 1
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
