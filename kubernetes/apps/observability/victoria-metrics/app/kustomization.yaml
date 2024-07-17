@@ -10,3 +10,4 @@ resources:
   - ./scrapes/servicescrape.yaml
   - ./rules/oom.yaml
   - ./rules/victoria.yaml
+  - ./rules/longhorn.yaml
