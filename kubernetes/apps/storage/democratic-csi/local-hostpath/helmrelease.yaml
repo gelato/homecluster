@@ -32,7 +32,7 @@ spec:
         defaultClass: false
         reclaimPolicy: Delete
         volumeBindingMode: WaitForFirstConsumer
-        allowVolumeExpansion: false
+        allowVolumeExpansion: true
     volumeSnapshotClasses:
       - name: hostpath-snapshot
         deletionPolicy: Delete
