@@ -4,7 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: media-storage
 spec:
-  accessModes: ["ReadWriteMany"]
+  accessModes: ["ReadWriteOnce"]
   resources:
     requests:
       storage: 15Ti
