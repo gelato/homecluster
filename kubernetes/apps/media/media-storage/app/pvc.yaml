@@ -7,7 +7,7 @@ spec:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 16Ti
+      storage: 1660Gi
   storageClassName: longhorn-storage
 # ---
 # apiVersion: v1
