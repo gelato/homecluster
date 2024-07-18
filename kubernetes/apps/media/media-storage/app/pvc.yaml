@@ -1,14 +1,14 @@
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: media-storage
-spec:
-  accessModes: ["ReadWriteOnce"]
-  resources:
-    requests:
-      storage: 15500Ti
-  storageClassName: longhorn-storage
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: media-storage
+# spec:
+#   accessModes: ["ReadWriteOnce"]
+#   resources:
+#     requests:
+#       storage: 15500Ti
+#   storageClassName: longhorn-storage
 # ---
 # apiVersion: v1
 # kind: PersistentVolumeClaim
