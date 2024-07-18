@@ -6,3 +6,4 @@ metadata:
   name: victoria-logs
 resources:
   - ./helmrelease.yaml
+  - ./pvc.yaml
