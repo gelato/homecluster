@@ -9,14 +9,14 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: longhorn-fast
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: buffer
-spec:
-  accessModes: ["ReadWriteMany"]
-  resources:
-    requests:
-      storage: 1Ti
-  storageClassName: longhorn-fast
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: buffer
+# spec:
+#   accessModes: ["ReadWriteMany"]
+#   resources:
+#     requests:
+#       storage: 1Ti
+#   storageClassName: longhorn-fast
