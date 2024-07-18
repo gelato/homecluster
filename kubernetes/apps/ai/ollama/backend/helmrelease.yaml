@@ -39,7 +39,7 @@ spec:
           main:
             image:
               repository: docker.io/ollama/ollama
-              tag: 0.1.47
+              tag: 0.2.7
             env:
               TZ: ${TIMEZONE}
               OLLAMA_HOST: 0.0.0.0
