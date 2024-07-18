@@ -9,14 +9,3 @@ spec:
     requests:
       storage: 15500Gi
   storageClassName: longhorn-storage
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: multimedia
-# spec:
-#   accessModes: ["ReadWriteOnce"]
-#   resources:
-#     requests:
-#       storage: 100Gi
-#   storageClassName: hostpath
