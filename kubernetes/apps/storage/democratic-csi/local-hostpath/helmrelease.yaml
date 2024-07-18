@@ -51,7 +51,7 @@ spec:
           - --enable-capacity=true
           - --capacity-ownerref-level=1
       externalResizer:
-        enabled: true
+        enabled: false
       externalAttacher:
         enabled: false
       externalSnapshotter:
