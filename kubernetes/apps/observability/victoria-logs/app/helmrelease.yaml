@@ -26,10 +26,7 @@ spec:
 
       persistentVolume:
         enabled: true
-        accessModes:
-          - ReadWriteOnce
         existingClaim: "victoria-logs"
-        size: 40Gi
 
       ingress:
         enabled: true
