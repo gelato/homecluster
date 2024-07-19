@@ -28,7 +28,6 @@ spec:
         enabled: true
         accessModes:
           - ReadWriteOnce
-        storageClassName: longhorn-storage2
         existingClaim: "victoria-logs"
         size: 40Gi
 
