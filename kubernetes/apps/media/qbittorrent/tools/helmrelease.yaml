@@ -89,6 +89,7 @@ spec:
               "--exclude-category", "overload",
               # "--include-tag", "expired", # defined in config.yaml
               # "--exclude-tag", "activity:24h",
+              "--include-tag", "added:30d",
               "--exclude-tag", "added:24h",
               "--exclude-tag", "added:7d",
               "--with-data",
