@@ -37,11 +37,8 @@ spec:
       className: internal
       enabled: true
       annotations:
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Infrastructure
-        gethomepage.dev/name: Flux
-        gethomepage.dev/icon: git.svg
-        # cert-manager.io/cluster-issuer: "letsencrypt-production"
+        hajimari.io/enable: "true"
+        hajimari.io/icon: simple-icons:flux
       hosts:
         - host: &host "flux.${SECRET_DOMAIN}"
           paths:
