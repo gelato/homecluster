@@ -1,0 +1,112 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: hajimari
+  namespace: default
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: hajimari
+      version: 2.0.2
+      sourceRef:
+        kind: HelmRepository
+        name: hajimari
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controller:
+      strategy: RollingUpdate
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: "hajimari-settings"
+    env:
+      TZ: ${TIMEZONE}
+    hajimari:
+      title: Apps
+      lightTheme: tron
+      darkTheme: tron
+      alwaysTargetBlank: true
+      showSearch: false
+      showGreeting: false
+      showAppGroups: false
+      showAppStatus: false
+      showBookmarkGroups: false
+      showGlobalBookmarks: false
+      showAppUrls: false
+      defaultEnable: true
+      namespaceSelector:
+        matchNames:
+          - ai
+          - argocd
+          - database
+          - flux-system
+          - home
+          - media
+          - observability
+          - security
+          - storage
+      customApps:
+        - group: servers
+          apps:
+            - name: glinet
+              icon: mdi:router
+              url: "https://console.gl-inet.com"
+            - name: udm
+              icon: cbi:unifi
+              url: "https://unifi.local"
+            - name: alien
+              icon: ph:alien-fill
+              url: "https://pikvm.${SECRET_DOMAIN}"
+            - name: zigbee
+              icon: mdi:zigbee
+              url: "https://zigbee.local"
+            - name: minio
+              icon: simple-icons:minio
+              url: "https://minio.${SECRET_DOMAIN}"
+      bookmarks:
+        - group: Kubernetes
+          bookmarks:
+            - name: gelato/homecluster
+              icon: el:github
+              url: https://github.com/gelato/homecluster
+              targetBlank: false
+            - name: kubesearch
+              icon: pajamas:kubernetes
+              url: https://kubesearch.dev
+              targetBlank: false
+    ingress:
+      app:
+        enabled: true
+        ingressClassName: internal
+        annotations:
+          hajimari.io/enable: "false"
+          hajimari.io/icon: "weather-sunset"
+          hajimari.io/instance: "admin"
+        hosts:
+          - host: &host dash.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      data:
+        enabled: true
+        type: emptyDir
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128M
