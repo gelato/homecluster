@@ -12,6 +12,7 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       chunked_transfer_encoding off;
     # external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+    hajimari.io/enable: "false"
 spec:
   ingressClassName: internal
   rules:
@@ -44,6 +45,7 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       chunked_transfer_encoding off;
     # external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+    hajimari.io/enable: "false"
 spec:
   ingressClassName: internal
   rules:
@@ -77,6 +79,7 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       chunked_transfer_encoding off;
     # external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+    hajimari.io/enable: "false"
 spec:
   ingressClassName: internal
   rules:

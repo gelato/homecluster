@@ -71,6 +71,10 @@ spec:
     ingress:
       enabled: true
       ingressClassName: internal
+      annotations:
+        hajimari.io/enable: "true"
+        hajimari.io/icon: game-icons:bull
+        hajimari.io/appName: Longhorn
       host: "longhorn.${SECRET_DOMAIN}"
       tls: true
       secureBackends: false

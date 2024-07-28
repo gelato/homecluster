@@ -78,6 +78,9 @@ spec:
         ingressClassName: "external"
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
+          hajimari.io/enable: "true"
+          hajimari.io/icon: simple-icons:authentik
+          hajimari.io/appName: Authentik
         hosts:
           - &host id.${SECRET_DOMAIN}
         paths:
