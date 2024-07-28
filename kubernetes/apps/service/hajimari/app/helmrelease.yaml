@@ -68,7 +68,7 @@ spec:
               url: "https://unifi.local"
             - name: alien
               icon: ph:alien-fill
-              url: "https://pikvm.${SECRET_DOMAIN}"
+              url: "https://alien.local"
             - name: zigbee
               icon: mdi:zigbee
               url: "http://zigbee.local"
