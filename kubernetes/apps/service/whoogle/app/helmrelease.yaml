@@ -4,6 +4,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: &app whoogle
+  namespace: service
 spec:
   interval: 30m
   chart:
