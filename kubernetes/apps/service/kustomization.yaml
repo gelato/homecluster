@@ -9,4 +9,5 @@ resources:
   - ./smtp-relay/ks.yaml
   - ./hajimari/ks.yaml
   - ./whoogle/ks.yaml
+  - ./invidious/ks.yaml
 
