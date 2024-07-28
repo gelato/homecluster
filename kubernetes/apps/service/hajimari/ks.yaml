@@ -6,6 +6,7 @@ metadata:
   name: &app hajimari
   namespace: flux-system
 spec:
+  targetNamespace: service
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app

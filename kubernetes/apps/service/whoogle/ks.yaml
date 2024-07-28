@@ -5,6 +5,7 @@ metadata:
   name: whoogle
   namespace: flux-system
 spec:
+  targetNamespace: service
   path: ./kubernetes/apps/service/whoogle/app
   prune: true
   sourceRef:
