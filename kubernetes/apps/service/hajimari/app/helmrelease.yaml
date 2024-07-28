@@ -57,6 +57,14 @@ spec:
           - observability
           - security
           - storage
+      name: "Ark"
+      defaultSearchProvider: Whoogle
+      searchProviders:
+        - name: Whoogle
+          token: "y"
+          icon: simple-icons:google
+          searchUrl: https://whoogle.${SECRET_DOMAIN}/search?q={query}
+          url: https://whoogle.${SECRET_DOMAIN}
       customApps:
         - group: servers
           apps:
@@ -75,7 +83,7 @@ spec:
             - name: minio
               icon: simple-icons:minio
               url: "https://minio.${SECRET_DOMAIN}"
-      bookmarks:
+      globalBookmarks:
         - group: Kubernetes
           bookmarks:
             - name: gelato/homecluster
@@ -86,6 +94,89 @@ spec:
               icon: pajamas:kubernetes
               url: https://kubesearch.dev
               targetBlank: false
+            - name: "Cloudflare dashboard"
+              icon: simple-icons:cloudflare
+              url: "https://dash.cloudflare.com/"
+        - group: Daily
+          bookmarks:
+            - name: "Selfhosted newsletter"
+              url: "https://selfh.st"
+            - name: Artifacthub
+              url: "https://artifacthub.io/"
+            - name: "VM logs"
+              url: "https://logs.${SECRET_DOMAIN}"
+            - name: InfoSecNews
+              url: "https://allinfosecnews.com"
+            - name: "News"
+              url: "https://www.newsminimalist.com/"
+        - group: DevOps
+          bookmarks:
+            - name: TerraformCloud
+              url: "https://app.terraform.io/"
+            - name: Visual studio
+              url: https://my.visualstudio.com"
+            - name: Atlantis
+              url: "https://www.runatlantis.io/"
+            - name: Git-cleaner
+              url: "https://rtyley.github.io/bfg-repo-cleaner/"
+            - name: K8S Exam simulator
+              url: "https://killer.sh/"
+            - name: Github-download-folder
+              url: "https://download-directory.github.io"
+        - group: Fun
+          bookmarks:
+            - name: Goha News
+              url: "https://goha.ru/news"
+            - name: Sankakucomplex
+              url: "https://sankakucomplex.com"
+            - name: World-Art
+              url: "https://world-art.ru"
+            - name: Translator
+              url: "https://www.deepl.com/translator"
+            - name: Archive
+              url: "https://archive.ph"
+            - name: Wallpapers
+              url: "https://unsplash.com"
+            - name: "Anime"
+              url: "https://anichart.net/"
+            - name: Diving-sites
+              url: "https://www.padi.com/dive-sites"
+        - group: Reddit
+          bookmarks:
+            - name: "/r/midjourney"
+              url: "https://reddit.${SECRET_DOMAIN}/r/midjourney"
+            - name: "/r/selfhosted"
+              url: "https://reddit.${SECRET_DOMAIN}/r/selfhosted/"
+            - name: "/r/kubernetes"
+              url: "https://reddit.${SECRET_DOMAIN}/r/kubernetes/"
+            - name: "/r/virtualreality"
+              url: "https://reddit.${SECRET_DOMAIN}/r/virtualreality/"
+            - name: "/r/SnowbreakOfficial"
+              url: "https://reddit.${SECRET_DOMAIN}/r/SnowbreakOfficial/"
+            - name: "/r/jellyfin"
+              url: "https://reddit.${SECRET_DOMAIN}/r/jellyfin/"
+            - name: "/r/NonCredibleDefense"
+              url: "https://reddit.${SECRET_DOMAIN}/r/NonCredibleDefense/"
+        - group: Tech
+          bookmarks:
+            - name: Hacker News
+              url: "https://news.ycombinator.com/"
+            - name: Shodan
+              url: "https://shodan.io"
+            - name: Intelx
+              url: "https://intelx.io/"
+            - name: Greynoise
+              url: "https://www.greynoise.io/"
+            - name: GrayHatWarFare
+              url: "https://www.greyhatwarfare.com/"
+            - name: GPP Tools
+              url: "https://bgp.tools"
+            - name: BGP View
+              url: "https://bgpview.io"
+            - name: "Bookhatrix"
+              url: "https://book.hacktricks.xyz"
+            - name: "Pentest-tools"
+              url: "https://offsec.tools/"
     ingress:
       app:
         enabled: true
