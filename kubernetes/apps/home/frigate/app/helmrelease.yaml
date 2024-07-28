@@ -101,6 +101,9 @@ spec:
             port: 8555
     ingress:
       main:
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: cbi:frigate
         className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
