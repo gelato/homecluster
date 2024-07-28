@@ -80,8 +80,9 @@ spec:
           hajimari.io/icon: mdi:youtube
           gatus.io/enable: "true"
           gatus.io/path: *path
+          nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16"
         hosts:
-          - host: &host-release "invidious.${SECRET_DOMAIN}"
+          - host: &host-release "yt.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:
