@@ -71,7 +71,7 @@ spec:
               url: "https://pikvm.${SECRET_DOMAIN}"
             - name: zigbee
               icon: mdi:zigbee
-              url: "https://zigbee.local"
+              url: "http://zigbee.local"
             - name: minio
               icon: simple-icons:minio
               url: "https://minio.${SECRET_DOMAIN}"
