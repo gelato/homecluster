@@ -20,14 +20,3 @@ spec:
     requests:
       storage: 100Gi
   storageClassName: longhorn-fast
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mm
-spec:
-  accessModes: ["ReadWriteOnce"]
-  resources:
-    requests:
-      storage: 1Gi
-  storageClassName: media
