@@ -77,6 +77,10 @@ spec:
           dirPermissionsGroup: 0
 
     node:
+      mount:
+        checkFilesystem:
+          ext4:
+            enabled: true
       driver:
         extraVolumeMounts:
           - name: local-storage
