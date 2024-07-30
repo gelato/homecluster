@@ -28,11 +28,11 @@ spec:
       attachRequired: false
       fsGroupPolicy: File
     storageClasses:
-      - name: hostpath
-        defaultClass: false
-        reclaimPolicy: Delete
-        volumeBindingMode: WaitForFirstConsumer
-        allowVolumeExpansion: false
+      # - name: hostpath
+      #   defaultClass: false
+      #   reclaimPolicy: Delete
+      #   volumeBindingMode: WaitForFirstConsumer
+      #   allowVolumeExpansion: false
     volumeSnapshotClasses:
       - name: hostpath-snapshot
         deletionPolicy: Delete
