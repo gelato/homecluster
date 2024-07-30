@@ -27,17 +27,25 @@ spec:
       storageCapacity: true
       attachRequired: false
       fsGroupPolicy: File
+
     storageClasses:
-      # - name: hostpath
-      #   defaultClass: false
-      #   reclaimPolicy: Delete
-      #   volumeBindingMode: WaitForFirstConsumer
-      #   allowVolumeExpansion: false
+      - name: local-hostpath
+        defaultClass: false
+        reclaimPolicy: Retain
+        volumeBindingMode: WaitForFirstConsumer
+        allowVolumeExpansion: true
+      - name: media
+        defaultClass: false
+        reclaimPolicy: Retain
+        volumeBindingMode: WaitForFirstConsumer
+        allowVolumeExpansion: true
+
     volumeSnapshotClasses:
       - name: hostpath-snapshot
         deletionPolicy: Delete
         parameters:
           cluster: k8s
+
     controller:
       enabled: true
       strategy: node
@@ -61,26 +69,28 @@ spec:
           - --node-deployment=true
       nodeSelector: &nodeSelector
         node-role.kubernetes.io/worker: "true"
-    node:
-      driver:
-        image: ghcr.io/democratic-csi/democratic-csi:v1.9.3
-        extraVolumeMounts:
-          - name: local-hostpath
-            mountPath: &path /mnt/buffer/local-hostpath
-            mountPropagation: Bidirectional
-      extraVolumes:
-        - name: local-hostpath
-          hostPath:
-            path: *path
-            type: DirectoryOrCreate
-      nodeSelector: *nodeSelector
+
     driver:
       config:
         driver: local-hostpath
-        instance_id: k8s-local-hostpath
+        instance_id: tau
         local-hostpath:
-          shareBasePath: *path
-          controllerBasePath: *path
+          shareBasePath: &local-hostpath /var/lib/csi-local-hostpath
+          controllerBasePath: *local-hostpath
           dirPermissionsMode: "0770"
           dirPermissionsUser: 0
           dirPermissionsGroup: 0
+
+    node:
+      driver:
+        extraVolumeMounts:
+          - name: local-storage
+            mountPath: *local-hostpath
+            mountPropagation: Bidirectional
+
+      extraVolumes:
+        - name: local-storage
+          hostPath:
+            path: /mnt/storage/media
+            type: DirectoryOrCreate
+      nodeSelector: *nodeSelector
