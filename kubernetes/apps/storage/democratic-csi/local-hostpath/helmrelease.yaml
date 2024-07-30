@@ -30,7 +30,7 @@ spec:
     storageClasses:
       - name: hostpath
         defaultClass: false
-        reclaimPolicy: Delete
+        reclaimPolicy: Retain
         volumeBindingMode: WaitForFirstConsumer
         allowVolumeExpansion: false
     volumeSnapshotClasses:
