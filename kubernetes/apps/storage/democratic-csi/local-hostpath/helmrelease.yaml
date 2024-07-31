@@ -29,9 +29,9 @@ spec:
       fsGroupPolicy: File
 
     storageClasses:
-      - name: media
+      - name: local-hostpath
         defaultClass: false
-        reclaimPolicy: Retain
+        reclaimPolicy: Delete
         volumeBindingMode: WaitForFirstConsumer
         allowVolumeExpansion: true
 
@@ -90,6 +90,6 @@ spec:
       extraVolumes:
         - name: local-storage
           hostPath:
-            path: /mnt/storage/media
+            path: /mnt/buffer/local-hostpath
             type: DirectoryOrCreate
       nodeSelector: *nodeSelector
