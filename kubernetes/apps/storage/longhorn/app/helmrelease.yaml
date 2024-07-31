@@ -38,6 +38,9 @@ spec:
       defaultClassReplicaCount: 1
       defaultFsType: ext4
       reclaimPolicy: Delete
+      defaultDataLocality: disabled
+      migratable: true
+      removeSnapshotsDuringFilesystemTrim: enabled
     csi:
       attacherReplicaCount: 2
       provisionerReplicaCount: 2
