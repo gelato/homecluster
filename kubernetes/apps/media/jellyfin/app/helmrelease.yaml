@@ -100,7 +100,7 @@ spec:
         existingClaim: media-storage
         globalMounts:
           - path: /media
-      media-new:
-        existingClaim: media
-        globalMounts:
-          - path: /mm
+      # media-new:
+      #   existingClaim: media
+      #   globalMounts:
+      #     - path: /mm
