@@ -51,6 +51,19 @@ spec:
       backupTarget: s3://longhorn@us-east-1/
       backupTargetCredentialSecret: s3-secret
       taintToleration: node-role.kubernetes.io/control-plane:NoSchedule
+      replicaAutoBalance: enabled
+      autoDeletePodWhenVolumeDetachedUnexpectedly: enabled
+      replicaSoftAntiAffinity: enabled
+      detachManuallyAttachedVolumesWhenCordoned: enabled
+      autoCleanupSystemGeneratedSnapshot: enabled
+      autoCleanupRecurringJobBackupSnapshot: enabled
+      snapshotDataIntegrity: enabled
+      removeSnapshotsDuringFilesystemTrim: enabled
+      allowCollectingLonghornUsageMetrics: disabled
+      snapshotMaxCount: 2
+      freezeFilesystemForSnapshot: enabled
+      autoCleanupSnapshotWhenDeleteBackup: enabled
+      rwxVolumeFastFailover: enabled
     pspEnable: false
     longhornManager:
       tolerations:
@@ -82,3 +95,6 @@ spec:
       tls: true
       secureBackends: false
       path: /
+    metrics:
+      serviceMonitor:
+        enabled: true
