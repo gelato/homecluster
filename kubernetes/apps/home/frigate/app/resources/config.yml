@@ -193,7 +193,7 @@ cameras:
     live:
       stream_name: door_hq
       quality: 1
-    webui_url: "http://192.168.108.197:8899/"
+    webui_url: "http://192.168.108.150:8899/"
     motion:
       mask: []
     zones:
@@ -254,7 +254,7 @@ cameras:
     live:
       stream_name: dvor_gates_hq
       quality: 1
-    webui_url: "http://192.168.108.150:8899/"
+    webui_url: "http://192.168.108.210:8899/"
     motion:
       mask: []
     zones:
