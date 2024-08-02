@@ -115,10 +115,10 @@ go2rtc:
       - ffmpeg:rtsp://user:12332145@192.168.108.150:554/ch0_1#video=h264#hardware=cuda#audio=aac
     dvor_gates_hq:
       - rtsp://admin:12332145@192.168.108.210:554/stream1
-      - "ffmpeg:dvor_gates_hq#video=copy#audio=copy"
+      - "ffmpeg:dvor_gates_hq#audio=aac"
     dvor_gates_lq:
       - rtsp://admin:12332145@192.168.108.210:554/stream2
-      - "ffmpeg:dvor_gates_lq#video=copy#audio=copy"
+      - "ffmpeg:dvor_gates_lq#audio=aac"
     dom2_hq:
       - ffmpeg:rtsp://user:12332145@192.168.108.122:554/ch0_0#video=h264#hardware=cuda#audio=aac
     dom2_lq:
