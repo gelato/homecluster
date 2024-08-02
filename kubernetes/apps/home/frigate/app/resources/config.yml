@@ -311,12 +311,17 @@ cameras:
       mask: []
     zones:
       kacheli:
-        coordinates: 0,295,24,189,143,198,124,311
+        coordinates: 421,204,419,112,523,111,567,200
         inertia: 10
         objects:
           - person
       dom2_tropinka:
-        coordinates: 252,173,293,171,309,360,179,360
+        coordinates: 333,127,382,127,488,360,383,360
+        inertia: 10
+        objects:
+          - person
+      lavka:
+        coordinates: 81,200,282,196,282,360,34,360
         inertia: 10
         objects:
           - person
