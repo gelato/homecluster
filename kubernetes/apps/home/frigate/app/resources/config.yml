@@ -42,7 +42,7 @@ audio:
     fire_alarm:
       threshold: 0.8
 logger:
-  default: warning
+  default: debug
   logs:
     frigate.event: debug
 birdseye:
