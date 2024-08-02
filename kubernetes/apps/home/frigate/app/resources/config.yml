@@ -198,32 +198,32 @@ cameras:
       mask: []
     zones:
       near_the_door:
-        coordinates: 212,360,515,360,517,326,257,318
+        coordinates: 159,360,515,360,517,326,210,317
         inertia: 10
         objects:
           - person
           - dog
           - car
       dvor:
-        coordinates: 541,148,410,142,372,212,302,274,516,290
+        coordinates: 513,151,389,147,327,212,269,267,484,298
         inertia: 10
         objects:
           - car
           - person
       tropinka:
-        coordinates: 598,202,576,52,553,51,550,201
+        coordinates: 576,203,591,47,553,51,539,197
         inertia: 10
         objects:
           - person
           - dog
       parkovka:
-        coordinates: 552,141,538,21,366,33,363,138
+        coordinates: 516,171,516,94,395,80,363,138
         inertia: 10
         objects:
           - person
           - dog
       sad:
-        coordinates: 348,195,326,0,68,67,0,89,0,360,187,360
+        coordinates: 337,193,326,0,68,67,0,89,0,360,125,360
         inertia: 10
         objects:
           - person
