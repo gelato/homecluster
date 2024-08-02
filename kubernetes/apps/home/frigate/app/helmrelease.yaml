@@ -45,6 +45,8 @@ spec:
               tag: stable-tensorrt@sha256:2068baac8d8b9a29a97483d0ab603b024fe606ec7d555b70da5a024fbeab12e3
               # tag: stable
             env:
+              NVIDIA_VISIBLE_DEVICES: all
+              NVIDIA_DRIVER_CAPABILITIES: all
               TZ: ${TIMEZONE}
               YOLO_MODELS: yolov7x-640
               # LIBVA_DRIVER_NAME: radeonsi
