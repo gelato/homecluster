@@ -101,7 +101,7 @@ spec:
                 storageClassName: longhorn-fast
                 resources:
                   requests:
-                    storage: 3Gi
+                    storage: 4Gi
         # Data ingestion backend
         vminsert:
           replicaCount: 2 # HA
