@@ -63,8 +63,8 @@ ffmpeg:
     record: preset-record-generic-audio-copy
 detect:
   width: 640
-  height: 360
-  fps: 8
+  height: 480
+  fps: 10
   enabled: True
 objects:
   track:
@@ -235,6 +235,11 @@ cameras:
           - person
           - dog
           - cat
+    objects:
+      filters:
+        dog:
+          mask:
+            - 470,360,502,257,515,156,384,136,333,207,162,360
     mqtt:
       enabled: True
       timestamp: False
@@ -265,28 +270,32 @@ cameras:
       mask: []
     zones:
       inside_gates:
-        coordinates: 164,189,351,190,332,22,256,22,198,32,201,94
+        coordinates: 225,184,413,180,367,0,264,0,265,32,268,64
         inertia: 10
         objects:
           - person
-          - dog
           - car
       at_the_door:
-        coordinates: 0,307,98,338,146,168,82,170
+        coordinates: 98,248,190,272,224,130,172,130
         inertia: 10
         objects:
           - person
       in_the_garden:
-        coordinates: 640,360,640,65,404,0,342,92,431,360
+        coordinates: 640,360,640,65,464,0,374,34,466,360
         inertia: 10
         objects:
           - person
       driveway:
-        coordinates: 112,360,409,360,374,232,156,232
+        coordinates: 138,360,450,360,410,186,219,191
         inertia: 10
         objects:
           - person
           - car
+    objects:
+      filters:
+        dog:
+          mask:
+            - 440,360,372,0,284,0,161,360
     mqtt:
       enabled: True
       timestamp: False
