@@ -153,27 +153,27 @@ cameras:
     webui_url: ""
     zones:
       inside_gates:
-        coordinates: 546,360,640,360,640,267,538,182,437,272
+        coordinates: 640,360,640,271,538,135,491,187,425,268
         inertia: 5
         objects:
           - person
           - dog
           - car
       entryway:
-        coordinates: 419,89,396,46,161,154,164,224
+        coordinates: 363,64,294,44,90,172,120,244
         inertia: 32
         objects:
           - car
           - bus
       guests:
-        coordinates: 495,189,469,143,348,239,369,303
+        coordinates: 463,196,418,141,282,267,346,318
         inertia: 35
         objects:
           - person
     motion:
       mask:
-        - 0,49,84,0,592,0,437,82,375,42,174,127,194,206,0,310
-        - 293,360,342,317,356,202,456,133,489,139,530,89,563,91,640,0,591,0,439,80,0,318,0,360
+        - 0,75,0,49,84,0,466,0,358,62,294,37,94,168,118,246,0,336
+        - 293,360,342,317,260,255,398,116,449,130,506,45,520,84,566,0,469,0,371,56,0,339,0,360
     mqtt:
       enabled: True
       timestamp: True
@@ -344,12 +344,12 @@ cameras:
     enabled: True
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/dom2_hq
+        - path: rtsp://localhost:8554/street_hq
           input_args: preset-rtsp-restream
           roles:
             - record
             - audio
-        - path: rtsp://localhost:8554/dom2_lq
+        - path: rtsp://localhost:8554/street_lq
           input_args: preset-rtsp-restream
           roles:
             - detect
