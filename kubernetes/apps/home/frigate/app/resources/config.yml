@@ -161,13 +161,13 @@ cameras:
           - car
       entryway:
         coordinates: 363,64,294,44,90,172,120,244
-        inertia: 32
+        inertia: 40
         objects:
           - car
           - bus
       guests:
         coordinates: 463,196,418,141,282,267,346,318
-        inertia: 35
+        inertia: 50
         objects:
           - person
     motion:
