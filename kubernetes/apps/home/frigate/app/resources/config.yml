@@ -178,7 +178,7 @@ cameras:
       enabled: True
       timestamp: True
       bounding_box: True
-      crop: True
+      crop: False
       height: 270
       quality: 100
     birdseye:
