@@ -78,13 +78,13 @@ record:
   expire_interval: 60
   sync_recordings: True
   retain:
-    days: 14
+    days: 30
     mode: all
   export:
     timelapse_args: "-vf setpts=0.04*PTS -r 30"
   events:
-    pre_capture: 5
-    post_capture: 5
+    pre_capture: 10
+    post_capture: 10
     retain:
       default: 30
       mode: active_objects
@@ -96,7 +96,7 @@ snapshots:
   crop: False
   required_zones: []
   retain:
-    default: 14
+    default: 30
     objects:
       person: 30
       car: 30
@@ -360,18 +360,18 @@ cameras:
     motion:
       mask: []
     zones:
-      kacheli:
-        coordinates: 421,204,419,112,523,111,567,200
+      u_okna:
+        coordinates: 0,360,0,194,112,310,90,360
         inertia: 10
         objects:
           - person
-      dom2_tropinka:
-        coordinates: 333,127,382,127,488,360,383,360
+      za_zaborom:
+        coordinates: 310,128,354,118,401,360,315,360
         inertia: 10
         objects:
           - person
-      lavka:
-        coordinates: 81,200,282,196,282,360,34,360
+      pod_oknami:
+        coordinates: 201,153,297,149,282,360,97,360
         inertia: 10
         objects:
           - person
