@@ -9,15 +9,9 @@ mqtt:
   password: "{FRIGATE_MQTT_PASSWORD}"
   stats_interval: 30
 detectors:
-  tensorrt:
-    type: tensorrt
-    device: 0
-model:
-  path: /config/model_cache/tensorrt/yolov7x-640.trt
-  input_tensor: nchw
-  input_pixel_format: yuv
-  width: 640
-  height: 640
+  coral:
+    type: edgetpu
+    device: usb
 database:
   path: /data/frigate.db
 audio:

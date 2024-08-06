@@ -75,19 +75,10 @@ spec:
                 cpu: 10m
               limits:
                 nvidia.com/gpu: 1
-        # pod:
-        #   affinity:
-        #     podAntiAffinity:
-        #       requiredDuringSchedulingIgnoredDuringExecution:
-        #         - labelSelector:
-        #             matchExpressions:
-        #               - key: app.kubernetes.io/name
-        #                 operator: In
-        #                 values: ["plex"]
-        #           topologyKey: kubernetes.io/hostname
-          # nodeSelector:
-          #   google.feature.node.kubernetes.io/coral: "true"
-          #   intel.feature.node.kubernetes.io/gpu: "true"
+        pod:
+          nodeSelector:
+            google.feature.node.kubernetes.io/coral: "true"
+            # intel.feature.node.kubernetes.io/gpu: "true"
     service:
       main:
         controller: main
@@ -141,13 +132,13 @@ spec:
         sizeLimit: 20Gi
         globalMounts:
           - path: /dev/shm
-      # usb:
-      #   enabled: true
-      #   type: hostPath
-      #   hostPath: /dev/bus/usb
-      #   hostPathType: Directory
-      #   globalMounts:
-      #     - path: /dev/bus/usb
+      usb:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/bus/usb
+        hostPathType: Directory
+        globalMounts:
+          - path: /dev/bus/usb
       # dri:
       #   enabled: true
       #   type: hostPath
