@@ -147,7 +147,7 @@ cameras:
     webui_url: ""
     zones:
       inside_gates:
-        coordinates: 640,360,640,286,513,178,480,224,444,270
+        coordinates: 640,360,640,286,518,200,501,224,468,282
         inertia: 15
         objects:
           - person
@@ -263,7 +263,7 @@ cameras:
     motion:
       mask: []
     zones:
-      inside_gates:
+      before_gates:
         coordinates: 225,184,413,180,367,0,264,0,265,32,268,64
         inertia: 10
         objects:
