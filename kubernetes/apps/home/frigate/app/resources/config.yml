@@ -159,13 +159,13 @@ cameras:
           - dog
           - car
       entryway:
-        coordinates: 606,241,527,202,358,360,460,415
+        coordinates: 484,82,391,41,118,218,164,332
         inertia: 40
         objects:
           - car
           - bus
       guests:
-        coordinates: 452,192,418,141,282,267,346,318
+        coordinates: 596,249,513,221,365,370,436,453
         inertia: 48
         objects:
           - person
