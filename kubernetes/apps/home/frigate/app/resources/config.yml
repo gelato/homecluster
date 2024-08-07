@@ -285,12 +285,12 @@ cameras:
         objects:
           - person
       in_the_garden:
-        coordinates: 848,480,848,74,583,0,490,27,612,480
+        coordinates: 848,480,848,74,714,21,583,0,508,41,612,480
         inertia: 10
         objects:
           - person
       driveway:
-        coordinates: 201,480,592,480,518,188,309,197
+        coordinates: 201,480,592,480,520,198,302,204
         inertia: 10
         objects:
           - person
