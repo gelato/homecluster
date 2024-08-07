@@ -77,8 +77,8 @@ record:
   export:
     timelapse_args: "-vf setpts=0.04*PTS -r 30"
   events:
-    pre_capture: 10
-    post_capture: 10
+    pre_capture: 5
+    post_capture: 5
     retain:
       default: 30
       mode: active_objects
@@ -141,6 +141,11 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - detect
+    detect:
+      width: 848
+      height: 480
+      fps: 8
+      enabled: True
     live:
       stream_name: gates_hq
       quality: 1
@@ -148,7 +153,7 @@ cameras:
     zones:
       inside_gates:
         coordinates: 640,360,640,286,518,200,501,224,468,282
-        inertia: 15
+        inertia: 16
         objects:
           - person
           - dog
@@ -161,7 +166,7 @@ cameras:
           - bus
       guests:
         coordinates: 452,192,418,141,282,267,346,318
-        inertia: 50
+        inertia: 48
         objects:
           - person
     motion:
@@ -173,7 +178,7 @@ cameras:
       timestamp: True
       bounding_box: True
       crop: False
-      height: 270
+      height: 500
       quality: 100
     birdseye:
       order: 0
@@ -256,6 +261,11 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - detect
+    detect:
+      width: 848
+      height: 480
+      fps: 8
+      enabled: True
     live:
       stream_name: dvor_gates_hq
       quality: 1
