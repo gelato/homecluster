@@ -79,7 +79,7 @@ spec:
         enabled: true
         existingClaim: ha-fusion
         advancedMounts:
-          matter-server:
+          ha-fusion:
             app:
               - path: "/app/data"
     ingress:
