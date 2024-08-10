@@ -20,3 +20,6 @@ kubernetes:
         "weilai":
           ansible_user: "root"
           ansible_host: "192.168.108.212"
+        "ritmhouse":
+          ansible_user: "root"
+          ansible_host: "192.168.108.115"
