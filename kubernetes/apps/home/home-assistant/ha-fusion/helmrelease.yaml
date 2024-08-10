@@ -48,7 +48,7 @@ spec:
               pullPolicy: IfNotPresent
             env:
               TZ: "${TIMEZONE}"
-              HASS_URL: &host home-assistant.home.svc
+              HASS_URL: &host http://home-assistant.home.svc.cluster.local:8123
             probes:
               liveness:
                 enabled: true
