@@ -88,6 +88,10 @@ spec:
     service:
       main:
         controller: main
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
+        annotations:
+          io.cilium/lb-ipam-ips: 192.168.108.55
         ports:
           http:
             enabled: true
@@ -107,21 +111,8 @@ spec:
         controller: main
         ports:
           http:
-            port: &ws-port 5000
+            port: *port
             appProtocol: wss
-      external-rtsp:
-        enabled: true
-        controller: main
-        type: LoadBalancer
-        externalTrafficPolicy: Cluster
-        annotations:
-          io.cilium/lb-ipam-ips: 192.168.108.55
-        ports:
-          rtsp-tcp:
-            enabled: true
-            port: *restream-port
-            protocol: TCP
-            targetPort: *restream-port
     ingress:
       main:
         annotations:
@@ -138,7 +129,7 @@ spec:
               - path: /ws
                 service:
                   identifier: ws
-                  port: *ws-port
+                  port: *port
           - host: "go2rtc.${SECRET_DOMAIN}"
             paths:
               - path: /
