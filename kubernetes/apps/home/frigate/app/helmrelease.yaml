@@ -48,7 +48,6 @@ spec:
               NVIDIA_VISIBLE_DEVICES: all
               NVIDIA_DRIVER_CAPABILITIES: all
               TZ: ${TIMEZONE}
-              YOLO_MODELS: yolov7x-640
               # LIBVA_DRIVER_NAME: radeonsi
             envFrom:
               - secretRef:
