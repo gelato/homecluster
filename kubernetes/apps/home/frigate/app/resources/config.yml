@@ -17,10 +17,11 @@ detectors:
 database:
   path: /data/frigate.db
 
+tls:
+  enabled: False
+
 audio:
   enabled: True
-  max_not_heard: 30
-  min_volume: 500
   listen:
     - bark
     - fire_alarm
@@ -29,14 +30,6 @@ audio:
     - yell
   filters:
     speech:
-      threshold: 0.8
-    scream:
-      threshold: 0.8
-    yell:
-      threshold: 0.8
-    bark:
-      threshold: 0.8
-    fire_alarm:
       threshold: 0.8
 
 logger:
@@ -50,8 +43,8 @@ auth:
 birdseye:
   enabled: True
   restream: False
-  width: 1920
-  height: 1080
+  width: 2304
+  height: 1296
   quality: 1
   #   objects - cameras are included if they have had a tracked object within the last 30 seconds
   #   motion - cameras are included if motion was detected in the last 30 seconds
@@ -62,7 +55,7 @@ ffmpeg:
   global_args: -hide_banner -loglevel warning -threads 2
   hwaccel_args: preset-nvidia-h264
   output_args:
-    detect: -threads 2 -f rawvideo -pix_fmt yuv420p -an
+    detect: -threads 2 -f rawvideo -pix_fmt yuv420p
     record: preset-record-generic-audio-copy
 
 detect:
@@ -93,6 +86,8 @@ record:
     mode: all
   export:
     timelapse_args: "-vf setpts=0.04*PTS -r 30"
+  preview:
+    quality: very_high
   events:
     pre_capture: 5
     post_capture: 5
@@ -102,9 +97,9 @@ record:
 
 snapshots:
   enabled: True
-  clean_copy: True
+  clean_copy: False
   timestamp: False
-  bounding_box: True
+  bounding_box: False
   crop: False
   required_zones: []
   retain:
@@ -173,26 +168,48 @@ cameras:
     zones:
       inside_gates:
         coordinates: 797,423,802,368,735,307,674,265,630,332
-        inertia: 16
+        inertia: 5
+        loitering_time: 3
         objects:
           - person
           - dog
           - car
       entryway:
         coordinates: 484,82,391,41,118,218,164,332
-        inertia: 40
+        inertia: 5
+        loitering_time: 5
         objects:
           - car
           - bus
       guests:
         coordinates: 596,249,513,221,365,370,436,453
-        inertia: 48
+        inertia: 5
+        loitering_time: 4
         objects:
           - person
     motion:
       mask:
         - 0,33,61,0,144,0,622,0,493,81,409,33,118,233,161,334,0,480
         - 413,480,425,457,319,383,510,199,603,183,631,113,654,72,708,76,752,0,621,0,492,85,0,455,0,480
+    review:
+      alerts:
+        labels:
+          - car
+          - person
+          - bus
+        required_zones:
+          - entryway
+          - guests
+          - inside_gates
+      detections:
+        labels:
+          - car
+          - person
+          - bus
+        required_zones:
+          - entryway
+          - guests
+          - inside_gates
     mqtt:
       enabled: True
       timestamp: True
@@ -218,38 +235,40 @@ cameras:
     live:
       stream_name: door_hq
       quality: 1
-    webui_url: "http://192.168.108.150:8899/"
+    webui_url: "https://192.168.108.104/"
     motion:
       mask: []
     zones:
       near_the_door:
         coordinates: 159,360,515,360,517,326,210,317
-        inertia: 10
+        inertia: 5
+        loitering_time: 3
         objects:
           - person
           - dog
           - car
       dvor:
         coordinates: 513,151,389,147,327,212,269,267,484,298
-        inertia: 10
+        inertia: 5
         objects:
           - car
           - person
       tropinka:
         coordinates: 576,203,591,47,553,51,539,197
-        inertia: 10
+        inertia: 5
+        loitering_time: 3
         objects:
           - person
           - dog
       parkovka:
         coordinates: 516,171,516,94,395,80,363,138
-        inertia: 10
+        inertia: 5
         objects:
           - person
           - dog
       sad:
         coordinates: 337,193,326,0,68,67,0,89,0,360,125,360
-        inertia: 10
+        inertia: 5
         objects:
           - person
           - dog
@@ -259,6 +278,13 @@ cameras:
         dog:
           mask:
             - 470,360,502,257,515,156,384,136,333,207,162,360
+    review:
+      alerts:
+        labels:
+          - person
+      detections:
+        labels:
+          - person
     mqtt:
       enabled: True
       timestamp: False
@@ -289,29 +315,33 @@ cameras:
     live:
       stream_name: dvor_gates_hq
       quality: 1
-    webui_url: "http://192.168.108.210:8899/"
+    webui_url: "https://192.168.108.210/"
     motion:
       mask: []
     zones:
       before_gates:
         coordinates: 320,198,522,186,498,21,382,21,353,30,358,77
-        inertia: 10
+        inertia: 5
+        loitering_time: 3
         objects:
           - person
           - car
       at_the_door:
         coordinates: 158,314,261,320,296,177,215,184
-        inertia: 10
+        inertia: 5
+        loitering_time: 3
         objects:
           - person
       in_the_garden:
         coordinates: 848,480,848,74,714,21,583,0,508,41,612,480
-        inertia: 10
+        inertia: 5
+        loitering_time: 2
         objects:
           - person
       driveway:
         coordinates: 201,480,592,480,520,198,302,204
-        inertia: 10
+        inertia: 5
+        loitering_time: 2
         objects:
           - person
           - car
@@ -320,6 +350,15 @@ cameras:
         dog:
           mask:
             - 440,360,372,0,284,0,161,360
+    review:
+      alerts:
+        labels:
+          - car
+          - person
+      detections:
+        labels:
+          - car
+          - person
     mqtt:
       enabled: True
       timestamp: False
@@ -351,18 +390,28 @@ cameras:
     zones:
       kacheli:
         coordinates: 421,204,419,112,523,111,567,200
-        inertia: 10
+        inertia: 5
+        loitering_time: 3
         objects:
           - person
       dom2_tropinka:
         coordinates: 333,127,382,127,488,360,383,360
-        inertia: 10
+        inertia: 5
+        loitering_time: 2
         objects:
           - person
       lavka:
         coordinates: 81,200,282,196,282,360,34,360
-        inertia: 10
+        inertia: 5
+        loitering_time: 2
         objects:
+          - person
+    review:
+      alerts:
+        labels:
+          - person
+      detections:
+        labels:
           - person
     mqtt:
       enabled: True
@@ -389,25 +438,39 @@ cameras:
     live:
       stream_name: street_hq
       quality: 1
-    webui_url: "https://192.168.108.104/"
     motion:
       mask: []
     zones:
       u_okna:
         coordinates: 0,360,0,194,112,310,90,360
-        inertia: 10
+        inertia: 5
         objects:
           - person
       za_zaborom:
         coordinates: 310,128,354,118,401,360,315,360
-        inertia: 10
+        inertia: 5
         objects:
           - person
       pod_oknami:
         coordinates: 201,153,297,149,282,360,97,360
-        inertia: 10
+        inertia: 5
         objects:
           - person
+    review:
+      alerts:
+        labels:
+          - person
+        required_zones:
+          - u_okna
+          - za_zaborom
+          - pod_oknami
+      detections:
+        labels:
+          - person
+        required_zones:
+          - u_okna
+          - za_zaborom
+          - pod_oknami
     mqtt:
       enabled: True
       timestamp: False
@@ -417,11 +480,13 @@ cameras:
       quality: 100
     birdseye:
       order: 4
+
 ui:
   time_format: browser
   date_style: short
   time_style: medium
   strftime_fmt: "%Y/%m/%d %H:%M"
+
 telemetry:
   network_interfaces:
     - eth
@@ -432,6 +497,17 @@ telemetry:
     - lo
   stats:
     amd_gpu_stats: False
-    intel_gpu_stats: False
+    intel_gpu_stats: True
     network_bandwidth: False
   version_check: True
+
+camera_groups:
+  outside:
+    cameras:
+      - gates
+      - dvor_gates
+      - dom2
+      - street
+      - door
+    icon: LuCar
+    order: 0
