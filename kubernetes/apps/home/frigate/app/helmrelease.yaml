@@ -106,13 +106,6 @@ spec:
           webrtc:
             enabled: true
             port: 8555
-      ws:
-        enabled: true
-        controller: main
-        ports:
-          http:
-            port: *port
-            appProtocol: wss
     ingress:
       main:
         annotations:
@@ -126,10 +119,6 @@ spec:
                 service:
                   identifier: main
                   port: http
-              - path: /ws
-                service:
-                  identifier: ws
-                  port: *port
           - host: "go2rtc.${SECRET_DOMAIN}"
             paths:
               - path: /
