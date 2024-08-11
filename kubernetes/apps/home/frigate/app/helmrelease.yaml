@@ -48,7 +48,6 @@ spec:
               NVIDIA_VISIBLE_DEVICES: all
               NVIDIA_DRIVER_CAPABILITIES: all
               TZ: ${TIMEZONE}
-              # LIBVA_DRIVER_NAME: radeonsi
             envFrom:
               - secretRef:
                   name: frigate-secret
@@ -66,7 +65,15 @@ spec:
                   failureThreshold: 3
               readiness: *probes
               startup:
-                enabled: false
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/version
+                    port: 5000
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 30
             securityContext:
               privileged: true
             resources:
@@ -81,16 +88,40 @@ spec:
     service:
       main:
         controller: main
+        ports:
+          http:
+            enabled: true
+            primary: true
+            port: *port
+          go2rtc:
+            enabled: true
+            port: &api-port 1984
+          rtsp:
+            enabled: true
+            port: &restream-port 8554
+          webrtc:
+            enabled: true
+            port: 8555
+      ws:
+        enabled: true
+        controller: main
+        ports:
+          http:
+            port: &ws-port 5000
+            appProtocol: wss
+      external-rtsp:
+        enabled: true
+        controller: main
         type: LoadBalancer
+        externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: 192.168.108.55
         ports:
-          http:
-            port: *port
-          rtsp:
-            port: 8554
-          webrtc:
-            port: 8555
+          rtsp-tcp:
+            enabled: true
+            port: *restream-port
+            protocol: TCP
+            targetPort: *restream-port
     ingress:
       main:
         annotations:
@@ -104,6 +135,16 @@ spec:
                 service:
                   identifier: main
                   port: http
+              - path: /ws
+                service:
+                  identifier: ws
+                  port: *ws-port
+          - host: go2rtc.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: main
+                  port: *api-port
         tls:
           - hosts:
               - *host

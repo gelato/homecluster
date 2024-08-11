@@ -8,12 +8,15 @@ mqtt:
   user: "{FRIGATE_MQTT_USERNAME}"
   password: "{FRIGATE_MQTT_PASSWORD}"
   stats_interval: 30
+
 detectors:
   coral:
     type: edgetpu
     device: usb
+
 database:
   path: /data/frigate.db
+
 audio:
   enabled: True
   max_not_heard: 30
@@ -35,10 +38,15 @@ audio:
       threshold: 0.8
     fire_alarm:
       threshold: 0.8
+
 logger:
   default: warning
   logs:
     frigate.event: debug
+
+auth:
+  enabled: false
+
 birdseye:
   enabled: True
   restream: False
@@ -49,17 +57,20 @@ birdseye:
   #   motion - cameras are included if motion was detected in the last 30 seconds
   #   continuous - all cameras are included always
   mode: continuous
+
 ffmpeg:
   global_args: -hide_banner -loglevel warning -threads 2
   hwaccel_args: preset-nvidia-h264
   output_args:
     detect: -threads 2 -f rawvideo -pix_fmt yuv420p -an
     record: preset-record-generic-audio-copy
+
 detect:
   width: 640
   height: 360
   fps: 10
   enabled: True
+
 objects:
   track:
     - person
@@ -67,6 +78,12 @@ objects:
     - car
     - bus
     - cat
+  filters:
+    person:
+      min_area: 5000
+      max_area: 100000
+      threshold: 0.7
+
 record:
   enabled: True
   expire_interval: 60
@@ -82,6 +99,7 @@ record:
     retain:
       default: 30
       mode: active_objects
+
 snapshots:
   enabled: True
   clean_copy: True
@@ -95,6 +113,7 @@ snapshots:
       person: 30
       car: 30
   quality: 90
+
 go2rtc:
   streams:
     gates_hq:
@@ -127,6 +146,7 @@ go2rtc:
     candidates:
       - 192.168.108.55:8555
       - stun:8555
+
 cameras:
   gates:
     enabled: True
@@ -398,7 +418,6 @@ cameras:
     birdseye:
       order: 4
 ui:
-  live_mode: mse
   use_experimental: False
   time_format: browser
   date_style: short
