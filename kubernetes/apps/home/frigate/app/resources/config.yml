@@ -418,7 +418,6 @@ cameras:
     birdseye:
       order: 4
 ui:
-  use_experimental: False
   time_format: browser
   date_style: short
   time_style: medium
