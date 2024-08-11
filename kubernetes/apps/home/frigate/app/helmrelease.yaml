@@ -139,7 +139,7 @@ spec:
                 service:
                   identifier: ws
                   port: *ws-port
-          - host: go2rtc.${SECRET_DOMAIN}"
+          - host: "go2rtc.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:
