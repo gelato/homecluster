@@ -111,6 +111,9 @@ spec:
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: cbi:frigate
+          nginx.org/proxy-read-timeout: "3600"
+          nginx.org/proxy-send-timeout: "3600"
+          nginx.org/websocket-services: "frigate"
         className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
@@ -125,6 +128,11 @@ spec:
                 service:
                   identifier: main
                   port: *api-port
+              - path: /ws
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: *port
         tls:
           - hosts:
               - *host
