@@ -82,11 +82,6 @@ spec:
         className: internal
         annotations:
           # external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: "Jellyseerr"
-          gethomepage.dev/group: "Media Management"
-          gethomepage.dev/icon: "jellyseerr"
-          gethomepage.dev/description: "Request management and media discovery tool."
         hosts:
           - host: &host "js.${SECRET_DOMAIN}"
             paths:
