@@ -107,6 +107,12 @@ spec:
       config:
         enabled: true
         existingClaim: home-assistant
+      bt:
+        enabled: true
+        type: hostPath
+        hostPath: /run/dbus
+        globalMounts:
+        - path: /run/dbus
       # usb:
       #   enabled: true
       #   type: hostPath
