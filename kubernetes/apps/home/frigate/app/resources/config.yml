@@ -184,7 +184,7 @@ cameras:
       guests:
         coordinates: 0.758,0.398,0.607,0.437,0.396,0.797,0.514,0.944
         inertia: 5
-        loitering_time: 4
+        loitering_time: 5
         objects:
           - person
     motion:
