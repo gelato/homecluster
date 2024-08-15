@@ -29,5 +29,5 @@ spec:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 2Ti
+      storage: 3Ti
   storageClassName: longhorn-storage2
