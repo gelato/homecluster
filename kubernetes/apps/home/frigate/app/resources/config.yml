@@ -131,12 +131,12 @@ go2rtc:
       - ffmpeg:rtsp://user:12332145@192.168.108.190:554/ch0_0#video=h264#hardware=cuda#audio=aac
     dom2_lq:
       - ffmpeg:rtsp://user:12332145@192.168.108.190:554/ch0_1#video=h264#hardware=cuda#audio=aac
-    street_hq:
-      - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/101
-      - "ffmpeg:street_hq#video=copy#audio=aac"
-    street_lq:
-      - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/102
-      - "ffmpeg:street_lq#video=copy#audio=aac"
+    # street_hq:
+    #   - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/101
+    #   - "ffmpeg:street_hq#video=copy#audio=aac"
+    # street_lq:
+    #   - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/102
+    #   - "ffmpeg:street_lq#video=copy#audio=aac"
   webrtc:
     candidates:
       - 192.168.108.55:8555
@@ -444,65 +444,65 @@ cameras:
       quality: 100
     birdseye:
       order: 3
-  street:
-    enabled: True
-    ffmpeg:
-      inputs:
-        - path: rtsp://localhost:8554/street_hq
-          input_args: preset-rtsp-restream
-          roles:
-            - record
-            - audio
-        - path: rtsp://localhost:8554/street_lq
-          input_args: preset-rtsp-restream
-          roles:
-            - detect
-    live:
-      stream_name: street_hq
-      quality: 1
-    motion:
-      mask:
-        - 0.205,0.787,0.31,0.416,0.479,0.407,0.48,0.318,0.492,0.226,0.551,0.213,0.631,0.125,0.655,0.004,0.001,0.001,0.002,0.387
-    zones:
-      u_okna:
-        coordinates: 0,1,0,0.425,0.199,0.796,0.141,1
-        inertia: 5
-        objects:
-          - person
-      za_zaborom:
-        coordinates: 0.484,0.326,0.553,0.328,0.627,1,0.492,1
-        inertia: 5
-        objects:
-          - person
-      pod_oknami:
-        coordinates: 0.314,0.425,0.464,0.414,0.441,1,0.152,1
-        inertia: 5
-        objects:
-          - person
-    review:
-      alerts:
-        labels:
-          - person
-        required_zones:
-          - u_okna
-          - za_zaborom
-          - pod_oknami
-      detections:
-        labels:
-          - person
-        required_zones:
-          - u_okna
-          - za_zaborom
-          - pod_oknami
-    mqtt:
-      enabled: True
-      timestamp: False
-      bounding_box: True
-      crop: True
-      height: 500
-      quality: 100
-    birdseye:
-      order: 4
+  # street:
+  #   enabled: True
+  #   ffmpeg:
+  #     inputs:
+  #       - path: rtsp://localhost:8554/street_hq
+  #         input_args: preset-rtsp-restream
+  #         roles:
+  #           - record
+  #           - audio
+  #       - path: rtsp://localhost:8554/street_lq
+  #         input_args: preset-rtsp-restream
+  #         roles:
+  #           - detect
+  #   live:
+  #     stream_name: street_hq
+  #     quality: 1
+  #   motion:
+  #     mask:
+  #       - 0.205,0.787,0.31,0.416,0.479,0.407,0.48,0.318,0.492,0.226,0.551,0.213,0.631,0.125,0.655,0.004,0.001,0.001,0.002,0.387
+  #   zones:
+  #     u_okna:
+  #       coordinates: 0,1,0,0.425,0.199,0.796,0.141,1
+  #       inertia: 5
+  #       objects:
+  #         - person
+  #     za_zaborom:
+  #       coordinates: 0.484,0.326,0.553,0.328,0.627,1,0.492,1
+  #       inertia: 5
+  #       objects:
+  #         - person
+  #     pod_oknami:
+  #       coordinates: 0.314,0.425,0.464,0.414,0.441,1,0.152,1
+  #       inertia: 5
+  #       objects:
+  #         - person
+  #   review:
+  #     alerts:
+  #       labels:
+  #         - person
+  #       required_zones:
+  #         - u_okna
+  #         - za_zaborom
+  #         - pod_oknami
+  #     detections:
+  #       labels:
+  #         - person
+  #       required_zones:
+  #         - u_okna
+  #         - za_zaborom
+  #         - pod_oknami
+  #   mqtt:
+  #     enabled: True
+  #     timestamp: False
+  #     bounding_box: True
+  #     crop: True
+  #     height: 500
+  #     quality: 100
+  #   birdseye:
+  #     order: 4
 
 ui:
   time_format: browser
