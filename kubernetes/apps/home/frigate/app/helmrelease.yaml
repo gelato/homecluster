@@ -34,7 +34,6 @@ spec:
   values:
     defaultPodOptions:
       runtimeClassName: nvidia
-      hostNetwork: true
     controllers:
       main:
         annotations:
