@@ -113,35 +113,35 @@ go2rtc:
   streams:
     gates_hq:
       - rtsp://admin:12332145@192.168.108.104:554/stream1
-      - "ffmpeg:gates_hq#audio=aac"
+      - "ffmpeg:gates_hq#audio=copy#audio=opus#audio=aac"
     gates_lq:
       - rtsp://admin:12332145@192.168.108.104:554/stream2
-      - "ffmpeg:gates_lq#audio=aac"
+      - "ffmpeg:gates_lq#audio=copy#audio=opus#audio=aac"
     door_hq:
-      - ffmpeg:rtsp://user:12332145@192.168.108.101:554/ch0_0#video=h264#hardware#audio=aac
+      - ffmpeg:rtsp://user:12332145@192.168.108.101:554/ch0_0#video=h264#hardware#audio=copy#audio=opus#audio=aac
     door_lq:
-      - ffmpeg:rtsp://user:12332145@192.168.108.101:554/ch0_1#video=h264#hardware#audio=aac
+      - ffmpeg:rtsp://user:12332145@192.168.108.101:554/ch0_1#video=h264#hardware#audio=copy#audio=opus#audio=aac
     dvor_gates_hq:
       - rtsp://admin:12332145@192.168.108.210:554/stream1
-      - "ffmpeg:dvor_gates_hq#audio=aac"
+      - "ffmpeg:dvor_gates_hq#audio=copy#audio=opus#audio=aac"
     dvor_gates_lq:
       - rtsp://admin:12332145@192.168.108.210:554/stream2
-      - "ffmpeg:dvor_gates_lq#audio=aac"
+      - "ffmpeg:dvor_gates_lq#audio=copy#audio=opus#audio=aac"
     dom2_hq:
-      - ffmpeg:rtsp://user:12332145@192.168.108.190:554/ch0_0#video=h264#hardware=cuda#audio=aac
+      - ffmpeg:rtsp://user:12332145@192.168.108.190:554/ch0_0#video=h264#hardware=cuda#audio=copy#audio=opus#audio=aac
     dom2_lq:
-      - ffmpeg:rtsp://user:12332145@192.168.108.190:554/ch0_1#video=h264#hardware=cuda#audio=aac
+      - ffmpeg:rtsp://user:12332145@192.168.108.190:554/ch0_1#video=h264#hardware=cuda#audio=copy#audio=opus#audio=aac
     # street_hq:
     #   - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/101
-    #   - "ffmpeg:street_hq#video=copy#audio=aac"
+    #   - "ffmpeg:street_hq#video=copy#audio=copy#audio=opus#audio=aac"
     # street_lq:
     #   - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/102
-    #   - "ffmpeg:street_lq#video=copy#audio=aac"
+    #   - "ffmpeg:street_lq#video=copy#audio=copy#audio=opus#audio=aac"
   webrtc:
     candidates:
       - 192.168.108.55:8555
-      - 192.168.108.199:8555
-      - 192.168.108.200:8555
+      # - 192.168.108.199:8555
+      # - 192.168.108.200:8555
       - stun:8555
 
 cameras:
