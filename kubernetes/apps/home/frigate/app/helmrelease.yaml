@@ -33,6 +33,7 @@ spec:
       namespace: storage
   values:
     defaultPodOptions:
+      hostNetwork: true
       runtimeClassName: nvidia
     controllers:
       main:
