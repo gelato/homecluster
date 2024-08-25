@@ -30,17 +30,17 @@ spec:
     controllers:
       main:
         enabled: false
-      pod:
-          affinity:
-            podAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-              - labelSelector:
-                  matchExpressions:
-                    - key: "app.kubernetes.io/name"
-                      operator: In
-                      values:
-                        - jellyfin
-                topologyKey: "kubernetes.io/hostname"
+    pod:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: "app.kubernetes.io/name"
+                  operator: In
+                  values:
+                    - jellyfin
+            topologyKey: "kubernetes.io/hostname"
       tagging:
         type: cronjob
         cronjob: &cronJobSpec
