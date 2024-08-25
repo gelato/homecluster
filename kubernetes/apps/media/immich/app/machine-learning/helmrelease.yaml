@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app immich-machine-learning
+  name: immich-machine-learning
 spec:
   interval: 30m
   chart:
@@ -24,7 +24,9 @@ spec:
       retries: 3
   dependsOn:
     - name: immich-server
-      namespace: default
+      namespace: media
+    - name: immich-microservices
+      namespace: media
   values:
     controllers:
       immich-machine-learning:
@@ -85,9 +87,8 @@ spec:
             port: 3003
     persistence:
       library:
-        type: nfs
-        server: ${SECRET_NFS_SERVER}
-        path: /mnt/user/photos
+        enabled: true
+        existingClaim: immich-upload
         globalMounts:
           - path: /usr/src/app/upload
       cache:
