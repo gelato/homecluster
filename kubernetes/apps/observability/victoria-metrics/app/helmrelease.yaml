@@ -286,6 +286,10 @@ spec:
           - hosts:
               - *hostam
       spec:
+        port: "9093"
+        selectAllByDefault: true
+        image:
+          tag: v0.25.0
         externalURL: https://alertmanager.${SECRET_DOMAIN}
         replicaCount: 2
         # Import Alertmanager config from a existing secret
