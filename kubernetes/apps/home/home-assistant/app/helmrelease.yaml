@@ -122,3 +122,10 @@ spec:
       #   - path: /dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20240122203435-if00
       tmp:
         type: emptyDir
+      deploy-key:
+        type: secret
+        name: cluster-secrets
+        defaultMode: 256
+        globalMounts:
+          - path: /root/.ssh/id_rsa
+            subPath: GITHUB_DEPLOY_KEY
