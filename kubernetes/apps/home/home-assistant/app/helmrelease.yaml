@@ -124,7 +124,7 @@ spec:
         type: emptyDir
       deploy-key:
         type: secret
-        name: cluster-secrets
+        name: hass-secrets
         defaultMode: 256
         globalMounts:
           - path: /root/.ssh/id_rsa
