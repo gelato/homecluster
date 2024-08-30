@@ -286,7 +286,7 @@ spec:
           - hosts:
               - *hostam
       spec:
-        port: "9093"
+        port: 9093
         selectAllByDefault: true
         image:
           tag: v0.25.0
