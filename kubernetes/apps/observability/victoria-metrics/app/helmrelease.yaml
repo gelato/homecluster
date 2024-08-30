@@ -476,6 +476,10 @@ spec:
     grafana:
       enabled: false
 
+    ## install vm operator crds
+    crds:
+      enabled: true
+
     ## install prometheus operator crds
     prometheus-operator-crds:
       enabled: true
