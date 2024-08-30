@@ -275,7 +275,7 @@ spec:
     # VMalert isnt fully featured and VM acknowledge its a favourite
     # for example,
     alertmanager:
-      enabled: true
+      enabled: false
 
       ingress:
         enabled: true
