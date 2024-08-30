@@ -46,7 +46,7 @@ spec:
       spec:
         # Duration to keep metrics
         retentionPeriod: "2" # this is months unless a character prefix is added (1d, 1w, etc)
-        replicationFactor: 2
+        replicationFactor: 3
         # Storage backend
         vmstorage:
           replicaCount: 3 # HA - but prefer 3 as i have 3 notes & using local-hostpath
@@ -81,6 +81,7 @@ spec:
             dedup.minScrapeInterval: 60s
             vmstorageDialTimeout: 5s
             search.maxConcurrentRequests: "10"
+            search.minStalenessInterval: 5m
             loggerTimezone: ${TIMEZONE}
           resources:
             requests:
@@ -153,6 +154,8 @@ spec:
       enabled: true
       spec:
         replicaCount: 2 # HA
+        extraArgs:
+          external.url: https://vmalert.${SECRET_DOMAIN}
         evaluationInterval: "60s"
         resources:
           requests:
