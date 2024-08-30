@@ -150,7 +150,7 @@ spec:
                 - *hostinsert
     # VM Alerting (however, this just watches & passes alerts to prom-alertmanager below...)
     vmalert:
-      enabled: false
+      enabled: true
       spec:
         replicaCount: 2 # HA
         evaluationInterval: "60s"
@@ -275,7 +275,7 @@ spec:
     # VMalert isnt fully featured and VM acknowledge its a favourite
     # for example,
     alertmanager:
-      enabled: false
+      enabled: true
 
       ingress:
         enabled: true
