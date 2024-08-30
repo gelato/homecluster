@@ -287,8 +287,6 @@ spec:
               - *hostam
       spec:
         selectAllByDefault: true
-        image:
-          tag: v0.25.0
         externalURL: https://alertmanager.${SECRET_DOMAIN}
         replicaCount: 2
         # Import Alertmanager config from a existing secret
