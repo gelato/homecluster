@@ -1,0 +1,11 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./scrapes/extrascrapes.yaml
+  - ./scrapes/fluxmonitor.yaml
+  - ./scrapes/vmpodscrape.yaml
+  - ./scrapes/servicescrape.yaml
+  - ./rules/oom.yaml
+  - ./rules/victoria.yaml
+  - ./rules/longhorn.yaml
