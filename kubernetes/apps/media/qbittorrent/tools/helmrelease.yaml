@@ -104,16 +104,6 @@ spec:
             runAsUser: 568
             runAsGroup: 568
             runAsNonRoot: true
-          affinity:
-            podAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-              - labelSelector:
-                  matchExpressions:
-                    - key: "app.kubernetes.io/name"
-                      operator: In
-                      values:
-                        - jellyfin
-                topologyKey: "kubernetes.io/hostname"
       orphaned:
         type: cronjob
         cronjob:
@@ -138,6 +128,16 @@ spec:
             runAsUser: 1000
             runAsGroup: 568
             runAsNonRoot: true
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: "app.kubernetes.io/name"
+                      operator: In
+                      values:
+                        - jellyfin
+                topologyKey: "kubernetes.io/hostname"
       reannounce:
         containers:
           main:
