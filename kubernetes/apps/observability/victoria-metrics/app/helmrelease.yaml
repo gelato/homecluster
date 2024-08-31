@@ -367,16 +367,17 @@ spec:
         enabled: true
         port: 10259
         targetPort: 10259
-      spec:
-        jobLabel: component
-        endpoints:
-          - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-            port: http-metrics
-            scheme: https
-            tlsConfig:
-              caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-              serverName: kubernetes
-              insecureSkipVerify: true
+      vmScrape:
+        spec:
+          jobLabel: component
+          endpoints:
+            - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+              port: http-metrics
+              scheme: https
+              tlsConfig:
+                caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                serverName: kubernetes
+                insecureSkipVerify: true
 
   # -- Component scraping coreDns. Use either this or kubeDns
     coreDns:
@@ -389,11 +390,12 @@ spec:
           k8s-app: kube-dns
       # spec for VMServiceScrape crd
       # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
-      spec:
-        jobLabel: kube-dns
-        endpoints:
-          - port: http-metrics
-            bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      vmScrape:
+        spec:
+          jobLabel: kube-dns
+          endpoints:
+            - port: http-metrics
+              bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
 
     # Add kubeScheduler scrape
     kubeScheduler:
@@ -403,17 +405,17 @@ spec:
         enabled: true
         port: 10257
         targetPort: 10257
-
-      spec:
-        endpoints:
-          - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-            # bearerTokenSecret:
-            #   key: ""
-            port: http-metrics
-            scheme: https
-            tlsConfig:
-              caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-              insecureSkipVerify: true
+      vmScrape:
+        spec:
+          endpoints:
+            - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+              # bearerTokenSecret:
+              #   key: ""
+              port: http-metrics
+              scheme: https
+              tlsConfig:
+                caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                insecureSkipVerify: true
 
     kubeProxy:
       enabled: false # Disabled because eBPF
@@ -426,10 +428,11 @@ spec:
         enabled: true
         port: 2381
         targetPort: 2381
-      spec:
-        endpoints:
-          - port: http-metrics
-            scheme: http
+      vmScrape:
+        spec:
+          endpoints:
+            - port: http-metrics
+              scheme: http
 
     # Enable deployment of kube state metrics contianers
     kube-state-metrics:
