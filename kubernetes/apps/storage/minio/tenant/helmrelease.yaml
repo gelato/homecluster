@@ -29,10 +29,10 @@ spec:
     keepHistory: false
   values:
     # for testing
-    secrets:
-      accessKey: ${MINIO_ROOT_USER}
-      secretKey: ${MINIO_ROOT_PASSWORD}
     tenant:
+      configSecret:
+        accessKey: ${MINIO_ROOT_USER}
+        secretKey: ${MINIO_ROOT_PASSWORD}
       name: s3
       env:
         - name: MINIO_PROMETHEUS_URL
