@@ -64,6 +64,10 @@ detect:
   fps: 5
   enabled: True
 
+motion:
+  threshold: 35
+  contour_area: 20
+
 objects:
   track:
     - person
@@ -141,6 +145,7 @@ go2rtc:
     candidates:
       - 192.168.108.55:8555
       - 192.168.108.199:8555
+      - 192.168.108.200:8555
       - stun:8555
 
 cameras:
@@ -188,22 +193,8 @@ cameras:
         loitering_time: 6
         objects:
           - person
-    motion:
-      mask:
-        - 0,0.069,0.072,0,0.17,0,0.725,0,0.581,0.169,0.459,0.07,0.13,0.445,0.187,0.692,0,0.939
-        - 0.487,1,0.501,0.952,0.376,0.798,0.601,0.415,0.711,0.381,0.744,0.235,0.771,0.15,0.835,0.158,0.887,0,0.732,0,0.58,0.177,0,0.948,0,1
-        - 0.817,0.537,0.994,0.786,0.998,0.003,0.893,0.004,0.831,0.19,0.8,0.426
     review:
       alerts:
-        labels:
-          - car
-          - person
-          - bus
-        required_zones:
-          - entryway
-          - guests
-          - inside_gates
-      detections:
         labels:
           - car
           - person
@@ -238,9 +229,6 @@ cameras:
       stream_name: door_hq
       quality: 1
     webui_url: "https://192.168.108.104/"
-    motion:
-      mask:
-        - 0.815,0.21,0.671,0.164,0.595,0.229,0.562,0.371,0.53,0.373,0.514,0.007,0.997,0,0.998,0.128,0.829,0.128
     zones:
       near_the_door:
         coordinates: 0.248,1,0.805,1,0.808,0.906,0.328,0.881
@@ -278,15 +266,6 @@ cameras:
           - cat
     review:
       alerts:
-        labels:
-          - person
-        required_zones:
-          - near_the_door
-          - dvor
-          - tropinka
-          - parkovka
-          - sad
-      detections:
         labels:
           - person
         required_zones:
@@ -365,15 +344,6 @@ cameras:
           - at_the_door
           - in_the_garden
           - driveway
-      detections:
-        labels:
-          - car
-          - person
-        required_zones:
-          - before_gates
-          - at_the_door
-          - in_the_garden
-          - driveway
     mqtt:
       enabled: True
       timestamp: False
@@ -430,13 +400,6 @@ cameras:
           - kacheli
           - dom2_tropinka
           - lavka
-      detections:
-        labels:
-          - person
-        required_zones:
-          - kacheli
-          - dom2_tropinka
-          - lavka
     mqtt:
       enabled: True
       timestamp: False
@@ -483,13 +446,6 @@ cameras:
           - person
     review:
       alerts:
-        labels:
-          - person
-        required_zones:
-          - u_okna
-          - za_zaborom
-          - pod_oknami
-      detections:
         labels:
           - person
         required_zones:
