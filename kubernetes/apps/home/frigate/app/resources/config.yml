@@ -143,11 +143,7 @@ go2rtc:
       - "ffmpeg:street_lq#video=copy#audio=copy#audio=opus#audio=aac"
   webrtc:
     candidates:
-      - 192.168.108.55:8555
       - 192.168.108.199:8555
-      - 192.168.108.200:8555
-      - stun:8555
-
 cameras:
   gates:
     enabled: True
