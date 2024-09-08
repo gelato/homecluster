@@ -403,14 +403,14 @@ spec:
       endpoints: *cp
       service:
         enabled: true
-        port: 10257
-        targetPort: 10257
+        port: 10259
+        targetPort: 10259
+        selector:
+          component: kube-scheduler
       vmScrape:
         spec:
           endpoints:
             - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-              # bearerTokenSecret:
-              #   key: ""
               port: http-metrics
               scheme: https
               tlsConfig:
@@ -461,14 +461,17 @@ spec:
         - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
         - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
 
-      vmServiceScrape:
+      vmScrape:
         # whether we should create a service scrape resource for node-exporter
         enabled: true
 
-        # spec for VMServiceScrape crd
+        # -- spec for VMServiceScrape crd
         # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
         spec:
           jobLabel: jobLabel
+          selector:
+            matchLabels:
+              app.kubernetes.io/name: '{{ include "prometheus-node-exporter.name" (index .Subcharts "prometheus-node-exporter") }}'
           endpoints:
             - port: metrics
               metricRelabelConfigs:
