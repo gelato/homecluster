@@ -141,11 +141,11 @@ go2rtc:
     street_lq:
       - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/102
       - "ffmpeg:street_lq#video=copy#audio=copy#audio=opus#audio=aac"
-  webrtc:
-    candidates:
-      - 192.168.108.199:8555
-      - 192.168.108.55:8555
-      - stun:8555
+  # webrtc:
+  #   candidates:
+  #     - 192.168.108.199:8555
+  #     - 192.168.108.55:8555
+  #     - stun:8555
 cameras:
   gates:
     enabled: True
