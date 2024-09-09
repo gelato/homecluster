@@ -51,12 +51,11 @@ birdseye:
   #   continuous - all cameras are included always
   mode: continuous
 
-ffmpeg:
-  global_args: -hide_banner -loglevel warning -threads 2
-  hwaccel_args: preset-nvidia-h264
-  output_args:
-    detect: -threads 2 -f rawvideo -pix_fmt yuv420p
-    record: preset-record-generic-audio-copy
+# ffmpeg:
+#   global_args: -hide_banner -loglevel warning -threads 2
+#   hwaccel_args: preset-nvidia-h264
+#   output_args:
+#     record: preset-record-generic-audio-copy
 
 detect:
   width: 640
@@ -88,8 +87,6 @@ record:
   retain:
     days: 30
     mode: all
-  export:
-    timelapse_args: "-vf setpts=0.04*PTS -r 30"
   preview:
     quality: very_high
   events:
@@ -141,11 +138,11 @@ go2rtc:
     street_lq:
       - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/102
       - "ffmpeg:street_lq#video=copy#audio=copy#audio=opus#audio=aac"
-  # webrtc:
-  #   candidates:
-  #     - 192.168.108.199:8555
-  #     - 192.168.108.55:8555
-  #     - stun:8555
+  webrtc:
+    candidates:
+      - 192.168.108.199:8555
+      - 192.168.108.55:8555
+      - stun:8555
 cameras:
   gates:
     enabled: True
