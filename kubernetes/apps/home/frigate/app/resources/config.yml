@@ -51,12 +51,6 @@ birdseye:
   #   continuous - all cameras are included always
   mode: continuous
 
-# ffmpeg:
-#   global_args: -hide_banner -loglevel warning -threads 2
-#   hwaccel_args: preset-nvidia-h264
-#   output_args:
-#     record: preset-record-generic-audio-copy
-
 detect:
   width: 640
   height: 360
@@ -142,7 +136,6 @@ go2rtc:
     candidates:
       - 192.168.108.199:8555
       - 192.168.108.55:8555
-      - stun:8555
 cameras:
   gates:
     enabled: True
