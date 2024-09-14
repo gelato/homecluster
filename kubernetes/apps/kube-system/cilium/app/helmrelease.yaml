@@ -24,8 +24,29 @@ spec:
     keepHistory: false
   values:
     autoDirectNodeRoutes: true
+    bandwidthManager:
+      enabled: true
+      bbr: true
     bpf:
       masquerade: true
+      tproxy: true
+    envoy:
+      enabled: false
+    cni:
+      exclusive: false
+    bgp:
+      enabled: false
+      announce:
+        loadbalancerIP: true
+        podCIDR: false
+    ingressController:
+      enabled: false
+      loadbalancerMode: shared
+    l7Proxy: true
+    enableCnpStatusUpdates: true
+    endpointStatus:
+      enabled: true
+      status: "policy"
     cluster:
       name: home-kubernetes
       id: 1
@@ -77,6 +98,9 @@ spec:
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
     l2announcements:
       enabled: true
+      leaseDuration: 120s
+      leaseRenewDeadline: 60s
+      leaseRetryPeriod: 1s
     ipv4:
       enabled: true
     ipv6:
