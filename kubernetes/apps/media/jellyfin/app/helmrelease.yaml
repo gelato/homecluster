@@ -40,7 +40,7 @@ spec:
           main:
             image:
               repository: jellyfin/jellyfin
-              tag: 2024082605@sha256:95fe8732096746acaa4c79ca15dc72fc41f38843f8596e29b371776f5ffe1eaa
+              tag: 2024090905@sha256:48ada5518c4ebafbf2c9411b30c82bbbf5b3dc0caf1e5f901d44cd1922c0cff5
             env:
               NVIDIA_VISIBLE_DEVICES: all
               NVIDIA_DRIVER_CAPABILITIES: all
