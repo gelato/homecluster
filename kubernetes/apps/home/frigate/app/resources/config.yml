@@ -79,7 +79,7 @@ record:
   expire_interval: 60
   sync_recordings: True
   retain:
-    days: 30
+    days: 14
     mode: all
   preview:
     quality: very_high
@@ -87,7 +87,7 @@ record:
     pre_capture: 5
     post_capture: 5
     retain:
-      default: 30
+      default: 14
       mode: active_objects
 
 snapshots:
