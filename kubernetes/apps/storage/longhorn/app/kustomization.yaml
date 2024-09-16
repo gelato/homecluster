@@ -7,5 +7,6 @@ resources:
  - ./storage-classes/longhorn-sc-ssd.yaml
  - ./storage-classes/longhorn-sc-storage.yaml
  - ./storage-classes/longhorn-sc-storage2.yaml
+ - ./storage-classes/longhorn-sc-iceberg.yaml
  - ./jobs/filesystem-trim.yaml
  - ./jobs/snapshot-manage.yaml
