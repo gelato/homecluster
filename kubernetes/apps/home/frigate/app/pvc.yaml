@@ -30,4 +30,4 @@ spec:
   resources:
     requests:
       storage: 910Gi
-  storageClassName: longhorn-ssd
+  storageClassName: longhorn-iceberg
