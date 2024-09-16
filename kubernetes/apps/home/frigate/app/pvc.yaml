@@ -29,5 +29,5 @@ spec:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 910Gi
+      storage: 2Ti
   storageClassName: longhorn-iceberg
