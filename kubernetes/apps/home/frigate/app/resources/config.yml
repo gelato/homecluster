@@ -123,9 +123,11 @@ go2rtc:
       - rtsp://admin:12332145@192.168.108.210:554/stream2
       - "ffmpeg:dvor_gates_lq#audio=copy#audio=opus#audio=aac"
     dom2_hq:
-      - ffmpeg:rtsp://user:12332145@192.168.108.190:554/ch0_0#video=h264#hardware=cuda#audio=copy#audio=opus#audio=aac
+      - rtsp://admin:12332145@192.168.108.215:554/stream1
+      - "ffmpeg:dom2_hq#audio=copy#audio=opus#audio=aac"
     dom2_lq:
-      - ffmpeg:rtsp://user:12332145@192.168.108.190:554/ch0_1#video=h264#hardware=cuda#audio=copy#audio=opus#audio=aac
+      - rtsp://admin:12332145@192.168.108.215:554/stream2
+      - "ffmpeg:dom2_lq#audio=copy#audio=opus#audio=aac"
     street_hq:
       - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/101
       - "ffmpeg:street_hq#video=copy#audio=copy#audio=opus#audio=aac"
