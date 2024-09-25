@@ -113,9 +113,11 @@ go2rtc:
       - rtsp://admin:12332145@192.168.108.104:554/stream2
       - "ffmpeg:gates_lq#audio=copy#audio=opus#audio=aac"
     door_hq:
-      - ffmpeg:rtsp://user:12332145@192.168.108.101:554/ch0_0#video=h264#hardware#audio=copy#audio=opus#audio=aac
+      - rtsp://admin:12332145@192.168.108.227:554/stream1
+      - "ffmpeg:door_hq#audio=copy#audio=opus#audio=aac"
     door_lq:
-      - ffmpeg:rtsp://user:12332145@192.168.108.101:554/ch0_1#video=h264#hardware#audio=copy#audio=opus#audio=aac
+      - rtsp://admin:12332145@192.168.108.227:554/stream2
+      - "ffmpeg:door_lq#audio=copy#audio=opus#audio=aac"
     dvor_gates_hq:
       - rtsp://admin:12332145@192.168.108.210:554/stream1
       - "ffmpeg:dvor_gates_hq#audio=copy#audio=opus#audio=aac"
