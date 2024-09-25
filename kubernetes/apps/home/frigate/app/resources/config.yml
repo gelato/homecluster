@@ -225,6 +225,8 @@ cameras:
     detect:
       width: 704
       height: 576
+      fps: 5
+      enabled: True
     live:
       stream_name: door_hq
       quality: 1
@@ -394,6 +396,11 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - detect
+    detect:
+      width: 736
+      height: 416
+      fps: 5
+      enabled: True
     live:
       stream_name: dom2_hq
       quality: 1
