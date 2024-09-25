@@ -222,6 +222,9 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - detect
+    detect:
+      width: 704
+      height: 576
     live:
       stream_name: door_hq
       quality: 1
