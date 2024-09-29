@@ -45,8 +45,6 @@ spec:
               repository: ghcr.io/blakeblackshear/frigate
               tag: stable@sha256:22e3d0b486df52c3d669682254c2b1bf4205fa6ad8bd8f8c9f7fe76b1517005d
             env:
-              NVIDIA_VISIBLE_DEVICES: all
-              NVIDIA_DRIVER_CAPABILITIES: all
               TZ: ${TIMEZONE}
             envFrom:
               - secretRef:
@@ -80,11 +78,12 @@ spec:
               requests:
                 cpu: 10m
               limits:
-                nvidia.com/gpu: 1
+                gpu.intel.com/i915: 1
+                memory: 6G
         pod:
           nodeSelector:
             google.feature.node.kubernetes.io/coral: "true"
-            # intel.feature.node.kubernetes.io/gpu: "true"
+            intel.feature.node.kubernetes.io/gpu: "true"
     service:
       main:
         controller: main
@@ -167,13 +166,13 @@ spec:
         hostPathType: Directory
         globalMounts:
           - path: /dev/bus/usb
-      # dri:
-      #   enabled: true
-      #   type: hostPath
-      #   hostPath: /dev/dri
-      #   hostPathType: Directory
-      #   globalMounts:
-      #     - path: /dev/dri
+      dri:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/dri
+        hostPathType: Directory
+        globalMounts:
+          - path: /dev/dri
       suv:
         existingClaim: suv-storage
         globalMounts:
