@@ -30,8 +30,8 @@ spec:
     - name: longhorn
       namespace: storage
   values:
-    defaultPodOptions:
-      hostNetwork: true
+    # defaultPodOptions:
+    #   hostNetwork: true
     controllers:
       main:
         annotations:
