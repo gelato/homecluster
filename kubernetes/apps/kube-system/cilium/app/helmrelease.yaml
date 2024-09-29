@@ -44,9 +44,6 @@ spec:
       loadbalancerMode: shared
     l7Proxy: true
     enableCnpStatusUpdates: true
-    endpointStatus:
-      enabled: true
-      status: "policy"
     cluster:
       name: home-kubernetes
       id: 1
