@@ -108,40 +108,38 @@ go2rtc:
   streams:
     gates_hq:
       - rtsp://admin:12332145@192.168.108.104:554/stream1
-      - "ffmpeg:gates_hq#audio=copy#audio=opus#audio=aac"
+      - "ffmpeg:gates_hq#audio=copy#audio=opus"
     gates_lq:
       - rtsp://admin:12332145@192.168.108.104:554/stream2
-      - "ffmpeg:gates_lq#audio=copy#audio=opus#audio=aac"
+      - "ffmpeg:gates_lq#audio=copy#audio=opus"
     door_hq:
       - rtsp://admin:12332145@192.168.108.227:554/stream1
-      - "ffmpeg:door_hq#audio=copy#audio=opus#audio=aac"
+      - "ffmpeg:door_hq#audio=copy#audio=opus"
     door_lq:
       - rtsp://admin:12332145@192.168.108.227:554/stream2
-      - "ffmpeg:door_lq#audio=copy#audio=opus#audio=aac"
+      - "ffmpeg:door_lq#audio=copy#audio=opus"
     dvor_gates_hq:
       - rtsp://admin:12332145@192.168.108.210:554/stream1
-      - "ffmpeg:dvor_gates_hq#audio=copy#audio=opus#audio=aac"
+      - "ffmpeg:dvor_gates_hq#audio=copy#audio=opus"
     dvor_gates_lq:
       - rtsp://admin:12332145@192.168.108.210:554/stream2
-      - "ffmpeg:dvor_gates_lq#audio=copy#audio=opus#audio=aac"
+      - "ffmpeg:dvor_gates_lq#audio=copy#audio=opus"
     dom2_hq:
       - rtsp://admin:12332145@192.168.108.215:554/stream1
-      - "ffmpeg:dom2_hq#audio=copy#audio=opus#audio=aac"
+      - "ffmpeg:dom2_hq#audio=copy#audio=opus"
     dom2_lq:
       - rtsp://admin:12332145@192.168.108.215:554/stream2
-      - "ffmpeg:dom2_lq#audio=copy#audio=opus#audio=aac"
+      - "ffmpeg:dom2_lq#audio=copy#audio=opus"
     street_hq:
       - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/101
-      - "ffmpeg:street_hq#video=copy#audio=copy#audio=opus#audio=aac"
+      - "ffmpeg:street_hq#video=copy#audio=copy#audio=opus"
     street_lq:
       - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/102
-      - "ffmpeg:street_lq#video=copy#audio=copy#audio=opus#audio=aac"
+      - "ffmpeg:street_lq#video=copy#audio=copy#audio=opus"
   webrtc:
     candidates:
       - 192.168.108.55:8555
       - 192.168.108.115:8555
-      - 192.168.108.212:8555
-      - 192.168.108.200:8555
       - stun:8555
 cameras:
   gates:
@@ -407,7 +405,7 @@ cameras:
     live:
       stream_name: dom2_hq
       quality: 1
-    webui_url: "http://192.168.108.122:8899/"
+    webui_url: "https://192.168.108.215/"
     motion:
       mask:
         - 0.049,1,0.001,0.996,0.001,0.001,0.996,0.003,0.999,0.996,0.648,1,0.62,0.849,0.746,0.744,0.735,0.637,0.581,0.635,0.578,0.463,0.532,0.47,0.517,0.51,0.526,0.698,0.359,0.718,0.215,0.738,0.057,0.928
@@ -527,7 +525,7 @@ camera_groups:
       - gates
       - dvor_gates
       - dom2
-      # - street
+      - street
       - door
     icon: LuCar
     order: 0
