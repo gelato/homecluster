@@ -527,7 +527,7 @@ camera_groups:
       - gates
       - dvor_gates
       - dom2
-      - street
+      # - street
       - door
     icon: LuCar
     order: 0
