@@ -93,3 +93,8 @@ spec:
         existingClaim: *app
         globalMounts:
           - path: /app/backend/data
+      docs:
+        enabled: true
+        existingClaim: openwebui-docs
+        globalMounts:
+          - path: /data/docs

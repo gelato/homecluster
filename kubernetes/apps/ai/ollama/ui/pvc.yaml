@@ -9,3 +9,14 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: longhorn-storage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openwebui-docs
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: longhorn-fast
