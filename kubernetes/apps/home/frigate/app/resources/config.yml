@@ -108,34 +108,34 @@ go2rtc:
   streams:
     gates_hq:
       - rtsp://admin:12332145@192.168.108.104:554/stream1
-      - "ffmpeg:gates_hq#audio=copy#audio=opus"
+      - "ffmpeg:gates_hq#audio=copy#audio=aac"
     gates_lq:
       - rtsp://admin:12332145@192.168.108.104:554/stream2
-      - "ffmpeg:gates_lq#audio=copy#audio=opus"
+      - "ffmpeg:gates_lq#audio=copy#audio=aac"
     door_hq:
       - rtsp://admin:12332145@192.168.108.227:554/stream1
-      - "ffmpeg:door_hq#audio=copy#audio=opus"
+      - "ffmpeg:door_hq#audio=copy#audio=aac"
     door_lq:
       - rtsp://admin:12332145@192.168.108.227:554/stream2
-      - "ffmpeg:door_lq#audio=copy#audio=opus"
+      - "ffmpeg:door_lq#audio=copy#audio=aac"
     dvor_gates_hq:
       - rtsp://admin:12332145@192.168.108.210:554/stream1
-      - "ffmpeg:dvor_gates_hq#audio=copy#audio=opus"
+      - "ffmpeg:dvor_gates_hq#audio=copy#audio=aac"
     dvor_gates_lq:
       - rtsp://admin:12332145@192.168.108.210:554/stream2
-      - "ffmpeg:dvor_gates_lq#audio=copy#audio=opus"
+      - "ffmpeg:dvor_gates_lq#audio=copy#audio=aac"
     dom2_hq:
       - rtsp://admin:12332145@192.168.108.215:554/stream1
-      - "ffmpeg:dom2_hq#audio=copy#audio=opus"
+      - "ffmpeg:dom2_hq#audio=copy#audio=aac"
     dom2_lq:
       - rtsp://admin:12332145@192.168.108.215:554/stream2
-      - "ffmpeg:dom2_lq#audio=copy#audio=opus"
+      - "ffmpeg:dom2_lq#audio=copy#audio=aac"
     street_hq:
       - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/101
-      - "ffmpeg:street_hq#video=copy#audio=copy#audio=opus"
+      - "ffmpeg:street_hq#video=copy#audio=copy#audio=aac"
     street_lq:
       - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/102
-      - "ffmpeg:street_lq#video=copy#audio=copy#audio=opus"
+      - "ffmpeg:street_lq#video=copy#audio=copy#audio=aac"
   webrtc:
     candidates:
       - 192.168.108.55:8555
