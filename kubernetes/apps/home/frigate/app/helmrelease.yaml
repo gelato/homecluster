@@ -110,7 +110,7 @@ spec:
           nginx.org/proxy-read-timeout: "3600"
           nginx.org/proxy-send-timeout: "3600"
           nginx.org/websocket-services: "frigate"
-        className: internal
+        className: cilium
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
