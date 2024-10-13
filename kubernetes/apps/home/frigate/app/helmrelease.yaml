@@ -85,7 +85,7 @@ spec:
       main:
         controller: main
         type: LoadBalancer
-        # externalTrafficPolicy: Cluster
+        externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: 192.168.108.55
         ports:
@@ -110,8 +110,7 @@ spec:
           nginx.org/proxy-read-timeout: "3600"
           nginx.org/proxy-send-timeout: "3600"
           nginx.org/websocket-services: "frigate"
-          ingress.cilium.io/loadbalancer-mode: "dedicated"
-        className: cilium
+        className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
