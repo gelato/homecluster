@@ -51,7 +51,7 @@ spec:
       hostNetwork:
         enabled: true
       service:
-        externalTrafficPolicy: ~
+        externalTrafficPolicy: Local
     l7Proxy: true
     cluster:
       name: home-kubernetes
