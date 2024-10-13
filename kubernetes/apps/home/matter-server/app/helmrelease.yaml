@@ -86,7 +86,7 @@ spec:
             primary: true
             protocol: TCP
             port: *port
-        externalTrafficPolicy: Cluster
+        # externalTrafficPolicy: Cluster
     persistence:
       config:
         enabled: true
