@@ -48,10 +48,10 @@ spec:
       enabled: true
       default: false
       loadbalancerMode: shared
-      hostNetwork:
-        enabled: true
-      service:
-        externalTrafficPolicy: Local
+      # hostNetwork:
+      #   enabled: true
+      # service:
+      #   externalTrafficPolicy: ~
     l7Proxy: true
     cluster:
       name: home-kubernetes
