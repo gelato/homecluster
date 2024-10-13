@@ -37,6 +37,8 @@ spec:
           keepCapNetBindService: true
           envoy:
           - NET_BIND_SERVICE
+          - CAP_NET_ADMIN
+          - CAP_SYS_ADMIN
     cni:
       exclusive: false
     bgp:
