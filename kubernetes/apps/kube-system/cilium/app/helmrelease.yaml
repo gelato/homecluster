@@ -46,6 +46,7 @@ spec:
         podCIDR: false
     ingressController:
       enabled: true
+      default: false
       loadbalancerMode: shared
       hostNetwork:
         enabled: true
