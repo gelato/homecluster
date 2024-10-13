@@ -31,7 +31,12 @@ spec:
       masquerade: true
       tproxy: true
     envoy:
-      enabled: false
+      enabled: true
+      securityContext:
+        capabilities:
+          keepCapNetBindService: true
+          envoy:
+          - NET_BIND_SERVICE
     cni:
       exclusive: false
     bgp:
@@ -40,8 +45,10 @@ spec:
         loadbalancerIP: true
         podCIDR: false
     ingressController:
-      enabled: false
+      enabled: true
       loadbalancerMode: shared
+      hostNetwork:
+        enabled: true
     l7Proxy: true
     cluster:
       name: home-kubernetes
