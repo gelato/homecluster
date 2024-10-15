@@ -53,7 +53,6 @@ spec:
               - --not-working
               - --sites
               - --unregistered
-              - --domains
               - --server
               - qbittorrent.media.svc.cluster.local
               - --port
