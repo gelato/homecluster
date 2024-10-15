@@ -20,6 +20,7 @@ spec:
       max_connections: "600"
       max_slot_wal_keep_size: 10GB
       shared_buffers: 512MB
+    enableAlterSystem: true
     shared_preload_libraries:
       - "vectors.so"
   resources:
