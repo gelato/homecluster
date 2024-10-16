@@ -8,4 +8,4 @@ spec:
   realm: stunner.l7mp.io
   authRef:
     name: stunner-auth-secret
-    namespace: stunner
+    namespace: service
