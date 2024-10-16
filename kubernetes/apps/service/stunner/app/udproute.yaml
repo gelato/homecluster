@@ -10,5 +10,5 @@ spec:
     - name: frigate-tcp-gateway
   rules:
     - backendRefs:
-        - name: frigate
-          namespace: home
+      - name: frigate
+        namespace: home
