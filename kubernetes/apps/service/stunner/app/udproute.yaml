@@ -2,13 +2,13 @@
 apiVersion: stunner.l7mp.io/v1
 kind: UDPRoute
 metadata:
-  name: frigate-plane
+  name: iperf-server
   namespace: service
 spec:
   parentRefs:
     - name: frigate-udp-gateway
-    # - name: frigate-tcp-gateway
+    - name: frigate-tcp-gateway
   rules:
     - backendRefs:
-      - name: frigate
-        namespace: home
+        - name: frigate
+          namespace: home
