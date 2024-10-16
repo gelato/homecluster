@@ -54,7 +54,7 @@ birdseye:
 detect:
   width: 640
   height: 360
-  fps: 5
+  fps: 10
   enabled: True
 
 motion:
@@ -228,7 +228,7 @@ cameras:
     detect:
       width: 848
       height: 480
-      fps: 5
+      fps: 10
       enabled: True
     live:
       stream_name: door_hq
@@ -314,7 +314,7 @@ cameras:
     detect:
       width: 848
       height: 480
-      fps: 5
+      fps: 10
       enabled: True
     live:
       stream_name: dvor_gates_hq
@@ -402,7 +402,7 @@ cameras:
     detect:
       width: 736
       height: 416
-      fps: 5
+      fps: 10
       enabled: True
     live:
       stream_name: dom2_hq
