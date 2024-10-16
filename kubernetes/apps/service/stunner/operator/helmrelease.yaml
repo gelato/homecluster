@@ -1,0 +1,102 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: stunner
+  namespace: service
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: stunner-gateway-operator
+      version: 0.21.0
+      sourceRef:
+        kind: HelmRepository
+        name: stunner
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    stunnerGatewayOperator:
+      enabled: true
+      deployment:
+        name: stunner-gateway-operator
+        container:
+          manager:
+            image:
+              name: docker.io/l7mp/stunner-gateway-operator
+              pullPolicy: IfNotPresent
+              tag: 0.21.0
+            resources:
+              limits:
+                cpu: 1000m
+                memory: 512Mi
+              requests:
+                cpu: 250m
+                memory: 128Mi
+            args:
+              - --health-probe-bind-address=:8081
+              - --metrics-bind-address=127.0.0.1:8080
+              - --leader-elect
+              - --zap-log-level=info
+          kubeRbacProxy:
+            image:
+              name: gcr.io/kubebuilder/kube-rbac-proxy
+              pullPolicy: IfNotPresent
+              tag: v0.16.0
+      dataplane:
+        # Can be 'legacy' or 'managed'
+        # default is managed
+        mode: managed
+        spec:
+          replicas: 1
+          # for dev version set it to docker.io/l7mp/stunnerd:dev
+          image:
+            name: docker.io/l7mp/stunnerd
+            pullPolicy: IfNotPresent
+            tag: 0.21.0
+          command:
+            - stunnerd
+          args:
+            - -w
+            - --udp-thread-num=16
+          resources:
+            limits:
+              cpu: 1
+              memory: 512Mi
+            requests:
+              cpu: 50m
+              memory: 128Mi
+          terminationGracePeriodSeconds: 3600
+          enableMetricsEndpoint: false
+          hostNetwork: false
+
+    stunnerAuthService:
+      enabled: true
+      deployment:
+        container:
+          authService:
+            image:
+              name: docker.io/l7mp/stunner-auth-server
+              pullPolicy: IfNotPresent
+              tag: 0.21.0
+            resources:
+              limits:
+                cpu: 200m
+                memory: 128Mi
+              requests:
+                cpu: 10m
+                memory: 64Mi
+            args:
+              - --port=8088
+              - -v
