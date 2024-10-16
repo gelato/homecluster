@@ -41,9 +41,10 @@ spec:
         strategy: RollingUpdate
         containers:
           app-run:
-            image: ubuntu:latest
-            command: [ "/bin/bash", "-c", "--" ]
-            args: [ "while true; do sleep 30; done;" ]
+            image:
+              repository: ubuntu:latest
+              command: [ "/bin/bash", "-c", "--" ]
+              args: [ "while true; do sleep 30; done;" ]
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
