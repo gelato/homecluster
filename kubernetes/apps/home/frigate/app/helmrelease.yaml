@@ -31,8 +31,8 @@ spec:
       namespace: storage
   values:
     defaultPodOptions:
-      hostNetwork: true
-      runtimeClassName: nvidia 
+      # hostNetwork: true
+      runtimeClassName: nvidia
     controllers:
       main:
         annotations:
