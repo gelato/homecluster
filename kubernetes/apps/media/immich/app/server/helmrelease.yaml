@@ -43,8 +43,8 @@ spec:
           app-run:
             image:
               repository: ubuntu:latest
-              command: [ "/bin/bash", "-c", "--" ]
-              args: [ "while true; do sleep 30; done;" ]
+            command: [ "/bin/bash", "-c", "--" ]
+            args: [ "while true; do sleep 30; done;" ]
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
