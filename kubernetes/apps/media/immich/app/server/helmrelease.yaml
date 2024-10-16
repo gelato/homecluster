@@ -45,7 +45,7 @@ spec:
               repository: ubuntu
               tag: latest
             command: [ "/bin/bash", "-c", "--" ]
-            args: [ "while true; do sleep 30; done;" ]
+            args: [ "while true; do sleep 30&&mkdir -p /usr/src/app/upload; done;" ]
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
