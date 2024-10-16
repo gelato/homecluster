@@ -32,6 +32,7 @@ spec:
   values:
     defaultPodOptions:
       hostNetwork: true
+      runtimeClassName: nvidia 
     controllers:
       main:
         annotations:
@@ -75,12 +76,14 @@ spec:
               requests:
                 cpu: 10m
               limits:
-                gpu.intel.com/i915: 1
-                memory: 8G
+                # gpu.intel.com/i915: 1
+                nvidia.com/gpu: 1
+                memory: 9G
         pod:
           nodeSelector:
             google.feature.node.kubernetes.io/coral: "true"
-            intel.feature.node.kubernetes.io/gpu: "true"
+            # intel.feature.node.kubernetes.io/gpu: "true"
+            nvidia.com/gpu.present: "true"
     service:
       main:
         controller: main
@@ -145,10 +148,10 @@ spec:
           - path: /config/config.yml
             subPath: config.yml
             readOnly: false
-      modelcache:
-        existingClaim: frigate-model-cache
-        globalMounts:
-          - path: /config/model_cache
+      # modelcache:
+      #   existingClaim: frigate-model-cache
+      #   globalMounts:
+      #     - path: /config/model_cache
       cache:
         enabled: true
         type: emptyDir
@@ -163,13 +166,13 @@ spec:
         hostPathType: Directory
         globalMounts:
           - path: /dev/bus/usb
-      dri:
-        enabled: true
-        type: hostPath
-        hostPath: /dev/dri
-        hostPathType: Directory
-        globalMounts:
-          - path: /dev/dri
+      # dri:
+      #   enabled: true
+      #   type: hostPath
+      #   hostPath: /dev/dri
+      #   hostPathType: Directory
+      #   globalMounts:
+      #     - path: /dev/dri
       suv:
         existingClaim: suv-storage
         globalMounts:
