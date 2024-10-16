@@ -44,7 +44,7 @@ spec:
             image:
               repository: ubuntu
               tag: latest
-            command: [ "/bin/bash", "-c", "--" ]
+              command: [ "/bin/bash", "-c", "--" ]
             args: [ "while true; do sleep 30; done;" ]
           app:
             image:
