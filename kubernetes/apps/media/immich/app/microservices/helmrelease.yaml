@@ -42,7 +42,7 @@ spec:
               - configMapRef:
                   name: immich-configmap
               - secretRef:
-                  name: immich-secret
+                  name: immich
               - secretRef:
                   name: immich-db-secret
             resources:
