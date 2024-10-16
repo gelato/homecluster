@@ -33,10 +33,6 @@ spec:
         name: stunner-gateway-operator
         container:
           manager:
-            image:
-              name: docker.io/l7mp/stunner-gateway-operator
-              pullPolicy: IfNotPresent
-              tag: 0.21.0
             resources:
               limits:
                 cpu: 1000m
@@ -53,10 +49,6 @@ spec:
         mode: managed
         spec:
           replicas: 1
-          image:
-            name: docker.io/l7mp/stunnerd
-            pullPolicy: IfNotPresent
-            tag: 0.21.0
           command:
             - stunnerd
           args:
@@ -78,10 +70,6 @@ spec:
       deployment:
         container:
           authService:
-            image:
-              name: docker.io/l7mp/stunner-auth-server
-              pullPolicy: IfNotPresent
-              tag: 0.21.0
             resources:
               limits:
                 cpu: 200m
