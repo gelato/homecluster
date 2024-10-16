@@ -43,8 +43,6 @@ spec:
                   name: immich-configmap
               - secretRef:
                   name: immich
-              - secretRef:
-                  name: immich-db-secret
             resources:
               requests:
                 cpu: 10m
