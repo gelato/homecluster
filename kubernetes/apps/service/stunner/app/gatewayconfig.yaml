@@ -6,6 +6,6 @@ metadata:
   namespace: service
 spec:
   realm: stunner.l7mp.io
-  # authRef:
-  #   name: stunner-auth-secret
-  #   namespace: stunner
+  authRef:
+    name: stunner-auth-secret
+    namespace: stunner
