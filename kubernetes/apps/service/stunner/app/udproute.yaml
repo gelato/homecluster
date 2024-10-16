@@ -2,7 +2,7 @@
 apiVersion: stunner.l7mp.io/v1
 kind: UDPRoute
 metadata:
-  name: iperf-server
+  name: frigate-server
   namespace: service
 spec:
   parentRefs:
