@@ -7,7 +7,7 @@ metadata:
 spec:
   parentRefs:
     - name: frigate-udp-gateway
-    - name: frigate-tcp-gateway
+    # - name: frigate-tcp-gateway
   rules:
     - backendRefs:
       - name: frigate
