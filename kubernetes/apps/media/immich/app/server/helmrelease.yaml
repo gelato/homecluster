@@ -54,7 +54,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /api/server/ping
+                    path: /server/ping
                     port: &port 2283
                   initialDelaySeconds: 0
                   periodSeconds: 10
