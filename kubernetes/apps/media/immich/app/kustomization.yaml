@@ -6,6 +6,6 @@ resources:
   - ./configmap.yaml
   - ./secret.sops.yaml
   - ./machine-learning
-  - ./microservices
+  # - ./microservices
   - ./server
   - ../../../../templates/gatus/external
