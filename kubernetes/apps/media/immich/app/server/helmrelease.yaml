@@ -47,7 +47,7 @@ spec:
             env:
               TZ: ${TIMEZONE}
               IMMICH_WORKERS_INCLUDE: api
-              SERVER_PORT: &port 3001
+              SERVER_PORT: &port 2283
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -55,8 +55,8 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /api/server-info/ping
-                    port: 3001
+                    path: /api/server/ping
+                    port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -86,7 +86,7 @@ spec:
         controller: immich
         ports:
           http:
-            port: 3001
+            port: *port
     ingress:
       app:
         className: internal
