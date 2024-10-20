@@ -29,3 +29,4 @@ resources:
   - ./repos/clusterplex.yaml
   - ./repos/hajimari.yaml
   - ./repos/stunner.yaml
+  - ./repos/fairwinds.yaml
