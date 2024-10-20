@@ -66,8 +66,7 @@ spec:
             intel.feature.node.kubernetes.io/gpu: "true"
     persistence:
       library:
-        type: nfs
-        server: ${SECRET_NFS_SERVER}
-        path: /mnt/user/photos
+        enabled: true
+        existingClaim: immich-upload
         globalMounts:
           - path: /usr/src/app/upload
