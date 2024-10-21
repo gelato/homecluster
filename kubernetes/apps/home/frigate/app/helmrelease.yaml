@@ -78,7 +78,7 @@ spec:
               limits:
                 # gpu.intel.com/i915: 1
                 nvidia.com/gpu: 1
-                memory: 9G
+                memory: 10G
         pod:
           nodeSelector:
             google.feature.node.kubernetes.io/coral: "true"
