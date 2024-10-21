@@ -13,3 +13,4 @@ resources:
   - ./victoria-logs/ks.yaml
   - ./grafana/ks.yaml
   # - ./ntfy/ks.yaml
+  - ./goldilocks/ks.yaml
