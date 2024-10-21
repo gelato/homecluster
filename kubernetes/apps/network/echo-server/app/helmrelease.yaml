@@ -30,7 +30,7 @@ spec:
           main:
             image:
               repository: ghcr.io/mendhak/http-https-echo
-              tag: 34
+              tag: 35
             env:
               TZ: ${TIMEZONE}
               HTTP_PORT: &port 8080
