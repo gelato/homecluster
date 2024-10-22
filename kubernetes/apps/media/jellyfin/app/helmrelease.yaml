@@ -50,11 +50,11 @@ spec:
               TZ: ${TIMEZONE}
             resources:
               requests:
-                cpu: 230m
-                memory: 7118M
+                cpu: 15m
+                memory: 7101M
               limits:
-                cpu: 230m
-                memory: 7118M
+                cpu: 319m
+                memory: 16G
                 nvidia.com/gpu: 1
     service:
       main:
