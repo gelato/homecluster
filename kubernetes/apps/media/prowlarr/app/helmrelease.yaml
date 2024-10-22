@@ -64,10 +64,11 @@ spec:
                   periodSeconds: 5
             resources:
               requests:
-                cpu: 18m
-                memory: 128Mi
+                cpu: 15m
+                memory: 226M
               limits:
-                memory: 512Mi
+                cpu: 15m
+                memory: 226M
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
