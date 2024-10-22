@@ -74,11 +74,13 @@ spec:
               privileged: true
             resources:
               requests:
-                cpu: 10m
+                cpu: 1737m
+                memory: 6118M
               limits:
+                cpu: 1737m
                 # gpu.intel.com/i915: 1
                 nvidia.com/gpu: 1
-                memory: 10G
+                memory: 6118M
         pod:
           nodeSelector:
             google.feature.node.kubernetes.io/coral: "true"
