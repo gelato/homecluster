@@ -61,9 +61,9 @@ spec:
               requests:
                 cpu: 763m
                 memory: 1837M
-              limits:
-                cpu: 763m
-                memory: 1837M
+              # limits:
+              #   cpu: 763m
+              #   memory: 1837M
             securityContext:
               privileged: true
     service:
