@@ -51,9 +51,11 @@ spec:
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
-                cpu: 10m
+                cpu: 15m
+                memory: 105M
               limits:
-                memory: 16Mi
+                cpu: 15m
+                memory: 105M
         pod:
           securityContext:
             runAsUser: 568

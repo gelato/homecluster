@@ -61,9 +61,11 @@ spec:
                   periodSeconds: 5
             resources:
               requests:
-                memory: "100M"
+                cpu: 23m
+                memory: 105M
               limits:
-                memory: "1G"
+                cpu: 23m
+                memory: 105M
     service:
       app:
         controller: *app

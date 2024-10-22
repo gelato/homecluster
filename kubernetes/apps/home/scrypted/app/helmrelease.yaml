@@ -59,12 +59,11 @@ spec:
                   periodSeconds: 5
             resources:
               requests:
-                nvidia.com/gpu: 1
-                cpu: 13m
-                memory: 1024Mi
+                cpu: 763m
+                memory: 1837M
               limits:
-                nvidia.com/gpu: 1
-                memory: 8192Mi
+                cpu: 763m
+                memory: 1837M
             securityContext:
               privileged: true
     service:

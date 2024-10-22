@@ -60,9 +60,11 @@ spec:
                   - NET_BROADCAST
             resources:
               requests:
-                cpu: 10m
+                cpu: 126m
+                memory: 717M
               limits:
-                memory: 2Gi
+                cpu: 126m
+                memory: 717M
         pod:
           securityContext:
             runAsUser: 0
