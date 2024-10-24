@@ -5,8 +5,6 @@ metadata:
   name: controllers
 spec:
   version: "${KUBE_VERSION}"
-  upgrade:
-    image: rancher/k3s-upgrade
   serviceAccountName: system-upgrade
   concurrency: 1
   cordon: true
@@ -30,12 +28,16 @@ spec:
       operator: Exists
     - key: CriticalAddonsOnly
       operator: Exists
+  upgrade:
+    image: rancher/k3s-upgrade
 ---
+# yaml-language-server: $schema=https://kochhaus-schemas.pages.dev/upgrade.cattle.io/plan_v1.json
 apiVersion: upgrade.cattle.io/v1
 kind: Plan
 metadata:
   name: workers
 spec:
+  # renovate: datasource=github-releases depName=k3s-io/k3s
   version: "${KUBE_VERSION}"
   serviceAccountName: system-upgrade
   concurrency: 1
@@ -45,6 +47,6 @@ spec:
         operator: DoesNotExist
   prepare:
     image: rancher/k3s-upgrade
-    args: ["prepare", "workers"]
+    args: ["prepare", "controllers"]
   upgrade:
     image: rancher/k3s-upgrade
