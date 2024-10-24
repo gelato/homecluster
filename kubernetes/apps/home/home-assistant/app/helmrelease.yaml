@@ -62,7 +62,7 @@ spec:
               requests:
                 cpu: 108m
                 memory: 628M
-              # limits:
+              limits:
               #   cpu: 281m
                 memory: 5599M
         pod:
