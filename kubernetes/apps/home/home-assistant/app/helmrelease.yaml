@@ -40,6 +40,9 @@ spec:
             image:
               repository: ghcr.io/onedr0p/home-assistant
               tag: 2024.10.3@sha256:59cb3b01ea4695c5df8f4cc1e4d01fa7e22090caa3fd3f000a96b6a5de909f91
+            envFrom:
+              - secretRef:
+                  name: hass-secrets
             env:
               TZ: ${TIMEZONE}
             probes:
@@ -126,14 +129,14 @@ spec:
         type: emptyDir
       deploy-key:
         type: secret
-        name: hass-secrets
+        name: hass-secrets-gh
         defaultMode: 256
         globalMounts:
           - path: /root/.ssh/id_rsa
             subPath: GITHUB_DEPLOY_KEY
       known-hosts:
         type: secret
-        name: hass-secrets
+        name: hass-secrets-gh
         defaultMode: 256
         globalMounts:
           - path: /root/.ssh/known_hosts
