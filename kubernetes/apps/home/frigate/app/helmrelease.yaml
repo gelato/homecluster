@@ -74,11 +74,11 @@ spec:
               privileged: true
             resources:
               requests:
-                cpu: 1465m
-                memory: 4733M
+                cpu: 1938m
+                memory: 7872M
               limits:
-                cpu: 3996m
-                memory: 14G
+                cpu: 1938m
+                memory: 7872M
                 # gpu.intel.com/i915: 1
                 nvidia.com/gpu: 1
         pod:
@@ -116,7 +116,7 @@ spec:
           nginx.org/proxy-send-timeout: "3600"
           nginx.org/websocket-services: "frigate"
           nginx.ingress.kubernetes.io/whitelist-source-range: |
-          10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+            10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
