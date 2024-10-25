@@ -85,6 +85,7 @@ spec:
             search.maxConcurrentRequests: "10"
             search.minStalenessInterval: 5m
             loggerTimezone: ${TIMEZONE}
+            search.maxUniqueTimeseries: "1000000"
           resources:
             requests:
               cpu: 10m
