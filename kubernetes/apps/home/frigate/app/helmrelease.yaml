@@ -77,7 +77,6 @@ spec:
                 cpu: 1938m
                 memory: 7872M
               limits:
-                cpu: 1938m
                 memory: 7872M
                 # gpu.intel.com/i915: 1
                 nvidia.com/gpu: 1
