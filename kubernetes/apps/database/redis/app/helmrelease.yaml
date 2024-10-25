@@ -33,7 +33,7 @@ spec:
       # Disable RDB persistence, AOF persistence already enabled.
       databases 80
       maxmemory 1800mb
-      maxmemory-policy noeviction
+      maxmemory-policy volatile-lru
       maxclients 20000
       maxmemory-samples 5
       timeout 60
