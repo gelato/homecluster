@@ -77,7 +77,7 @@ spec:
                 cpu: 1938m
                 memory: 7872M
               limits:
-                memory: 7872M
+                # memory: 7872M
                 # gpu.intel.com/i915: 1
                 nvidia.com/gpu: 1
         pod:
