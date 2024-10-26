@@ -396,10 +396,6 @@ spec:
     plugins:
       - grafana-clock-panel
       - grafana-piechart-panel
-      - grafana-worldmap-panel
-      - natel-discrete-panel
-      - pr0ps-trackmap-panel
-      - vonage-status-panel
     extraInitContainers:
       - name: "load-vm-ds-plugin"
         image: "curlimages/curl:7.85.0"
