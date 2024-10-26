@@ -87,7 +87,7 @@ spec:
       enabled: false
       image:
         repository: bitnami/redis-exporter
-        tag: 1.65.0-debian-12-r0
+        tag: 1.65.0-debian-12-r2
         redisTargetHost: redis-sentinel
       serviceMonitor:
         enabled: true
