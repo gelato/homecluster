@@ -32,7 +32,7 @@ spec:
       appendonly no
       # Disable RDB persistence, AOF persistence already enabled.
       databases 80
-      maxmemory 1800mb
+      maxmemory 2800mb
       maxmemory-policy volatile-lru
       maxclients 20000
       maxmemory-samples 5
@@ -56,8 +56,8 @@ spec:
         enabled: false
       resources:
         requests:
-          memory: 1Gi
           cpu: 10m
+          memory: 2Gi
         limits:
           memory: 10Gi
       automountServiceAccountToken: true
