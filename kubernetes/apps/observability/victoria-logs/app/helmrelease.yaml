@@ -90,11 +90,11 @@ spec:
         # Default format is: {{release_name}}-victoria-logs-single-server
         outputs: |
           @INCLUDE /fluent-bit/etc/conf/vl/output_*.conf
-          
+
           [OUTPUT]
               Name http
               Match kube.*
-              Host {{ .Release.Name }}-victoria-logs-single-server
+              Host server-server
               port 9428
               compress gzip
               uri /insert/jsonline?_stream_fields=stream,kubernetes_pod_name&_msg_field=log&_time_field=date
