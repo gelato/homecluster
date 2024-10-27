@@ -134,9 +134,9 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
         hosts:
-          - host: &host-ext-callback home-callback.${SECRET_DOMAIN}
+          - host: &host-ext-callback call-home.${SECRET_DOMAIN}
             paths:
-              - path: /update_config
+              - path: /api/webhook/update_config
                 service:
                   identifier: main
                   port: http
