@@ -96,10 +96,19 @@ spec:
     ingress:
       main:
         className: internal
-        # annotations:
-        #   external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
         hosts:
           - host: &host hass.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  identifier: main
+                  port: http
+      ext:
+        className: external
+        annotations:
+          external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
+        hosts:
+          - host: &host home.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
