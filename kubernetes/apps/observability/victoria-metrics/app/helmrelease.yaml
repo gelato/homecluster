@@ -196,7 +196,6 @@ spec:
       spec:
         shardCount: 2
         selectAllByDefault: true
-        cluster: ark
         extraArgs:
           sortLabels: "true"
           promscrape.maxScrapeSize: "100MB"
