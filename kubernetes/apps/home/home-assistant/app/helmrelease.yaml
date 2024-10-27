@@ -103,6 +103,20 @@ spec:
                 service:
                   identifier: main
                   port: http
+      ext_webhook:
+        className: external
+        annotations:
+          external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
+        hosts:
+          - host: &host home.${SECRET_DOMAIN}
+            paths:
+              - path: /update_config
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
       ext:
         className: external
         annotations:
@@ -123,9 +137,6 @@ spec:
                 service:
                   identifier: main
                   port: http
-        tls:
-          - hosts:
-              - *host
     persistence:
       config:
         enabled: true
