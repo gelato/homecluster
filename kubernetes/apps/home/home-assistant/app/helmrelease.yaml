@@ -103,7 +103,7 @@ spec:
                 service:
                   identifier: main
                   port: http
-      ext_webhook:
+      ext-webhook:
         className: external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
