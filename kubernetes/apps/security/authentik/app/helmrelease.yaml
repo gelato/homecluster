@@ -94,14 +94,14 @@ spec:
           cpu: 100m
           memory: 512Mi
         limits:
-          memory: 2Gi
+          memory: 4Gi
     worker:
       resources:
         requests:
           cpu: 50m
           memory: 512Mi
         limits:
-          memory: 1Gi
+          memory: 3Gi
       volumeMounts:
         - mountPath: /blueprints/custom
           name: authentik-blueprints
