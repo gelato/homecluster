@@ -9,7 +9,7 @@ spec:
     spec:
       chart: victoria-logs-single
       # renovate: registryUrl=https://victoriametrics.github.io/helm-charts chart=victoria-logs-single
-      version: 0.6.6
+      version: 0.7.1
       sourceRef:
         kind: HelmRepository
         name: victoriametrics-charts
@@ -70,6 +70,9 @@ spec:
         - name: varlibdockercontainers
           hostPath:
             path: /var/lib/rancher/k3s/agent/containerd
+        - name: vl-outputs
+          configMap:
+            name: vl-outputs
 
       daemonSetVolumeMounts:
         - name: varlog
@@ -77,6 +80,8 @@ spec:
         - name: varlibdockercontainers
           mountPath: /var/lib/rancher/k3s/agent/containerd
           readOnly: true
+        - name: vl-outputs
+          mountPath: /fluent-bit/etc/conf/vl
 
       resources: {}
 
@@ -84,10 +89,12 @@ spec:
         # -- Note that Host must be replaced to match your VictoriaLogs service name
         # Default format is: {{release_name}}-victoria-logs-single-server
         outputs: |
+          @INCLUDE /fluent-bit/etc/conf/vl/output_*.conf
+
           [OUTPUT]
               Name http
               Match kube.*
-              Host {{ .Release.Name }}-victoria-logs-single-server
+              Host server-server
               port 9428
               compress gzip
               uri /insert/jsonline?_stream_fields=stream,kubernetes_pod_name&_msg_field=log&_time_field=date
