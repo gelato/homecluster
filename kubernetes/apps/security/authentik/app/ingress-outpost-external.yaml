@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: external
   rules:
-    - host: home.${SECRET_DOMAIN}
+    - host: hass.${SECRET_DOMAIN}
       http:
         paths:
           - path: /outpost.goauthentik.io
