@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: external
   rules:
-    - host: hass.${SECRET_DOMAIN}
+    - host: &host hass.${SECRET_DOMAIN}
       http:
         paths:
           - path: /outpost.goauthentik.io
@@ -18,3 +18,6 @@ spec:
                 name: ak-outpost-authentik-embedded-outpost
                 port:
                   number: 9000
+  tls:
+    - hosts:
+        - *host
