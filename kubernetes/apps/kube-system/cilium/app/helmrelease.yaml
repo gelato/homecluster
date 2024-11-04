@@ -31,7 +31,7 @@ spec:
       masquerade: true
       tproxy: true
     envoy:
-      enabled: true
+      enabled: false
     cni:
       exclusive: false
     bgp:
@@ -40,7 +40,7 @@ spec:
         loadbalancerIP: true
         podCIDR: false
     ingressController:
-      enabled: true
+      enabled: false
       default: false
       loadbalancerMode: dedicated
       # hostNetwork:
