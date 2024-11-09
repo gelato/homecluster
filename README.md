@@ -16,7 +16,7 @@ _... managed by Flux, Renovate and GitHub Actions_ :robot:
 
 ### 📖 Docs
 
-The documentation that goes along with this repo can be found [over here](https://bjw-s.github.io/home-ops/).
+The documentation that goes along with this repo can be found [over here](https://github.com/gelato/homecluster).
 
 ---
 
