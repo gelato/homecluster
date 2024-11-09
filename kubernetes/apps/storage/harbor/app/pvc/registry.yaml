@@ -7,9 +7,9 @@ metadata:
     app.kubernetes.io/name: harbor-registry
     app.kubernetes.io/instance: harbor
 spec:
-  storageClassName: longhorn-fast
+  storageClassName: local-hostpath
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 50Gi
+      storage: 10Gi

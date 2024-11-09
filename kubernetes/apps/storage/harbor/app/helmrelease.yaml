@@ -46,7 +46,6 @@ spec:
     expose:
       type: ingress
       ingress:
-        controller: default
         className: internal
         hosts:
           core: harbor.${SECRET_DOMAIN}
@@ -83,22 +82,22 @@ spec:
           existingClaim: "harbor-trivy"
       imageChartStorage:
         disableredirect: true
-        type: filesystem
-        filesystem:
-          rootdirectory: /mnt/storage
-        # s3:
-        #   region: us-east-1
-        #   chunksize: "33554432"
-        #   storageclass: STANDARD
-        #   v4auth: true
-        #   secure: false
-        #   encrypt: false
-        #   bucket: harbor
-        #   regionendpoint: http://minio.storage.svc
-        #   multipartcopychunksize: "335544320"
-        #   multipartcopymaxconcurrency: 32
-        #   multipartcopythresholdsize: "1073741824"
-        #   existingSecret: harbor-secret
+        type: s3
+        # filesystem:
+        #   rootdirectory: /mnt/storage
+        s3:
+          region: us-east-1
+          chunksize: "33554432"
+          storageclass: STANDARD
+          v4auth: true
+          secure: false
+          encrypt: false
+          bucket: harbor
+          regionendpoint: http://s3.casa
+          multipartcopychunksize: "335544320"
+          multipartcopymaxconcurrency: 32
+          multipartcopythresholdsize: "1073741824"
+          existingSecret: harbor-secret
 
     existingSecretAdminPassword: &secret "harbor-secret"
     existingSecretAdminPasswordKey: "HARBOR_ADMIN_PASSWORD"

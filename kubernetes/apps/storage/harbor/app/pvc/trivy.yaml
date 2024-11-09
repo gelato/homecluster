@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/name: harbor-trivy
     app.kubernetes.io/instance: harbor
 spec:
-  storageClassName: longhorn-fast
+  storageClassName: local-hostpath
   accessModes:
     - ReadWriteMany
   resources:
