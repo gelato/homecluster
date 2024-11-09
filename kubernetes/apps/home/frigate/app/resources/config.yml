@@ -139,7 +139,7 @@ go2rtc:
   webrtc:
     candidates:
       - 192.168.108.55:8555
-      - 192.168.108.78:3478
+      - 192.168.108.11:3478
 cameras:
   gates:
     enabled: True
