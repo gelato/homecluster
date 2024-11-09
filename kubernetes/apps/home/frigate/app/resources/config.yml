@@ -108,38 +108,38 @@ go2rtc:
   streams:
     gates_hq:
       - rtsp://admin:12332145@192.168.108.104:554/stream1
-      - "ffmpeg:gates_hq#audio=copy#audio=aac"
+      - "ffmpeg:gates_hq#audio=copy#audio=aac#audio=opus"
     gates_lq:
       - rtsp://admin:12332145@192.168.108.104:554/stream2
-      - "ffmpeg:gates_lq#audio=copy#audio=aac"
+      - "ffmpeg:gates_lq#audio=copy#audio=aac#audio=opus"
     door_hq:
       - rtsp://admin:12332145@192.168.108.227:554/stream1
-      - "ffmpeg:door_hq#audio=copy#audio=aac"
+      - "ffmpeg:door_hq#audio=copy#audio=aac#audio=opus"
     door_lq:
       - rtsp://admin:12332145@192.168.108.227:554/stream2
-      - "ffmpeg:door_lq#audio=copy#audio=aac"
+      - "ffmpeg:door_lq#audio=copy#audio=aac#audio=opus"
     dvor_gates_hq:
       - rtsp://admin:12332145@192.168.108.210:554/stream1
-      - "ffmpeg:dvor_gates_hq#audio=copy#audio=aac"
+      - "ffmpeg:dvor_gates_hq#audio=copy#audio=aac#audio=opus"
     dvor_gates_lq:
       - rtsp://admin:12332145@192.168.108.210:554/stream2
-      - "ffmpeg:dvor_gates_lq#audio=copy#audio=aac"
+      - "ffmpeg:dvor_gates_lq#audio=copy#audio=aac#audio=opus"
     dom2_hq:
       - rtsp://admin:12332145@192.168.108.215:554/stream1
-      - "ffmpeg:dom2_hq#audio=copy#audio=aac"
+      - "ffmpeg:dom2_hq#audio=copy#audio=aac#audio=opus"
     dom2_lq:
       - rtsp://admin:12332145@192.168.108.215:554/stream2
-      - "ffmpeg:dom2_lq#audio=copy#audio=aac"
+      - "ffmpeg:dom2_lq#audio=copy#audio=aac#audio=opus"
     street_hq:
       - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/101
-      - "ffmpeg:street_hq#video=copy#audio=copy#audio=aac"
+      - "ffmpeg:street_hq#video=copy#audio=copy#audio=aac#audio=opus"
     street_lq:
       - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/102
-      - "ffmpeg:street_lq#video=copy#audio=copy#audio=aac"
+      - "ffmpeg:street_lq#video=copy#audio=copy#audio=aac#audio=opus"
   webrtc:
     candidates:
       - 192.168.108.55:8555
-      # - headless-gateway.service.svc:3478
+      - 192.168.108.78:3478
 cameras:
   gates:
     enabled: True
