@@ -608,9 +608,9 @@ spec:
         # -- Enable service for ETCD metrics scraping
         enabled: true
         # -- ETCD service port
-        port: 2379
+        port: 2381
         # -- ETCD service target port
-        targetPort: 2379
+        targetPort: 2381
         # -- ETCD service pods selector
         selector:
           component: etcd
