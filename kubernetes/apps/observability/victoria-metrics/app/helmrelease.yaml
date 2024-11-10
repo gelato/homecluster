@@ -443,6 +443,7 @@ spec:
                 - action: drop
                   source_labels: [mountpoint]
                   regex: "/var/lib/kubelet/pods.+"
+
     # -- kube-state-metrics dependency chart configuration. For possible values check [here](https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-state-metrics/values.yaml)
     kube-state-metrics:
       enabled: true
@@ -526,6 +527,7 @@ spec:
               tlsConfig:
                 caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
                 serverName: kubernetes
+                insecureSkipVerify: true
           jobLabel: component
           namespaceSelector:
             matchNames:
@@ -565,6 +567,7 @@ spec:
               tlsConfig:
                 caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
                 serverName: kubernetes
+                insecureSkipVerify: true
 
     # Component scraping kubeDns. Use either this or coreDns
     kubeDns:
@@ -625,6 +628,7 @@ spec:
               scheme: https
               tlsConfig:
                 caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                insecureSkipVerify: true
 
     # Add kubeScheduler scrape
     kubeScheduler:
@@ -655,6 +659,7 @@ spec:
               scheme: https
               tlsConfig:
                 caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                insecureSkipVerify: true
 
     kubeProxy:
       enabled: false # Disabled because eBPF
