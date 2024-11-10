@@ -44,10 +44,10 @@ spec:
         repository: registry.k8s.io/autoscaling/vpa-recommender
         # tag: "1.0.0"
 
-      extraArgs:
-        storage: prometheus
-        prometheus-address: |-
-          http://vmselect-victoria-metrics.observability.svc.cluster.local:8481/select/0/prometheus
+      # extraArgs:
+      #   storage: prometheus
+      #   prometheus-address: |-
+      #     http://vmselect-victoria-metrics.observability.svc.cluster.local:8481/select/0/prometheus
 
       resources:
         requests:
