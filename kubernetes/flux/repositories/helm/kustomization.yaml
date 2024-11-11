@@ -31,3 +31,4 @@ resources:
   - ./repos/stunner.yaml
   - ./repos/fairwinds.yaml
   - ./repos/pgadmin.yaml
+  - ./repos/angelnu-helm-charts.yaml

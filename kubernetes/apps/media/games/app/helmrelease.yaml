@@ -1,0 +1,137 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: games-on-whales
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: games-on-whales
+      version: 2.0.0
+      interval: 15m
+      sourceRef:
+        kind: HelmRepository
+        name: angelnu-helm-charts
+        namespace: flux-system
+  #See https://github.com/angelnu/helm-charts/blob/main/charts/apps/games-on-whales/values.yaml
+  values:
+
+    controller:
+      replicas: 1
+
+    nodeSelector:
+      nvidia.com/gpu.present: "true"
+
+    service:
+      main: &svc
+        type: LoadBalancer
+        loadBalancerIP: 192.168.108.11
+        externalIPs:
+        - 192.168.108.11
+        annotations:
+          io.cilium/lb-ipam-ips: 192.168.108.11
+      udp: *svc
+
+    ingress:
+      # -- Enable and configure ingress settings for the chart under this key.
+      # @default -- See values.yaml
+      main:
+        enabled: true
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: controller
+          hajimari.io/info: Streams games
+          hajimari.io/group: games
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          nginx.ingress.kubernetes.io/enable-global-auth: "false"
+        hosts:
+        - host: games.${SECRET_DOMAIN}
+          paths:
+          - path: /
+            pathType: Prefix
+        tls:
+        - hosts:
+          - games.${SECRET_DOMAIN}
+
+    persistence:
+      home:
+        type: pvc
+        existingClaim: games
+      software:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: tower.local
+            path: /software
+      nvidia-drv:
+        enabled: true
+        type: hostPath
+        hostPathType: File
+        readOnly: true
+        mountPath: /nvidia/xorg/nvidia_drv.so
+        hostPath: /usr/lib/x86_64-linux-gnu/nvidia/xorg/nvidia_drv.so
+      libglxserver-nvidia:
+        enabled: true
+        type: hostPath
+        hostPathType: File
+        readOnly: true
+        mountPath: /nvidia/xorg/libglxserver_nvidia.so
+        hostPath: /usr/lib/x86_64-linux-gnu/nvidia/xorg/libglxserver_nvidia.so
+
+    sunshine:
+      image:
+        repository: ghcr.io/angelnu/sunshine
+        tag: sha-f5e468f
+        pullPolicy: Always
+      user: admin
+      password: admin
+    xorg:
+      image:
+        repository: ghcr.io/games-on-whales/xorg
+        tag: 1.0.0
+        pullPolicy: IfNotPresent
+      refreshrate: 60
+      resolution: 1920x1080
+      volumeMounts:
+        - name: nvidia-drv
+          mountPath: /nvidia/xorg/nvidia_drv.so
+          readOnly: true
+        - name: libglxserver-nvidia
+          mountPath: /nvidia/xorg/libglxserver_nvidia.so
+          readOnly: true
+    pulseaudio:
+      image:
+        repository: ghcr.io/games-on-whales/pulseaudio
+        tag: 1.0.0
+        pullPolicy: IfNotPresent
+    retroarch:
+      enabled: false
+      image:
+        repository: ghcr.io/angelnu/retroarch
+        tag: sha-fc9d5ae
+        pullPolicy: IfNotPresent
+      logLevel: info
+      volumeMounts:
+        - name: software
+          mountPath: /home/retro/software
+          #readOnly: true
+    steam:
+      enabled: true
+      image:
+        repository: ghcr.io/angelnu/steam
+        tag: sha-c387cd3
+        pullPolicy: IfNotPresent
+      protonLog: 1
+    firefox:
+      enabled: false
+      image:
+        repository: andrewmackrodt/firefox-x11
+        tag: 1.0.0
+        pullPolicy: IfNotPresent
+      volumeMounts: []
+    mkhomeretrodirs:
+      image:
+        repository: busybox
+        tag: 1.37.0
+        pullPolicy: IfNotPresent
