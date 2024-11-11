@@ -63,7 +63,7 @@ spec:
         volumeSpec:
           nfs:
             server: tower.local
-            path: /software
+            path: /mnt/user/software
       nvidia-drv:
         enabled: true
         type: hostPath
