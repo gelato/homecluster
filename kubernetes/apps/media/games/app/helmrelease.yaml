@@ -105,11 +105,16 @@ spec:
         - name: libglxserver-nvidia
           mountPath: /nvidia/xorg/libglxserver_nvidia.so
           readOnly: true
+        - name: dbus
+          mountPath: /var/run/dbus
     pulseaudio:
       image:
         repository: ghcr.io/games-on-whales/pulseaudio
         tag: 1.0.0
         pullPolicy: IfNotPresent
+      volumeMounts:
+        - name: dbus
+          mountPath: /var/run/dbus
     retroarch:
       enabled: false
       image:
@@ -121,8 +126,6 @@ spec:
         - name: software
           mountPath: /home/retro/software
           #readOnly: true
-        - name: dbus
-          mountPath: /var/run/dbus
     steam:
       enabled: true
       image:
@@ -130,6 +133,9 @@ spec:
         tag: sha-c387cd3
         pullPolicy: IfNotPresent
       protonLog: 1
+      volumeMounts:
+        - name: dbus
+          mountPath: /var/run/dbus
     firefox:
       enabled: false
       image:
