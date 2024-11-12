@@ -79,3 +79,10 @@ spec:
           music-assistant:
             app:
               - path: /data
+      temp:
+        enabled: true
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 2Gi
+        globalMounts:
+          - path: /tmp
