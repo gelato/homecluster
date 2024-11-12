@@ -9,3 +9,14 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: longhorn-fast
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: music-assistant-addons-hass
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 256Mi
+  storageClassName: longhorn-fast

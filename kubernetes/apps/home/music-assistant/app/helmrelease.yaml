@@ -79,6 +79,12 @@ spec:
           music-assistant:
             app:
               - path: /data
+      addons-hass:
+        existingClaim: music-assistant-addons-hass
+        advancedMounts:
+          music-assistant:
+            app:
+              - path: /usr/local/lib/python3.12/site-packages/hass_client
       temp:
         enabled: true
         type: emptyDir
