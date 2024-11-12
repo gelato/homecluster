@@ -11,3 +11,4 @@ resources:
   - ./home-assistant/ks.yaml
   - ./scrypted/ks.yaml
   - ./matter-server/ks.yaml
+  - ./music-assistant/ks.yaml
