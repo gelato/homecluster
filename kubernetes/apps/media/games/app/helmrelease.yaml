@@ -67,8 +67,8 @@ spec:
       dbus:
         enabled: true
         type: hostPath
-        mountPath: /var/run/dbus
-        hostPath: /var/run/dbus
+        mountPath: /var/run/dbus/system_bus_socket
+        hostPath: /var/run/dbus/system_bus_socket
       nvidia-drv:
         enabled: true
         type: hostPath
