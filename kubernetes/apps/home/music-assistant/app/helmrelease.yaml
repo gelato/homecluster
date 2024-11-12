@@ -17,8 +17,8 @@ spec:
         namespace: flux-system
 
   values:
-    defaultPodOptions:
-      hostNetwork: true
+    # defaultPodOptions:
+    #   hostNetwork: true
     controllers:
       music-assistant:
         annotations:
@@ -26,9 +26,8 @@ spec:
 
         pod:
           securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            runAsNonRoot: true
+            runAsUser: 0
+            runAsGroup: 0
             fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
 
@@ -57,6 +56,9 @@ spec:
     service:
       app:
         controller: music-assistant
+        type: LoadBalancer
+        annotations:
+          io.cilium/lb-ipam-ips: "192.168.108.22"
         ports:
           http:
             port: 7095
