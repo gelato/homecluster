@@ -45,6 +45,7 @@ spec:
                   name: hass-secrets
             env:
               TZ: ${TIMEZONE}
+              PYTHONPATH: "/config/deps"
             probes:
               liveness:
                 enabled: false
