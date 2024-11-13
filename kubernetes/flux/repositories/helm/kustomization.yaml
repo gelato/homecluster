@@ -32,3 +32,4 @@ resources:
   - ./repos/fairwinds.yaml
   - ./repos/pgadmin.yaml
   - ./repos/angelnu-helm-charts.yaml
+  - ./repos/kubereboot-charts.yaml
