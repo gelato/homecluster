@@ -131,10 +131,10 @@ go2rtc:
       - rtsp://admin:12332145@192.168.108.215:554/stream2
       - "ffmpeg:dom2_lq#audio=copy#audio=aac#audio=opus"
     street_hq:
-      - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/101
+      - rtsp://admin:12332145@192.168.108.197:554/ch0_0&onvif=0.sdp?real_stream
       - "ffmpeg:street_hq#video=copy#audio=copy#audio=aac#audio=opus"
     street_lq:
-      - rtsp://admin:12332145@192.168.108.175:8554/Streaming/Channels/102
+      - rtsp://admin:12332145@192.168.108.197:554/ch0_1&onvif=0.sdp?real_stream
       - "ffmpeg:street_lq#video=copy#audio=copy#audio=aac#audio=opus"
   webrtc:
     candidates:
