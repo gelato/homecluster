@@ -192,6 +192,14 @@ cameras:
         loitering_time: 6
         objects:
           - person
+      sidewalk:
+        coordinates: 0.258,0.994,0.479,0.999,0.548,0.866,0.493,0.699,0.62,0.44,0.649,0.437,0.697,0.356,0.705,0.334,0.772,0.124,0.793,0.113,0.826,0.153,0.837,0.095,0.87,0,0.722,0.002,0.607,0.141,0.577,0.174,0.261,0.599
+        inertia: 5
+        loitering_time: 3
+        objects:
+          - person
+          - dog
+          - car
     review:
       alerts:
         labels:
