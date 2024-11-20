@@ -113,7 +113,7 @@ spec:
           hajimari.io/icon: cbi:frigate
           nginx.org/proxy-read-timeout: "86400s"
           nginx.org/proxy-send-timeout: "86400s"
-          nginx.org/websocket-services: "frigate"
+          nginx.org/websocket-services: "main"
           # nginx.ingress.kubernetes.io/whitelist-source-range: |
           #   10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         className: internal
