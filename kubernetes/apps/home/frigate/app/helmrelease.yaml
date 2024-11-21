@@ -73,11 +73,12 @@ spec:
             securityContext:
               privileged: true
             resources:
-              requests:
-                cpu: 1938m
-                memory: 7872M
+              resources:
+                cpu: 2048m
+                memory: 32G
               limits:
-                # memory: 7872M
+                cpu: 2048m
+                memory: 32G
                 # gpu.intel.com/i915: 1
                 nvidia.com/gpu: 1
         pod:

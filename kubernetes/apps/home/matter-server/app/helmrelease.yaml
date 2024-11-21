@@ -64,7 +64,9 @@ spec:
                   periodSeconds: 5
             resources:
               requests:
-                cpu: 23m
+                cpu: 15m
+                memory: 184M
+              limits:
                 memory: 184M
             securityContext:
               privileged: true

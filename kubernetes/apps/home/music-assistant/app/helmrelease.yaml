@@ -48,10 +48,10 @@ spec:
                   periodSeconds: 5
             resources:
               requests:
-                cpu: 47m
-                memory: 512Mi
+                cpu: 15m
+                memory: 324M
               limits:
-                memory: 1024Mi
+                memory: 324M
 
     service:
       app:
