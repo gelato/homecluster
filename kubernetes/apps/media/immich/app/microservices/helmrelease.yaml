@@ -44,12 +44,12 @@ spec:
               - secretRef:
                   name: immich
             resources:
-              requests:
-                cpu: 15m
-                memory: 298M
-              limits:
-              #   cpu: 15m
-              #   memory: 298M
+              resources:
+                requests:
+                  cpu: 15m
+                  memory: 443M
+                limits:
+                  memory: 600M
                 gpu.intel.com/i915: 1
             securityContext:
               allowPrivilegeEscalation: false

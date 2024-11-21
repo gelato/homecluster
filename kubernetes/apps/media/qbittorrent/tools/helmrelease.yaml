@@ -64,7 +64,6 @@ spec:
                 cpu: 15m
                 memory: 105M
               limits:
-                cpu: 31m
                 memory: 105M
         containers:
           unregistered:
