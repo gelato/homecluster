@@ -51,6 +51,13 @@ spec:
     cluster:
       name: home-kubernetes
       id: 1
+    # Agent limits
+    resources:
+      requests:
+        cpu: 48m
+        memory: 588M
+      limits:
+        memory: 1432M
     containerRuntime:
       socketPath: /var/run/k3s/containerd/containerd.sock
     endpointRoutes:
