@@ -52,11 +52,9 @@ birdseye:
   mode: continuous
 
 detect:
-  # width: 640
-  # height: 360
-  width: 2304
-  height: 1296
-  fps: 25
+  width: 640
+  height: 360
+  fps: 10
   enabled: True
 
 motion:
