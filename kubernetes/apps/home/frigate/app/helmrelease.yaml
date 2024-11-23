@@ -73,14 +73,13 @@ spec:
             securityContext:
               privileged: true
             resources:
-              resources:
-                cpu: 2048m
-                memory: 32G
-              limits:
-                cpu: 2048m
-                memory: 32G
-                # gpu.intel.com/i915: 1
-                nvidia.com/gpu: 1
+              cpu: 2048m
+              memory: 32G
+            limits:
+              cpu: 2048m
+              memory: 32G
+              # gpu.intel.com/i915: 1
+              nvidia.com/gpu: 1
         pod:
           nodeSelector:
             google.feature.node.kubernetes.io/coral: "true"
