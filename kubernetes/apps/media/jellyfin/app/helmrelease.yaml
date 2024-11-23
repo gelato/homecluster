@@ -99,3 +99,7 @@ spec:
         existingClaim: media-storage
         globalMounts:
           - path: /media
+      music:
+        existingClaim: music
+        globalMounts:
+          - path: /music

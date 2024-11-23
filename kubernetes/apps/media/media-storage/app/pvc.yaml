@@ -9,3 +9,14 @@ spec:
     requests:
       storage: 15800Gi
   storageClassName: longhorn-storage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: music-library
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Ti
+  storageClassName: longhorn-iceberg
