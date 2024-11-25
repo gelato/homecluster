@@ -65,9 +65,9 @@ spec:
             resources:
               requests:
                 cpu: 92m
-                memory: 1738M
+                memory: 717M
               limits:
-                memory: 1899M
+                memory: 1109M
         pod:
           securityContext:
             runAsUser: 0

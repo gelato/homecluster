@@ -48,10 +48,10 @@ spec:
               - /config
             resources:
               requests:
-                cpu: 15m
-                memory: 352M
+                cpu: 23m
+                memory: 226M
               limits:
-                memory: 352M
+                memory: 226M
         pod:
           securityContext:
             runAsUser: 0
