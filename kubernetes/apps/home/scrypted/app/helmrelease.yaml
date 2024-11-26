@@ -62,7 +62,6 @@ spec:
                 cpu: 475m
                 memory: 2823M
               limits:
-                cpu: 766m
                 memory: 3024M
             securityContext:
               privileged: true
