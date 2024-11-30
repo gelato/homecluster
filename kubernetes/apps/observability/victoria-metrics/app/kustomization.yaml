@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./alertmanagerconfig.yaml
-  - ./k3s-metrics-service.yml
+  - ./k3s-metrics-service.yaml
