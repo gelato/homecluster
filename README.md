@@ -34,4 +34,4 @@ Thanks to all the people who donate their time to the [Kubernetes @Home](https:/
 
 ### 🔏 License
 
-See [LICENSE](https://github.com/bjw-s/home-ops/blob/main/LICENSE)
+See [LICENSE]PL
