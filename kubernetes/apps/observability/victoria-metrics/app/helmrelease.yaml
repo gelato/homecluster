@@ -103,21 +103,21 @@ spec:
         k8sContainerMemorySwap:
           create: true
         kubeApiserver:
-          create: false
+          create: true
         kubeApiserverAvailability:
-          create: false
+          create: true
         kubeApiserverBurnrate:
-          create: false
+          create: true
         kubeApiserverHistogram:
-          create: false
+          create: true
         kubeApiserverSlos:
-          create: false
+          create: true
         kubelet:
-          create: false
+          create: true
         kubePrometheusGeneral:
-          create: false
+          create: true
         kubePrometheusNodeRecording:
-          create: false
+          create: true
         kubernetesApps:
           create: true
           targetNamespace: ".*"
@@ -129,15 +129,15 @@ spec:
         kubernetesSystem:
           create: true
         kubernetesSystemKubelet:
-          create: false
+          create: true
         kubernetesSystemApiserver:
-          create: false
+          create: true
         kubernetesSystemControllerManager:
-          create: false
+          create: true
         kubeScheduler:
-          create: false
+          create: true
         kubernetesSystemScheduler:
-          create: false
+          create: true
         kubeStateMetrics:
           create: true
         nodeNetwork:
@@ -465,7 +465,7 @@ spec:
 
     # -- Component scraping the kubelets
     kubelet:
-      enabled: false
+      enabled: true
 
     # Component scraping the kube api server
     kubeApiServer:
