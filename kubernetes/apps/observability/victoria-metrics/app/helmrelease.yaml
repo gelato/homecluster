@@ -85,7 +85,7 @@ spec:
 
       groups:
         etcd:
-          create: false
+          create: true
         general:
           create: true
         k8sContainerMemoryRss:
