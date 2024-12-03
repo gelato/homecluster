@@ -14,3 +14,6 @@ resources:
   - ./grafana/ks.yaml
   # - ./ntfy/ks.yaml
   - ./goldilocks/ks.yaml
+  - ./alertmanager/ks.yaml
+  - ./prometheus-operator/ks.yaml
+  - ./kube-prometheus-stack/ks.yaml
