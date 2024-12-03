@@ -21,10 +21,6 @@ spec:
       enabled: true
       includeDefaultExtraAnnotations: true
       ingressClassName: internal
-      extraAnnotations:
-        nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
-        nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
-        nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
       tls:
         source: secret
         secretName: rancher-tls
