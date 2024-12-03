@@ -9,3 +9,4 @@ resources:
   - ./rules/oom.yaml
   - ./rules/victoria.yaml
   - ./rules/longhorn.yaml
+  # - ./rules/k3s-is-a-shipwreck.yaml

@@ -5,7 +5,7 @@ metadata:
   name: cluster-settings
   namespace: flux-system
 data:
-  TIMEZONE: "Europe/Simferopol"
+  TIMEZONE: "Europe/Moscow"
   CLUSTER_CIDR: "10.111.0.0/16"
-  NODE_CIDR: "192.168.108.0/24"
+  NODE_CIDR: "192.168.108.0/20"
   SSO_DOMAIN_PREFIX: id
