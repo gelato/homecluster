@@ -198,12 +198,12 @@ spec:
           revision: 1
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
-      victoria-metrics:
-        cluster:
-          gnetId: 11176
-          revision: 34
-          datasource:
-            - { name: ds, value: Prometheus }
+      # victoria-metrics:
+      #   cluster:
+      #     gnetId: 11176
+      #     revision: 34
+      #     datasource:
+      #       - { name: ds, value: Prometheus }
         vmagent:
           gnetId: 12683
           revision: 14
@@ -316,26 +316,32 @@ spec:
     datasources:
       datasources.yaml:
         apiVersion: 1
-        deleteDatasources:
-          - { name: Alertmanager, orgId: 1 }
-          - { name: Prometheus, orgId: 1 }
         datasources:
-          - name: Prometheus
+          - access: proxy
+            name: Prometheus
             type: prometheus
-            uid: prometheus
-            access: proxy
-            url: http://vmselect-victoria-metrics.observability.svc:8481/select/0/prometheus
+            url: http://prometheus-operated.observability.svc.cluster.local:9090
+            isDefault: true
             jsonData:
               prometheusType: Prometheus
-            isDefault: true
+          # - access: proxy
+          #   name: Loki
+          #   type: loki
+          #   url: http://loki-headless.observability.svc.cluster.local:3100
           - name: Alertmanager
             type: alertmanager
-            uid: alertmanager
             access: proxy
-            url: http://vmalertmanager-victoria-metrics.observability.svc.cluster.local:9093
+            url: http://alertmanager.observability.svc.cluster.local:9093
             jsonData:
               implementation: prometheus
-              handleGrafanaManagedAlerts: true
+
+        deleteDatasources:
+          - name: Alertmanager
+            orgId: 1
+          - name: Prometheus
+            orgId: 1
+          - name: Loki
+            orgId: 1
     env:
       GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
       GF_EXPLORE_ENABLED: true
