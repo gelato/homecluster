@@ -11,7 +11,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: victoriametrics
     - name: authentik
   path: ./kubernetes/apps/observability/grafana/app
   prune: true
