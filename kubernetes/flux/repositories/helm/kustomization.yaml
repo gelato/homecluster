@@ -33,3 +33,4 @@ resources:
   - ./repos/pgadmin.yaml
   - ./repos/angelnu-helm-charts.yaml
   - ./repos/kubereboot-charts.yaml
+  - ./repos/rancher.yaml
