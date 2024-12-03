@@ -9,8 +9,8 @@ resources:
   - ./gatus/ks.yaml
   - ./smartctl-exporter/ks.yaml
   # - ./unpoller/ks.yaml
-  - ./victoria-metrics/ks.yaml
-  - ./victoria-logs/ks.yaml
+  # - ./victoria-metrics/ks.yaml
+  # - ./victoria-logs/ks.yaml
   - ./grafana/ks.yaml
   # - ./ntfy/ks.yaml
   - ./goldilocks/ks.yaml
