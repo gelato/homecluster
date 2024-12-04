@@ -14,3 +14,4 @@ resources:
   - ./grafana/ks.yaml
   # - ./ntfy/ks.yaml
   - ./goldilocks/ks.yaml
+  - ./rancher-monitoring/ks.yaml
