@@ -8,24 +8,24 @@ type: Opaque
 stringData:
   alertmanager.yaml: |
     route:
-    groupBy: ["alertname", "job"]
-    groupInterval: 5m
-    groupWait: 30s
-    receiver: "pushover"
-    repeatInterval: 5m
-    routes:
-      - receiver: "null"
-        matchers:
-          [
-            {
-              name: alertname,
-              value: InfoInhibitor|Watchdog,
-              matchType: =~
-            }
-          ]
-      - receiver: pushover
-        matchers: [{name: severity, value: critical|warning, matchType: =~}]
-        continue: true
+      groupBy: ["alertname", "job"]
+      groupInterval: 5m
+      groupWait: 30s
+      receiver: "pushover"
+      repeatInterval: 5m
+      routes:
+        - receiver: "null"
+          matchers:
+            [
+              {
+                name: alertname,
+                value: InfoInhibitor|Watchdog,
+                matchType: =~
+              }
+            ]
+        - receiver: pushover
+          matchers: [{name: severity, value: critical|warning, matchType: =~}]
+          continue: true
     receivers:
       - name: "null"
       - name: pushover
