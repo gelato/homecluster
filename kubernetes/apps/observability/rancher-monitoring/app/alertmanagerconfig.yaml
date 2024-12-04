@@ -3,15 +3,32 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: alertmanager-secret
-  namespace: observability
+  namespace: cattle-monitoring-system
 type: Opaque
 stringData:
   alertmanager.yaml: |
-    global:
-          resolve_timeout: 5m
+    route:
+    groupBy: ["alertname", "job"]
+    groupInterval: 5m
+    groupWait: 30s
+    receiver: "pushover"
+    repeatInterval: 5m
+    routes:
+      - receiver: "null"
+        matchers:
+          [
+            {
+              name: alertname,
+              value: InfoInhibitor|Watchdog,
+              matchType: =~
+            }
+          ]
+      - receiver: pushover
+        matchers: [{name: severity, value: critical|warning, matchType: =~}]
+        continue: true
     receivers:
       - name: "null"
-      - name: "pushover"
+      - name: pushover
         pushover_configs:
           - html: true
             token: ${ALERTMANAGER_API_TOKEN}
@@ -20,50 +37,47 @@ stringData:
             priority: |-
               {{ if eq .Status "firing" }}1{{ else }}0{{ end }}
             url_title: View in Alert Manager
-            title: |-
-              [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }}
+            title: >-
+              {{ .GroupLabels.alertname }} - {{ .GroupLabels.namespace }}
+              {{- if ne .CommonLabels.severity "" }} ({{ .CommonLabels.severity}}){{- end }}
+              ({{ .GroupLabels.cluster }})
+              [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}]
             message: |-
+              {{- $root := . }}
+              {{- $rm := stringSlice "instance" "kubernetes_node" "endpoint" "prometheus" "service" "cluster" "container" "job" "severity" }}
+              {{- $common := ( ( .CommonLabels.Remove $root.GroupLabels.Names ).Remove $rm ) }}
+              {{- if gt (len $common.SortedPairs) 0 }}
+              ## Common Labels
+              {{- range $common.SortedPairs }}
+              > {{ .Name }}: `{{ .Value }}`
+              {{- end }}
+              {{- end }}
+              ## Alerts
               {{- range .Alerts }}
-                {{- if ne .Labels.severity "" }}
-                  <b>Severity:</b> <i>{{ .Labels.severity }}</i>
-                {{- else }}
-                  <b>Severity:</b> <i>N/A</i>
-                {{- end }}
                 {{- if ne .Annotations.description "" }}
-                  <b>Description:</b> <i>{{ .Annotations.description }}</i>
+              - **{{ .Annotations.description }}** [{{ .Fingerprint }}]({{ .GeneratorURL }})
                 {{- else if ne .Annotations.summary "" }}
-                  <b>Summary:</b> <i>{{ .Annotations.summary }}</i>
+              - **{{ .Annotations.summary }}** [{{ .Fingerprint }}]({{ .GeneratorURL }})
                 {{- else if ne .Annotations.message "" }}
-                  <b>Message:</b> <i>{{ .Annotations.message }}</i>
+              - **{{ .Annotations.message }}** [{{ .Fingerprint }}]({{ .GeneratorURL }})
                 {{- else }}
-                  <b>Description:</b> <i>N/A</i>
+              - **Alert description not available** [{{ .Fingerprint }}]({{ .GeneratorURL }})
                 {{- end }}
-                {{- if gt (len .Labels.SortedPairs) 0 }}
-                  <b>Details:</b>
-                  {{- range .Labels.SortedPairs }}
-                    • <b>{{ .Name }}:</b> <i>{{ .Value }}</i>
+                {{- $uniq := ( ( .Labels.Remove $root.GroupLabels.Names ).Remove $root.CommonLabels.Names ) }}
+                {{- if gt (len $uniq.SortedPairs) 0 }}
+                  {{- range $uniq.SortedPairs }}
+              > {{ .Name }}: `{{ .Value }}`
                   {{- end }}
                 {{- end }}
               {{- end }}
-
-    route:
-      group_by: ["alertname", "job"]
-      group_wait: 30s
-      group_interval: 5m
-      repeat_interval: 6h
-      receiver: "pushover"
-      routes:
-        - receiver: "null"
-          matchers:
-            - alertname =~ "InfoInhibitor|Watchdog"
-        - receiver: "pushover"
-          matchers:
-            - severity = critical
-          continue: true
-
-    inhibit_rules:
-      - source_matchers:
-          - severity = "critical"
-        target_matchers:
-          - severity = "warning"
-        equal: ["alertname", "namespace"]
+    inhibitRules:
+      - sourceMatch: [{name: severity, value: critical, matchType: =}]
+        targetMatch: [{name: severity, value: warning|info, matchType: =~}]
+        equal: ["namespace", "alertname"]
+      - sourceMatch: [{name: severity, value: warning, matchType: =}]
+        targetMatch: [{name: severity, value: info, matchType: =}]
+        equal: ["namespace", "alertname"]
+      - sourceMatch: [{name: alertname, value: InfoInhibitor, matchType: =}]
+        targetMatch: [{name: severity, value: info, matchType: =}]
+        equal: ["namespace"]
+      - targetMatch: [{name: alertname, value: InfoInhibitor, matchType: =}]
