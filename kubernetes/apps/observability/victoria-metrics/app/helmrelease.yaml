@@ -511,7 +511,7 @@ spec:
 
     # Add kubeEtcd scrape
     kubeEtcd:
-      enabled: false
+      enabled: true
 
     # Add kubeScheduler scrape
     kubeScheduler:
