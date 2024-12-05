@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: alertmanager-secret
-  namespace: monitoring
+  namespace: observability
 type: Opaque
 stringData:
   alertmanager.yaml: |
