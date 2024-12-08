@@ -132,10 +132,10 @@ go2rtc:
       - "ffmpeg:dom2_lq#audio=copy#audio=aac#audio=opus"
     street_hq:
       - rtsp://admin:12332145@192.168.108.197:554/ch0_0&onvif=0.sdp?real_stream
-      - "ffmpeg:street_hq#video=copy#audio=copy#audio=aac#audio=opus"
+      - "ffmpeg:street_hq#video=h264#hardware#audio=copy#audio=aac#audio=opus"
     street_lq:
       - rtsp://admin:12332145@192.168.108.197:554/ch0_1&onvif=0.sdp?real_stream
-      - "ffmpeg:street_lq#video=copy#audio=copy#audio=aac#audio=opus"
+      - "ffmpeg:street_lq#video=h264#hardware#audio=copy#audio=aac#audio=opus"
   webrtc:
     candidates:
       - 192.168.108.55:8555
