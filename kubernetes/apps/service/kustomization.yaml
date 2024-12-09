@@ -8,6 +8,5 @@ resources:
   # Flux-Kustomizations
   - ./smtp-relay/ks.yaml
   - ./hajimari/ks.yaml
-  - ./stunner/ks.yaml
 
 
