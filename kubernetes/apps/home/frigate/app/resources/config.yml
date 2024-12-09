@@ -254,12 +254,10 @@ cameras:
         objects:
           - person
           - dog
-          - car
       dvor:
         coordinates: 0.735,0.482,0.375,0.459,0.317,0.584,0.177,0.843,0.732,0.875
         inertia: 5
         objects:
-          - car
           - person
       tropinka:
         coordinates: 0.866,0.588,0.793,0,0.75,0,0.75,0.561
@@ -287,7 +285,6 @@ cameras:
         objects:
           - person
           - dog
-          - cat
     review:
       alerts:
         labels:
