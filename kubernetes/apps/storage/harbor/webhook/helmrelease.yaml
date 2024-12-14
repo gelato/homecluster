@@ -35,7 +35,6 @@ spec:
           - '^docker.io'
         excludes:
           - '.*goharbor.*'
-          - '.*coredns.*'
         replace: 'harbor.${SECRET_DOMAIN}/local-docker'
         checkUpstream: false
         #authSecretName: harbor-image-pull-secret
@@ -44,7 +43,6 @@ spec:
           - '^hub.docker.com'
         excludes:
           - '.*goharbor.*'
-          - '.*coredns.*'
         replace: 'harbor.${SECRET_DOMAIN}/local-docker'
         checkUpstream: false
         #authSecretName: harbor-image-pull-secret
@@ -52,7 +50,6 @@ spec:
         matches:
           - '^ghcr.io'
         excludes:
-          - '.*coredns.*'
           - '.*goharbor.*'
         replace: 'harbor.${SECRET_DOMAIN}/local-github'
         checkUpstream: false
@@ -62,7 +59,6 @@ spec:
           - '^quay.io'
         excludes:
           - '.*goharbor.*'
-          - '.*coredns.*'
         replace: 'harbor.${SECRET_DOMAIN}/local-quay'
         checkUpstream: false
         #authSecretName: harbor-image-pull-secret
@@ -71,7 +67,6 @@ spec:
           - '^gcr.io'
         excludes:
           - '.*goharbor.*'
-          - '.*coredns.*'
         replace: 'harbor.${SECRET_DOMAIN}/local-gcr'
         checkUpstream: false
         #authSecretName: harbor-image-pull-secret
@@ -80,7 +75,6 @@ spec:
           - '^k8s.gcr.io'
         excludes:
           - '.*goharbor.*'
-          - '.*coredns.*'
         replace: 'harbor.${SECRET_DOMAIN}/local-gcr-k8s'
         checkUpstream: false
         #authSecretName: harbor-image-pull-secret
