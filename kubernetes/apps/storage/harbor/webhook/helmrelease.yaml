@@ -35,7 +35,7 @@ spec:
           - '^docker.io'
         excludes:
           - '.*goharbor.*'
-        replace: 'harbor.${SECRET_DOMAIN}/local-docker'
+        replace: 'harbor.casa/local-dreg'
         checkUpstream: false
         #authSecretName: harbor-image-pull-secret
       - name: 'hub.docker.com rewrite rule'
@@ -43,7 +43,7 @@ spec:
           - '^hub.docker.com'
         excludes:
           - '.*goharbor.*'
-        replace: 'harbor.${SECRET_DOMAIN}/local-docker'
+        replace: 'harbor.casa/local-dhub'
         checkUpstream: false
         #authSecretName: harbor-image-pull-secret
       - name: 'ghcr.io rewrite rule'
@@ -51,7 +51,7 @@ spec:
           - '^ghcr.io'
         excludes:
           - '.*goharbor.*'
-        replace: 'harbor.${SECRET_DOMAIN}/local-github'
+        replace: 'harbor.casa/local-github'
         checkUpstream: false
         #authSecretName: harbor-image-pull-secret
       - name: 'quay.io rewrite rule'
@@ -59,22 +59,15 @@ spec:
           - '^quay.io'
         excludes:
           - '.*goharbor.*'
-        replace: 'harbor.${SECRET_DOMAIN}/local-quay'
+        replace: 'harbor.casa/local-quay'
         checkUpstream: false
         #authSecretName: harbor-image-pull-secret
       - name: 'gcr.io rewrite rule'
         matches:
           - '^gcr.io'
-        excludes:
-          - '.*goharbor.*'
-        replace: 'harbor.${SECRET_DOMAIN}/local-gcr'
-        checkUpstream: false
-        #authSecretName: harbor-image-pull-secret
-      - name: 'k8s.gcr.io rewrite rule'
-        matches:
           - '^k8s.gcr.io'
         excludes:
           - '.*goharbor.*'
-        replace: 'harbor.${SECRET_DOMAIN}/local-gcr-k8s'
+        replace: 'harbor.casa/local-gcr'
         checkUpstream: false
         #authSecretName: harbor-image-pull-secret
