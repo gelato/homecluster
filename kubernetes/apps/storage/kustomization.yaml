@@ -5,5 +5,5 @@ resources:
   - ./namespace.yaml
   - ./longhorn/ks.yaml
   - ./minio/ks.yaml
-  # - ./harbor/ks.yaml
+  - ./harbor/ks.yaml
   - ./democratic-csi/ks.yaml
