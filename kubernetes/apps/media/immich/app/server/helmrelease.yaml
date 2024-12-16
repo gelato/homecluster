@@ -28,16 +28,6 @@ spec:
         annotations:
           configmap.reloader.stakater.com/reload: &configMap immich-configmap
           secret.reloader.stakater.com/reload: &secret immich
-        initContainers:
-          01-init-db:
-            envFrom: &envFrom
-              - configMapRef:
-                  name: *configMap
-              - secretRef:
-                  name: *secret
-            image:
-              repository: ghcr.io/onedr0p/postgres-init
-              tag: '16.6'
         strategy: RollingUpdate
         containers:
           app:
