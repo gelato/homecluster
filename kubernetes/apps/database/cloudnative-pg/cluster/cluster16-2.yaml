@@ -55,10 +55,10 @@ spec:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
   bootstrap:
-    initdb:
-      postInitSQL:
-        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
-        - CREATE EXTENSION IF NOT EXISTS "vectors";
+    # initdb:
+    #   postInitSQL:
+    #     - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+    #     - CREATE EXTENSION IF NOT EXISTS "vectors";
     recovery:
       # Recovery object store containing WAL archive and base backups
       source: &previousCluster postgres16-1
