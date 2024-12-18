@@ -54,19 +54,19 @@ spec:
         secretAccessKey:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
-  bootstrap:
-    # initdb:
-    #   postInitSQL:
-    #     - ALTER SYSTEM SET search_path TO "$user", public, vectors;
-    #     - CREATE EXTENSION IF NOT EXISTS "vectors";
-    recovery:
-      # Recovery object store containing WAL archive and base backups
-      source: &previousCluster postgres16-1
-      recoveryTarget:
-        # Time base target for the recovery
-        targetTime: "2024-12-14"
-  externalClusters:
-    - name: *previousCluster
-      barmanObjectStore:
-        <<: *barmanObjectStore
-        serverName: *previousCluster
+  # bootstrap:
+  #   # initdb:
+  #   #   postInitSQL:
+  #   #     - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+  #   #     - CREATE EXTENSION IF NOT EXISTS "vectors";
+  #   recovery:
+  #     # Recovery object store containing WAL archive and base backups
+  #     source: &previousCluster postgres16-1
+  #     recoveryTarget:
+  #       # Time base target for the recovery
+  #       targetTime: "2024-12-14"
+  # externalClusters:
+  #   - name: *previousCluster
+  #     barmanObjectStore:
+  #       <<: *barmanObjectStore
+  #       serverName: *previousCluster
