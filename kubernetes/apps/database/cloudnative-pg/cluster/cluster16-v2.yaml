@@ -3,14 +3,14 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres16
+  name: postgres16-v2
 spec:
   instances: 1
   imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.4
   # imageName: ghcr.io/cloudnative-pg/postgresql:16.1-17
   primaryUpdateStrategy: unsupervised
   storage:
-    size: 100Gi
+    size: 20Gi
     storageClass: longhorn-fast
   superuserSecret:
     name: cloudnative-pg-secret
@@ -59,14 +59,14 @@ spec:
       postInitSQL:
         - ALTER SYSTEM SET search_path TO "$user", public, vectors;
         - CREATE EXTENSION IF NOT EXISTS "vectors";
-  #   recovery:
-  #     # Recovery object store containing WAL archive and base backups
-  #     source: &previousCluster postgres16-1
-  #     recoveryTarget:
-  #       # Time base target for the recovery
-  #       targetTime: "2023-08-11 11:14:21.00000+02"
-  # externalClusters:
-  #   - name: *previousCluster
-  #     barmanObjectStore:
-  #       <<: *barmanObjectStore
-  #       serverName: *previousCluster
+    recovery:
+      # Recovery object store containing WAL archive and base backups
+      source: &previousCluster postgres16-1
+      recoveryTarget:
+        # Time base target for the recovery
+        targetTime: "2024-12-14 11:14:21.00000+03"
+  externalClusters:
+    - name: *previousCluster
+      barmanObjectStore:
+        <<: *barmanObjectStore
+        serverName: *previousCluster
