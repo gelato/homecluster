@@ -46,7 +46,7 @@ spec:
       endpointURL: http://minio.storage.svc.cluster.local
       # Note: serverName version needs to be inclemented
       # when recovering from an existing cnpg cluster
-      serverName: &currentCluster postgres16
+      serverName: &currentCluster postgres16-v2
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
@@ -55,7 +55,14 @@ spec:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
   bootstrap:
-    initdb:
-      postInitSQL:
-        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
-        - CREATE EXTENSION IF NOT EXISTS "vectors";
+    recovery:
+      # Recovery object store containing WAL archive and base backups
+      source: &previousCluster postgres16-1
+      recoveryTarget:
+        # Time base target for the recovery
+        targetTime: "2024-12-14"
+  externalClusters:
+    - name: *previousCluster
+      barmanObjectStore:
+        <<: *barmanObjectStore
+        serverName: *previousCluster
