@@ -64,7 +64,7 @@ spec:
       source: &previousCluster postgres16-1
       recoveryTarget:
         # Time base target for the recovery
-        targetTime: "2024-12-14 11:14:21.00000+03"
+        targetTime: "2024-12-14"
   externalClusters:
     - name: *previousCluster
       barmanObjectStore:
