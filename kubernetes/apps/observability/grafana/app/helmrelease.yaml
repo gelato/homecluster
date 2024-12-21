@@ -400,7 +400,6 @@ spec:
         searchNamespace: ALL
         labelValue: ""
     plugins:
-      - grafana-clock-panel
       - grafana-piechart-panel
     extraInitContainers:
       - name: "load-vm-ds-plugin"
