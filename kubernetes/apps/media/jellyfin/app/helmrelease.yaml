@@ -99,7 +99,10 @@ spec:
         existingClaim: media-storage
         globalMounts:
           - path: /media
-      music:
-        existingClaim: music-library
+      nfs-media:
+        type: nfs
+        server: tower.local
+        path: /mnt/user/media
         globalMounts:
-          - path: /music
+          - path: /nfs-media
+            readOnly: false
