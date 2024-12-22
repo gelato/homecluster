@@ -198,12 +198,12 @@ spec:
           revision: 1
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
-      # victoria-metrics:
-      #   cluster:
-      #     gnetId: 11176
-      #     revision: 34
-      #     datasource:
-      #       - { name: ds, value: Prometheus }
+      victoria-metrics:
+        cluster:
+          gnetId: 11176
+          revision: 34
+          datasource:
+            - { name: ds, value: Prometheus }
         vmagent:
           gnetId: 12683
           revision: 14
@@ -399,9 +399,9 @@ spec:
         initDatasources: true
         searchNamespace: ALL
         labelValue: ""
-    plugins:
-      - grafana-clock-panel
-      - grafana-piechart-panel
+    # plugins:
+    #   - grafana-clock-panel
+    #   - grafana-piechart-panel
     extraInitContainers:
       - name: "load-vm-ds-plugin"
         image: "curlimages/curl:8.11.1"
