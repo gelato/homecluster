@@ -13,4 +13,5 @@ resources:
   - ./recyclarr/ks.yaml
   - ./jellyseerr/ks.yaml
   - ./immich/ks.yaml
+  - ./jackett/ks.yaml
   # - ./games/ks.yaml

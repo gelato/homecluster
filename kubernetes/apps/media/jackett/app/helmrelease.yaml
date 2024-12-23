@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.5.1/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app jackett
+  namespace: flux-system
+spec:
+  releaseName: *app
+  targetNamespace: media
+  interval: 15m0s
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    controllers:
+      *app :
+        replicas: 1 # active nas
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        containers:
+          *app :
+            image:
+              repository: linuxserver/jackett
+              tag: "0.22.1027"
+            env:
+              PUID: "568"
+              PGID: "568"
+              TZ: Europe/Moscow
+
+    persistence:
+      config:
+        existingClaim: jackett-config
+
+    service:
+      main:
+        controller: *app
+        type: ClusterIP
+        ports:
+          http:
+            port: 9117
+
+    ingress:
+      main:
+        className: internal
+        hosts:
+          - host: &host "jk.${personal_domain}"
+            paths:
+              - path: "/"
+                service:
+                  identifier: main
+        tls:
+          - hosts:
+              - *host
+            secretName: *host
