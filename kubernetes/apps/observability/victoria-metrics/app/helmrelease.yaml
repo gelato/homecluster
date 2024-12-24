@@ -504,7 +504,7 @@ spec:
             - action: labeldrop
               regex: (id|name)
             - action: drop
-              sourceLabels: ["__name__"]
+              source_labels: [__name__]
               regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
             - action: drop
               source_labels: [__name__]
@@ -588,7 +588,7 @@ spec:
           jobLabel: jobLabel
           namespaceSelector:
             matchNames:
-              - kube-system
+              - "kube-system"
           endpoints:
             - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
               # bearerTokenSecret:
@@ -644,6 +644,8 @@ spec:
       service:
         # -- Enable service for ETCD metrics scraping
         enabled: true
+        port: 2381
+        targetPort: 2381
       # -- Spec for VMServiceScrape CRD is [here](https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec)
       vmScrape:
         spec:
@@ -651,14 +653,9 @@ spec:
           namespaceSelector:
             matchNames: [kube-system]
           endpoints:
-            - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-              # bearerTokenSecret:
-              #   key: ""
-              port: http-metrics
-              scheme: https
-              tlsConfig:
-                caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-                insecureSkipVerify: true
+            - port: http-metrics
+              scheme: http
+
 
 
     # Add kubeScheduler scrape
