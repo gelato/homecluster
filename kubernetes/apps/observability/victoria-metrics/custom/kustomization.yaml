@@ -7,5 +7,5 @@ resources:
   # - ./scrapes/vmpodscrape.yaml
   # - ./scrapes/servicescrape.yaml
   - ./rules/oom.yaml
-  - ./rules/victoria.yaml
+  # - ./rules/victoria.yaml
   - ./rules/longhorn.yaml

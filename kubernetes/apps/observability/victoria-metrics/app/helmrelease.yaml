@@ -147,7 +147,7 @@ spec:
         vmagent:
           create: true
         vmsingle:
-          create: true
+          create: false
         vmcluster:
           create: true
         vmHealth:
