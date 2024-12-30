@@ -27,6 +27,8 @@ spec:
   values:
     controllers:
       govee2mqtt:
+        annotations:
+          reloader.stakater.com/auto: "true"
         replicas: 1
         strategy: RollingUpdate
         pod:
@@ -58,6 +60,12 @@ spec:
 
     defaultPodOptions:
       hostNetwork: true
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
 
     service:
       app:
@@ -84,3 +92,5 @@ spec:
     persistence:
       data:
         existingClaim: govee-data
+        globalMounts:
+          - path: /data
