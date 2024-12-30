@@ -26,8 +26,6 @@ spec:
       retries: 3
   values:
     controllers:
-      annotations:
-          reloader.stakater.com/auto: "true"
       govee2mqtt:
         replicas: 1
         strategy: RollingUpdate
