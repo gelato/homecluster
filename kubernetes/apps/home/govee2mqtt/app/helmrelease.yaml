@@ -84,7 +84,3 @@ spec:
     persistence:
       data:
         existingClaim: govee-data
-        advancedMounts:
-          govee2mqtt:
-            app:
-              - path: /data
