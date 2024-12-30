@@ -85,6 +85,6 @@ spec:
       data:
         existingClaim: govee-data
         advancedMounts:
-          music-assistant:
+          govee2mqtt:
             app:
               - path: /data
