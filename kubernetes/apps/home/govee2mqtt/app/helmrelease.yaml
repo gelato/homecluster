@@ -1,0 +1,90 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app govee2mqtt
+  namespace: home
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=http://bjw-s.github.io/helm-charts/
+      chart: app-template
+      version: 3.6.0
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      annotations:
+          reloader.stakater.com/auto: "true"
+      govee2mqtt:
+        replicas: 1
+        strategy: RollingUpdate
+        pod:
+          securityContext:
+            runAsUser: 65534
+            runAsGroup: 65534
+            runAsNonRoot: true
+        containers:
+          app:
+            image:
+              repository: ghcr.io/wez/govee2mqtt
+              tag: 2024.07.13-82ddc6e9
+              pullPolicy: IfNotPresent
+            ports:
+              - name: http
+                containerPort: &port 8056
+                protocol: TCP
+            env:
+              GOVEE_MQTT_HOST: "mosquitto.home.svc"
+              GOVEE_LAN_BROADCAST_ALL: "true"
+              TZ: ${TIMEZONE}
+            envFrom:
+              - secretRef:
+                  name: govee2mqtt-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+
+    defaultPodOptions:
+      hostNetwork: true
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+
+    ingress:
+      app:
+        enabled: true
+        className: internal
+        hosts:
+          - host: &host govee.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+
+    persistence:
+      data:
+        type: emptyDir
+        globalMounts:
+          - path: /data
