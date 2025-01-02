@@ -159,7 +159,7 @@ spec:
         enabled: true
         type: emptyDir
         medium: Memory
-        sizeLimit: 20Gi
+        sizeLimit: 30Gi
         globalMounts:
           - path: /dev/shm
       usb:
