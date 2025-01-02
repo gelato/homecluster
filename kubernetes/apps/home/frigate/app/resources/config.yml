@@ -41,7 +41,7 @@ auth:
   enabled: false
 
 birdseye:
-  enabled: True
+  enabled: False
   restream: True
   width: 2304
   height: 1296
