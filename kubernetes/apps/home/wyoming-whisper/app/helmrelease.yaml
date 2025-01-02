@@ -41,6 +41,8 @@ spec:
               - large-v3
               - --language
               - ru
+              - --device
+              - cuda
             env:
               TZ: ${TIMEZONE}
             resources:
