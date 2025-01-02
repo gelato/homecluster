@@ -34,15 +34,15 @@ spec:
         containers:
           app:
             image:
-              repository: dwyschka/wyoming-whisper-cuda
+              repository: rhasspy/wyoming-whisper
               tag: latest
             args:
               - --model
-              - medium
+              - large-v3
               - --language
               - ru
-              - --device
-              - cuda
+              # - --device
+              # - cuda
             env:
               TZ: ${TIMEZONE}
             resources:
