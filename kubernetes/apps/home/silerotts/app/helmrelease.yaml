@@ -50,7 +50,7 @@ spec:
               repository: navatusein/silero-tts-service
               tag: 2.0.0
             env:
-              NUMBER_OF_THREADS: 4
+              NUMBER_OF_THREADS: 6
               LANGUAGE: ru
               SAMPLE_RATE: 48000
               HA_FIX: True
