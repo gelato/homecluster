@@ -38,7 +38,7 @@ spec:
               tag: latest
             args:
               - --model
-              - large-v3
+              - medium
               - --language
               - ru
               - --device
