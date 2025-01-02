@@ -27,6 +27,8 @@ spec:
     - name: longhorn
       namespace: storage
   values:
+    defaultPodOptions:
+      runtimeClassName: nvidia
     controllers:
       wyoming-whisper:
         containers:
@@ -36,11 +38,18 @@ spec:
               tag: latest
             args:
               - --model
-              - base
+              - turbo
               - --language
               - ru
             env:
               TZ: ${TIMEZONE}
+            resources:
+              limits:
+                memory: 6Gi
+                nvidia.com/gpu: 1
+              requests:
+                cpu: 100m
+                memory: 1Gi
     service:
       app:
         controller: *app
