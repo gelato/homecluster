@@ -14,4 +14,5 @@ resources:
   - ./music-assistant/ks.yaml
   - ./govee2mqtt/ks.yaml
   - ./wyoming-piper/ks.yaml
+  - ./wyoming-whisper/ks.yaml
   - ./silerotts/ks.yaml
