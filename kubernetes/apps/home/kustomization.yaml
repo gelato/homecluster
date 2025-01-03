@@ -15,4 +15,5 @@ resources:
   - ./govee2mqtt/ks.yaml
   - ./wyoming-piper/ks.yaml
   - ./wyoming-whisper/ks.yaml
+  - ./wyoming-gigaam-ctc/ks.yaml
   - ./silerotts/ks.yaml
