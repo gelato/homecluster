@@ -61,7 +61,7 @@ spec:
         # Specify the number of GPU
         number: 1
         # Default model to serve, if not set, no model will be served at container startup
-      defaultModel: "llava-llama3:8b"
+      defaultModel: "llama3.1:8b"
 
       serviceAccount:
         # Specifies whether a service account should be created
