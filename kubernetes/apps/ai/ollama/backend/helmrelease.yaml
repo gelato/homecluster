@@ -15,7 +15,7 @@ spec:
         name: ollama
         namespace: flux-system
   
-  timeout: 120m
+  timeout: 5m
 
   maxHistory: 2
 
