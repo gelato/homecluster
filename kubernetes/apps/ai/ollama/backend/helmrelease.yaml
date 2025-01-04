@@ -41,19 +41,18 @@ spec:
       models:
         pull:
           - llama3.1:8b
-          #- llama2-uncensored:7b
+          - qwen2.5-coder:7b
           - llava-llama3:8b
           - fixt/home-3b-v3:Q5_K_M
           #- hf.co/ai-sage/GigaChat-20B-A3B-instruct-GGUF:Q8_0
-          - gemma2:9b
+          - cow/gemma2_tools:9b
 
         run:
-          #- llama3.1:8b               # ??       - K8SGPT / OTerm / General
-          #- llama2-uncensored:7b      # 8BG      - OTerm
+          - llama3.1:8b               # ??       - K8SGPT / OTerm / General
+          - qwen2.5-coder:7b      # 8BG      - Code
           - llava-llama3:8b           # ??       - Frigate
-          #- fixt/home-3b-v3:Q5_K_M    # 4.57 GB  - Home Assistant
           #- hf.co/ai-sage/GigaChat-20B-A3B-instruct-GGUF:Q8_0 # Gigachat-lite
-          - gemma2:9b # Gemma 2 9B
+          - cow/gemma2_tools:9b # Gemma 2 9B
 
       gpu:
         # Enable GPU integration
@@ -63,7 +62,7 @@ spec:
         # Default model to serve, if not set, no model will be served at container startup
         type: 'nvidia'
 
-      defaultModel: "gemma2:9b"
+      defaultModel: "cow/gemma2_tools"
 
       serviceAccount:
         # Specifies whether a service account should be created
