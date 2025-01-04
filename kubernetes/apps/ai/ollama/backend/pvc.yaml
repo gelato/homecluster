@@ -12,5 +12,5 @@ spec:
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 100Gi
+      storage: 150Gi
   storageClassName: longhorn-ssd
