@@ -13,30 +13,4 @@ spec:
   resources:
     requests:
       storage: 100Gi
-  volumeName: ollama-data-pv
   storageClassName: longhorn-ssd
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: ollama-data-pv
-  labels:
-    type: longhorn
-    recurring-job-group.longhorn.io/weekly-backup: enabled
-    recurring-job-group.longhorn.io/daily-snapshot: enabled
-spec:
-  capacity:
-    storage: 100Gi
-  volumeMode: Filesystem
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: longhorn-ssd
-  csi:
-    driver: driver.longhorn.io
-    fsType: ext4
-    volumeAttributes:
-      numberOfReplicas: "2"
-      staleReplicaTimeout: "2880"
-    volumeHandle: ssd
