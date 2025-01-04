@@ -63,7 +63,7 @@ spec:
         # Default model to serve, if not set, no model will be served at container startup
         type: 'nvidia'
 
-      defaultModel: ""
+      defaultModel: "gemma2:9b"
 
       serviceAccount:
         # Specifies whether a service account should be created
