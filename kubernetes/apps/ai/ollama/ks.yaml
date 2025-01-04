@@ -9,7 +9,7 @@ spec:
   retryInterval: 1m
   timeout: 3m
   targetNamespace: ai
-  path: "./kubernetes/main/apps/ai/ollama/backend"
+  path: "./kubernetes/apps/ai/ollama/backend"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -26,7 +26,7 @@ spec:
   retryInterval: 1m
   timeout: 3m
   targetNamespace: ai
-  path: "./kubernetes/main/apps/ai/ollama/ui"
+  path: "./kubernetes/apps/ai/ollama/ui"
   prune: true
   sourceRef:
     kind: GitRepository
