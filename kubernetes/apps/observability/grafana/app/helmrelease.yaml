@@ -320,7 +320,7 @@ spec:
           - access: proxy
             name: Prometheus
             type: prometheus
-            url: http://prometheus-operated.observability.svc.cluster.local:9090
+            url: http://vmselect-victoria-metrics.observability.svc:8481/select/0/prometheus
             isDefault: true
             jsonData:
               prometheusType: Prometheus
