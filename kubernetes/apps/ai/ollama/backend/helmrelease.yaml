@@ -44,7 +44,7 @@ spec:
           #- llama2-uncensored:7b
           - llava-llama3:8b
           - fixt/home-3b-v3:Q5_K_M
-          - hf.co/ai-sage/GigaChat-20B-A3B-instruct-GGUF:Q8_0
+          #- hf.co/ai-sage/GigaChat-20B-A3B-instruct-GGUF:Q8_0
           - gemma2:9b
 
         run:
