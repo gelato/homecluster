@@ -29,6 +29,8 @@ spec:
     - name: longhorn
       namespace: storage
   values:
+    defaultPodOptions:
+      runtimeClassName: nvidia
     # defaultPodOptions:
     #   affinity:
     #     nodeAffinity:
@@ -63,7 +65,8 @@ spec:
                 enabled: true
             resources:
               limits:
-                memory: 4Gi
+                memory: 6Gi
+                nvidia.com/gpu: 1
               requests:
                 cpu: 100m
                 memory: 500Mi 

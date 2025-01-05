@@ -29,9 +29,6 @@ spec:
     - name: longhorn
       namespace: storage
   values:
-    defaultPodOptions:
-      runtimeClassName: nvidia
-      hostNetwork: true
     controllers:
       scrypted:
         annotations:
