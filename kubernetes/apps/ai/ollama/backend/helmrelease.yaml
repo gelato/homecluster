@@ -45,7 +45,8 @@ spec:
           - llava-llama3:8b
           - gemma2:9b
           #- hf.co/ai-sage/GigaChat-20B-A3B-instruct-GGUF:Q8_0
-          - hf.co/t-tech/T-pro-it-1.0-Q4_K_M-GGUF
+          - gaplo917/gemma2-tools:9b
+          - llama3-groq-tool-use:8b
           - hf.co/t-tech/T-lite-it-1.0-Q8_0-GGUF
 
         run:
@@ -53,6 +54,7 @@ spec:
           - qwen2.5-coder:7b      # 8BG      - Code
           - llava-llama3:8b           # ??       - Frigate
           #- hf.co/ai-sage/GigaChat-20B-A3B-instruct-GGUF:Q8_0 # Gigachat-lite
+          - gaplo917/gemma2-tools:9b
           - hf.co/t-tech/T-lite-it-1.0-Q8_0-GGUF
 
       gpu:
