@@ -43,16 +43,17 @@ spec:
           - llama3.1:8b
           - qwen2.5-coder:7b
           - llava-llama3:8b
-          - fixt/home-3b-v3:Q5_K_M
+          - gemma2:9b
           #- hf.co/ai-sage/GigaChat-20B-A3B-instruct-GGUF:Q8_0
-          - cow/gemma2_tools:9b
+          - hf.co/t-tech/T-pro-it-1.0-Q4_K_M-GGUF
+          - hf.co/t-tech/T-lite-it-1.0-Q8_0-GGUF
 
         run:
           - llama3.1:8b               # ??       - K8SGPT / OTerm / General
           - qwen2.5-coder:7b      # 8BG      - Code
           - llava-llama3:8b           # ??       - Frigate
           #- hf.co/ai-sage/GigaChat-20B-A3B-instruct-GGUF:Q8_0 # Gigachat-lite
-          - cow/gemma2_tools:9b # Gemma 2 9B
+          - hf.co/t-tech/T-lite-it-1.0-Q8_0-GGUF
 
       gpu:
         # Enable GPU integration
@@ -99,7 +100,6 @@ spec:
         cpu: 200m
         nvidia.com/gpu: 1
       limits:
-        memory: 8G
         nvidia.com/gpu: 1
 
     livenessProbe:
