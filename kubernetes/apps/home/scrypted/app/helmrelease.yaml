@@ -29,6 +29,8 @@ spec:
     - name: longhorn
       namespace: storage
   values:
+    defaultPodOptions:
+        hostNetwork: true
     controllers:
       scrypted:
         annotations:
