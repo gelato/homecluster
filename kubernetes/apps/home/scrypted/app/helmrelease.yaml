@@ -60,6 +60,7 @@ spec:
                 memory: 2823M
               limits:
                 memory: 3024M
+                gpu.intel.com/i915: 1
             securityContext:
               privileged: true
     service:
