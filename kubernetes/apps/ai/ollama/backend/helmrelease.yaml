@@ -41,8 +41,8 @@ spec:
       models:
         pull:
           - llama3.1:8b
-          - qwen2.5-coder:7b
-          - llava-llama3:8b
+          # - qwen2.5-coder:7b
+          # - llava-llama3:8b
           - gemma2:9b
           #- hf.co/ai-sage/GigaChat-20B-A3B-instruct-GGUF:Q8_0
           - gaplo917/gemma2-tools:9b
@@ -51,8 +51,8 @@ spec:
 
         run:
           - llama3.1:8b               # ??       - K8SGPT / OTerm / General
-          - qwen2.5-coder:7b      # 8BG      - Code
-          - llava-llama3:8b           # ??       - Frigate
+          # - qwen2.5-coder:7b      # 8BG      - Code
+          # - llava-llama3:8b           # ??       - Frigate
           #- hf.co/ai-sage/GigaChat-20B-A3B-instruct-GGUF:Q8_0 # Gigachat-lite
           - gaplo917/gemma2-tools:9b
           - hf.co/t-tech/T-lite-it-1.0-Q8_0-GGUF
