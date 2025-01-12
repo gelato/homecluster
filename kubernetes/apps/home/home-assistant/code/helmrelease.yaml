@@ -98,3 +98,17 @@ spec:
       config:
         enabled: true
         existingClaim: home-assistant
+      deploy-key:
+        type: secret
+        name: hass-secrets-gh
+        defaultMode: 256
+        globalMounts:
+          - path: /root/.ssh/id_rsa
+            subPath: GITHUB_DEPLOY_KEY
+      known-hosts:
+        type: secret
+        name: hass-secrets-gh
+        defaultMode: 256
+        globalMounts:
+          - path: /root/.ssh/known_hosts
+            subPath: GITHUB_KNOWN_HOSTS
