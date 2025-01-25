@@ -114,3 +114,7 @@ spec:
         globalMounts:
           - path: /media
             readOnly: false
+      buffer:
+        existingClaim: buffer
+        globalMounts:
+          - path: /buffer
