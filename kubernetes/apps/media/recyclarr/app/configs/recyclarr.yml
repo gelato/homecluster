@@ -99,7 +99,7 @@ sonarr:
     quality_definition:
       type: series
 
-    assign_scores_to:
+    quality_profiles:
       - name: Tuned-UHD
         min_format_score: 0
         qualities:
