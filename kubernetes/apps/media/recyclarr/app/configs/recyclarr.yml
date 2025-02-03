@@ -9,7 +9,7 @@
 
 # Instance Definition: https://recyclarr.dev/wiki/yaml/config-reference/basic/
 radarr:
-  sqp-4:
+  sqp-2:
     base_url: http://radarr.media.svc.cluster.local:8049
     api_key: !env_var RADARR_API_KEY
 
