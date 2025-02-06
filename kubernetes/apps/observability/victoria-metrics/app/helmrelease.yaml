@@ -28,14 +28,137 @@ spec:
   driftDetection:
     mode: enabled
   values:
+    global:
+      # -- Cluster label to use for dashboards and rules
+      clusterLabel: ark
+      cluster:
+        # -- K8s cluster domain suffix, uses for building storage pods' FQDN. Details are [here](https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/)
+        dnsDomain: cluster.local.
+
     fullnameOverride: victoria-metrics
+
+    # -- Tenant to use for Grafana datasources and remote write
+    tenant: "0"
 
     # VM Operator deployment
     victoria-metrics-operator:
       enabled: true
+      crds:
+        # -- added temporary, till new operator version released
+        plain: true
+        cleanup:
+          enabled: true
+      serviceMonitor:
+        enabled: true
       operator:
-        disable_prometheus_converter: false # Ensure we keep enabled the converter to sync prom rules to VM rules
-        enable_converter_ownership: true # Required to allow VM to remove VM rules it imports if a prometheus rule is deleted
+        # -- By default, operator converts prometheus-operator objects.
+        disable_prometheus_converter: false
+
+    defaultDashboards:
+      # -- Enable custom dashboards installation
+      enabled: true
+      defaultTimezone: utc+3
+      labels: {}
+      annotations: {}
+      grafanaOperator:
+        # -- Create dashboards as CRDs (reuqires grafana-operator to be installed)
+        enabled: false
+        spec:
+          instanceSelector:
+            matchLabels:
+              dashboards: "grafana"
+          allowCrossNamespaceImport: false
+      # -- Create dashboards as ConfigMap despite dependency it requires is not installed
+      dashboards:
+        victoriametrics-vmalert:
+          enabled: true
+        victoriametrics-operator:
+          enabled: true
+        # -- In ArgoCD using client-side apply this dashboard reaches annotations size limit and causes k8s issues without server side apply
+        # See [this issue](https://github.com/VictoriaMetrics/helm-charts/tree/disable-node-exporter-dashboard-by-default/charts/victoria-metrics-k8s-stack#metadataannotations-too-long-must-have-at-most-262144-bytes-on-dashboards)
+        node-exporter-full:
+          enabled: true
+
+    # -- Create default rules for monitoring the cluster
+    defaultRules:
+      create: true
+
+      groups:
+        etcd:
+          create: true
+        general:
+          create: true
+        k8sContainerMemoryRss:
+          create: true
+        k8sContainerMemoryCache:
+          create: true
+        k8sContainerCpuUsageSecondsTotal:
+          create: true
+        k8sPodOwner:
+          create: true
+        k8sContainerResource:
+          create: true
+        k8sContainerMemoryWorkingSetBytes:
+          create: true
+        k8sContainerMemorySwap:
+          create: true
+        kubeApiserver:
+          create: true
+        kubeApiserverAvailability:
+          create: true
+        kubeApiserverBurnrate:
+          create: true
+        kubeApiserverHistogram:
+          create: true
+        kubeApiserverSlos:
+          create: true
+        kubelet:
+          create: true
+        kubePrometheusGeneral:
+          create: true
+        kubePrometheusNodeRecording:
+          create: true
+        kubernetesApps:
+          create: true
+          targetNamespace: ".*"
+        kubernetesResources:
+          create: true
+        kubernetesStorage:
+          create: true
+          targetNamespace: ".*"
+        kubernetesSystem:
+          create: true
+        kubernetesSystemKubelet:
+          create: true
+        kubernetesSystemApiserver:
+          create: true
+        kubernetesSystemControllerManager:
+          create: true
+        kubeScheduler:
+          create: true
+        kubernetesSystemScheduler:
+          create: true
+        kubeStateMetrics:
+          create: true
+        nodeNetwork:
+          create: true
+        node:
+          create: true
+        vmagent:
+          create: true
+        vmsingle:
+          create: false
+        vmcluster:
+          create: true
+        vmHealth:
+          create: true
+        vmoperator:
+          create: true
+        alertmanager:
+          create: true
+
+      # -- Runbook url prefix for default rules
+      runbookUrl: https://runbooks.prometheus-operator.dev/runbooks
 
     # Main VM Cluster in HA mode.
     vmcluster:
@@ -43,97 +166,173 @@ spec:
       spec:
         # Duration to keep metrics
         retentionPeriod: "2" # this is months unless a character prefix is added (1d, 1w, etc)
-        extraArgs:
-          dedup.minScrapeInterval: 30s
-        replicationFactor: 1
+        replicationFactor: 2
+
         # Storage backend
         vmstorage:
-          replicaCount: 1
+          replicaCount: 2 # HA - but prefer 3 as i have 3 nodes & using local-hostpath
           # required for HA vmagents
+          extraArgs:
+            dedup.minScrapeInterval: 60s # Only needed for HA
           resources:
             requests:
-              cpu: 100m
-              memory: 512Mi
+              cpu: 10m
+              memory: 300Mi
             limits:
-              cpu: 500m
-              memory: 1536Mi
+              memory: 6Gi
           topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: vmstorage
-          extraArgs:
-            dedup.minScrapeInterval: 30s
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: vmstorage
           storage:
             volumeClaimTemplate:
               spec:
-                storageClassName: longhorn-ssd
+                storageClassName: local-hostpath
                 resources:
                   requests:
-                    storage: 20Gi
+                    storage: 25Gi
+
         # Query backend
         vmselect:
           replicaCount: 2 # HA
-          resources:
-            requests:
-              cpu: 100m
-              memory: 256Mi
-            limits:
-              cpu: 750m
-              memory: 256Mi
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: vmselect
           cacheMountPath: /select-cache
           extraArgs:
             dedup.minScrapeInterval: 30s
+            vmstorageDialTimeout: 10s
+            search.maxConcurrentRequests: "15"
             search.minStalenessInterval: 5m
-            vmalert.proxyURL: http://vmalert-victoria-metrics:8080
+            loggerTimezone: ${TIMEZONE}
+            search.maxUniqueTimeseries: "1000000"
+          resources:
+            requests:
+              cpu: 10m
+              memory: 300Mi
+            limits:
+              memory: 6Gi
+          topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: vmselect
           storage:
             volumeClaimTemplate:
               spec:
-                storageClassName: longhorn-ssd
+                storageClassName: longhorn-fast
                 resources:
                   requests:
-                    storage: 2Gi
+                    storage: 4Gi
         # Data ingestion backend
         vminsert:
           replicaCount: 2 # HA
-          resources:
-            requests:
-              cpu: 100m
-              memory: 256Mi
-            limits:
-              cpu: 500m
-              memory: 256Mi
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: vminsert
           extraArgs:
             maxLabelsPerTimeseries: "90" # More needed if you are scraping a LOT of stuff and having issues
+            # insert.maxConcurrentRequests: 10
+          resources:
+            requests:
+              cpu: 10m
+              memory: 300Mi
+            limits:
+              memory: 6Gi
+          topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: vminsert
+      ingress:
+        storage:
+          enabled: true
+          ingressClassName: internal
+          hosts:
+            - &hoststorage vmstorage.${SECRET_DOMAIN}
+          tls:
+            - hosts:
+                - *hoststorage
 
-    # VM Alerting (however, this just watches & passes alerts to alertmanager)
+        select:
+          enabled: true
+          ingressClassName: internal
+          hosts:
+            - &hostselect vmselect.${SECRET_DOMAIN}
+          tls:
+            - hosts:
+                - *hostselect
+
+        insert:
+          enabled: true
+          ingressClassName: internal
+          hosts:
+            - &hostinsert vminsert.${SECRET_DOMAIN}
+          tls:
+            - hosts:
+                - *hostinsert
+
+    # Prometheus alertmanager spinup
+    # Wait, why are we using vmalert AND prometheus alertmanager???
+    # VMalert isnt fully featured and VM acknowledge its a favourite
+    # for example,
+    alertmanager:
+      enabled: true
+
+      ingress:
+        enabled: true
+        ingressClassName: internal
+        hosts:
+          - &hostam alertmanager.${SECRET_DOMAIN}
+        tls:
+          - hosts:
+              - *hostam
+      spec:
+        selectAllByDefault: true
+        externalURL: https://alertmanager.${SECRET_DOMAIN}
+        replicaCount: 2
+        # Import Alertmanager config from a existing secret
+        # this can be configured directly in chart but it can
+        #   be a bit unweildy to manage
+        configSecret: alertmanager-secret
+        # I needed this for talos using local-hostpath - YMMV
+        #
+        securityContext:
+          runAsGroup: 2000
+          runAsNonRoot: true
+          runAsUser: 1000
+          fsGroup: 2000
+          seccompProfile:
+            type: RuntimeDefault
+
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn-fast
+              resources:
+                requests:
+                  storage: 50Mi
+
+      # Extra slack templates
+      monzoTemplate:
+        enabled: false
+
+    # VM Alerting (however, this just watches & passes alerts to prom-alertmanager below...)
     vmalert:
       enabled: true
       spec:
-        replicaCount: 2
+        replicaCount: 2 # HA
+        extraArgs:
+          external.url: https://vmalert.${SECRET_DOMAIN}
+        evaluationInterval: "60s"
         resources:
           requests:
-            cpu: 50m
+            cpu: 10m
             memory: 128Mi
           limits:
             cpu: 150m
-            memory: 256Mi
+            memory: 6Gi
         topologySpreadConstraints:
           - maxSkew: 1
             topologyKey: kubernetes.io/hostname
@@ -141,15 +340,21 @@ spec:
             labelSelector:
               matchLabels:
                 app.kubernetes.io/name: vmalert
-        extraArgs:
-          external.url: https://vmalert.${SECRET_DOMAIN}
         notifiers:
-          - url: http://alertmanager.observability.svc.cluster.local:9093
+          - selector:
+              namespaceSelector:
+                matchNames: ["observability"]
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: victoria-metrics-k8s-stack
       ingress:
         enabled: true
         ingressClassName: internal
         hosts:
-          - vmalert.${SECRET_DOMAIN}
+          - &hostalert vmalert.${SECRET_DOMAIN}
+        tls:
+          - hosts:
+              - *hostalert
 
     # VM Data scraping
     vmagent:
@@ -157,16 +362,30 @@ spec:
       spec:
         replicaCount: 1
         shardCount: 2
-        scrapeInterval: 30s
+        selectAllByDefault: true
+        extraArgs:
+          promscrape.streamParse: "true"
+          sortLabels: "true"
+          promscrape.maxScrapeSize: "100MB"
+          # Do not store original labels in vmagent's memory by default. This reduces the amount of memory used by vmagent
+          # but makes vmagent debugging UI less informative. See: https://docs.victoriametrics.com/vmagent/#relabel-debug
+          promscrape.dropOriginalLabels: "true"
+        scrapeInterval: "30s"
+        additionalScrapeConfigs:
+          name: vm-additional-scrape-configs
+          key: prometheus-additional.yaml
         externalLabels:
-          cluster: main
+          cluster: ark
+        remoteWriteSettings:
+          label:
+            cluster: ark
         resources:
           requests:
-            cpu: 50m
+            cpu: 10m
             memory: 256Mi
           limits:
-            cpu: 400m
-            memory: 512Mi
+            cpu: 1000m
+            memory: 2Gi
         topologySpreadConstraints:
           - maxSkew: 1
             topologyKey: kubernetes.io/hostname
@@ -174,108 +393,325 @@ spec:
             labelSelector:
               matchLabels:
                 app.kubernetes.io/name: vmagent
-        additionalScrapeConfigs:
-          name: vm-additional-scrape-configs
-          key: prometheus-additional.yaml
       ingress:
         enabled: true
         ingressClassName: internal
         hosts:
-          - vmagent.${SECRET_DOMAIN}
+          - &hostagent vmagent.${SECRET_DOMAIN}
+        tls:
+          - hosts:
+              - *hostagent
 
     # Single-binary vm cluster alternative (liteweight, non-HA)
     vmsingle:
       enabled: false
 
-    # Extra slack templates
-    monzoTemplate:
-      enabled: false
+    # -- prometheus-node-exporter dependency chart configuration. For possible values check [here](https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-node-exporter/values.yaml)
+    prometheus-node-exporter:
+      enabled: true
 
-    # Scrape configs
+      # all values for prometheus-node-exporter helm chart can be specified here
+      service:
+        # Add the 'node-exporter' label to be used by serviceMonitor to match standard common usage in rules and grafana dashboards
+        #
+        labels:
+          jobLabel: node-exporter
+      extraArgs:
+        - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+        - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+      # -- Node Exporter VM scrape config
+      vmScrape:
+        # whether we should create a service scrape resource for node-exporter
+        enabled: true
+
+        # -- [Scrape configuration](https://docs.victoriametrics.com/operator/api#vmservicescrapespec) for Node Exporter
+        spec:
+          jobLabel: jobLabel
+          selector:
+            matchLabels:
+              app.kubernetes.io/name: '{{ include "prometheus-node-exporter.name" (index .Subcharts "prometheus-node-exporter") }}'
+          endpoints:
+            - port: metrics
+              metricRelabelConfigs:
+                - action: drop
+                  source_labels: [mountpoint]
+                  regex: "/var/lib/kubelet/pods.+"
+
+    # -- kube-state-metrics dependency chart configuration. For possible values check [here](https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-state-metrics/values.yaml)
+    kube-state-metrics:
+      enabled: true
+      # -- [Scrape configuration](https://docs.victoriametrics.com/operator/api#vmservicescrapespec) for Kube State Metrics
+      vmScrape:
+        enabled: true
+        spec:
+          selector:
+            matchLabels:
+              app.kubernetes.io/name: '{{ include "kube-state-metrics.name" (index .Subcharts "kube-state-metrics") }}'
+              app.kubernetes.io/instance: '{{ include "vm.release" . }}'
+          endpoints:
+            - port: http
+              honorLabels: true
+              metricRelabelConfigs:
+                - action: labeldrop
+                  regex: (uid|container_id|image_id)
+          jobLabel: app.kubernetes.io/name
+
+    # -- Component scraping the kubelets
     kubelet:
       enabled: true
-      spec:
-        interval: 30s
-        # drop high cardinality label and useless metrics for cadvisor and kubelet
-        metricRelabelConfigs:
-          - action: labeldrop
-            regex: (uid|pod_uid|id)
-          - action: labeldrop
-            regex: (name)
-          - action: drop
-            source_labels: [__name__]
-            regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
-          - action: drop
-            source_labels: [__name__]
-            regex: (container_tasks_state|container_memory_failures_total)
-          - action: drop
-            source_labels: [__name__]
-            regex: (container_blkio_device_usage_total)
-          - action: drop
-            source_labels: [__name__]
-            regex: (prober_probe_duration_seconds_bucket)
-        relabelConfigs:
-          - action: labelmap
-            regex: __meta_kubernetes_node_label_(.+)
-          - sourceLabels: [__metrics_path__]
-            targetLabel: metrics_path
-          - targetLabel: "job"
-            replacement: "kubelet"
+      vmScrapes:
+        # -- Enable scraping /metrics/cadvisor from kubelet's service
+        cadvisor:
+          enabled: true
+          spec:
+            path: /metrics/cadvisor
+        # -- Enable scraping /metrics/probes from kubelet's service
+        probes:
+          enabled: true
+          spec:
+            path: /metrics/probes
+        # -- Enabled scraping /metrics/resource from kubelet's service
+        resources:
+          enabled: true
+          spec:
+            path: /metrics/resource
+        kubelet:
+          spec: {}
+      # -- Spec for VMNodeScrape CRD is [here](https://docs.victoriametrics.com/operator/api.html#vmnodescrapespec)
+      vmScrape:
+        kind: VMNodeScrape
+        spec:
+          scheme: "https"
+          honorLabels: true
+          interval: "30s"
+          scrapeTimeout: "5s"
+          tlsConfig:
+            insecureSkipVerify: true
+            caFile: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+          bearerTokenFile: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+          # drop high cardinality label and useless metrics for cadvisor and kubelet
+          metricRelabelConfigs:
+            # Remove duplicate labels provided by k3s
+            - action: keep
+              sourceLabels: ["__name__"]
+              regex: (apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|authentication_token|cadvisor_version|container_blkio|container_cpu|container_fs|container_last|container_memory|container_network|container_oom|container_processes|container|csi_operations|disabled_metric|get_token|go|hidden_metric|kubelet_certificate|kubelet_cgroup|kubelet_container|kubelet_containers|kubelet_cpu|kubelet_device|kubelet_graceful|kubelet_http|kubelet_lifecycle|kubelet_managed|kubelet_node|kubelet_pleg|kubelet_pod|kubelet_run|kubelet_running|kubelet_runtime|kubelet_server|kubelet_started|kubelet_volume|kubernetes_build|kubernetes_feature|machine_cpu|machine_memory|machine_nvm|machine_scrape|node_namespace|plugin_manager|prober_probe|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|registered_metric|rest_client|scrape_duration|scrape_samples|scrape_series|storage_operation|volume_manager|volume_operation|workqueue)_(.+)
+            - action: replace
+              sourceLabels: ["node"]
+              targetLabel: instance
+            # Drop high cardinality labels
+            - action: labeldrop
+              regex: (uid)
+            - action: labeldrop
+              regex: (id|name)
+            - action: drop
+              source_labels: [__name__]
+              regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
+            - action: drop
+              source_labels: [__name__]
+              regex: (container_tasks_state|container_memory_failures_total)
+            - action: drop
+              source_labels: [__name__]
+              regex: (container_blkio_device_usage_total)
+            - action: drop
+              source_labels: [__name__]
+              regex: (prober_probe_duration_seconds_bucket)
+          relabelConfigs:
+            - action: labelmap
+              regex: __meta_kubernetes_node_label_(.+)
+            - sourceLabels: [__metrics_path__]
+              targetLabel: metrics_path
+            - targetLabel: "job"
+              replacement: "kubelet"
+          # ignore timestamps of cadvisor's metrics by default
+          # more info here https://github.com/VictoriaMetrics/VictoriaMetrics/issues/4697#issuecomment-1656540535
+          honorTimestamps: false
+
+    # Component scraping the kube api server
     kubeApiServer:
+      # -- Enable Kube Api Server metrics scraping
       enabled: true
+      # -- Spec for VMServiceScrape CRD is [here](https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec)
+      vmScrape:
+        spec:
+          endpoints:
+            - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+              port: https
+              scheme: https
+              tlsConfig:
+                caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                serverName: kubernetes
+                insecureSkipVerify: true
+              metricRelabelConfigs:
+                # Remove duplicate labels provided by k3s
+                - action: keep
+                  sourceLabels: ["__name__"]
+                  regex: (aggregator_openapi|aggregator_unavailable|apiextensions_openapi|apiserver_admission|apiserver_audit|apiserver_cache|apiserver_cel|apiserver_client|apiserver_crd|apiserver_current|apiserver_envelope|apiserver_flowcontrol|apiserver_init|apiserver_kube|apiserver_longrunning|apiserver_request|apiserver_requested|apiserver_response|apiserver_selfrequest|apiserver_storage|apiserver_terminated|apiserver_tls|apiserver_watch|apiserver_webhooks|authenticated_user|authentication|disabled_metric|etcd_bookmark|etcd_lease|etcd_request|field_validation|get_token|go|grpc_client|hidden_metric|kube_apiserver|kubernetes_build|kubernetes_feature|node_authorizer|pod_security|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|registered_metric|rest_client|scrape_duration|scrape_samples|scrape_series|serviceaccount_legacy|serviceaccount_stale|serviceaccount_valid|watch_cache|workqueue)_(.+)
+                # Drop high cardinality labels
+                - action: drop
+                  sourceLabels: ["__name__"]
+                  regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
+                - action: drop
+                  sourceLabels: ["__name__"]
+                  regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
+          jobLabel: component
+          namespaceSelector:
+            matchNames:
+              - default
+          selector:
+            matchLabels:
+              component: apiserver
+              provider: kubernetes
+
+    # Add kubeControllerManager scrape
     kubeControllerManager:
       enabled: true
-    kubeProxy:
+
+      endpoints: &ep
+        - 192.168.108.149
+        - 192.168.108.209
+        - 192.168.108.238
+
+      # If using kubeControllerManager.endpoints only the port and targetPort are used
+      service:
+        # -- Create service for kube controller manager metrics scraping
+        enabled: true
+        # -- Kube controller manager service port
+        port: 10257
+        # -- Kube controller manager service target port
+        targetPort: 10257
+        # -- Kube controller manager service pod selector
+        selector:
+          component: kube-controller-manager
+      # -- Spec for VMServiceScrape CRD is [here](https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec)
+      vmScrape:
+        spec:
+          jobLabel: jobLabel
+          namespaceSelector:
+            matchNames:
+              - "kube-system"
+          endpoints:
+            - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+              # bearerTokenSecret:
+              #   key: ""
+              port: http-metrics
+              scheme: https
+              tlsConfig:
+                caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                serverName: kubernetes
+                insecureSkipVerify: true
+              metricRelabelConfigs:
+                 # Remove duplicate labels provided by k3s
+                - action: keep
+                  sourceLabels: ["__name__"]
+                  regex: "(apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|attachdetach_controller|authenticated_user|authentication|cronjob_controller|disabled_metric|endpoint_slice|ephemeral_volume|garbagecollector_controller|get_token|go|hidden_metric|job_controller|kubernetes_build|kubernetes_feature|leader_election|node_collector|node_ipam|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|pv_collector|registered_metric|replicaset_controller|rest_client|retroactive_storageclass|root_ca|running_managed|scrape_duration|scrape_samples|scrape_series|service_controller|storage_count|storage_operation|ttl_after|volume_operation|workqueue)_(.+)"
+
+    # Component scraping kubeDns. Use either this or coreDns
+    kubeDns:
+      # -- Enabled KubeDNS metrics scraping
+      enabled: false
+
+    # Component scraping coreDns. Use either this or kubeDns
+    coreDns:
+      # -- Enabled CoreDNS metrics scraping
       enabled: true
-    kubeScheduler:
-      enabled: true
+      service:
+        # -- Create service for CoreDNS metrics
+        enabled: true
+        # -- CoreDNS service port
+        port: 9153
+        # -- CoreDNS service target port
+        targetPort: 9153
+        # -- CoreDNS service pod selector
+        selector:
+          k8s-app: kube-dns
+
+      # -- Spec for VMServiceScrape CRD is [here](https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec)
+      vmScrape:
+        spec:
+          jobLabel: jobLabel
+          namespaceSelector:
+            matchNames: [kube-system]
+          endpoints:
+            - port: http-metrics
+              bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+
+    # Add kubeEtcd scrape
     kubeEtcd:
       enabled: true
+      endpoints: *ep
 
-    # Enable deployment of kube-state-metrics
-    kube-state-metrics:
-      enabled: false
+      # Etcd service. If using kubeEtcd.endpoints only the port and targetPort are used
+      service:
+        # -- Enable service for ETCD metrics scraping
+        enabled: true
+        port: 2381
+        targetPort: 2381
+      # -- Spec for VMServiceScrape CRD is [here](https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec)
+      vmScrape:
+        spec:
+          jobLabel: jobLabel
+          namespaceSelector:
+            matchNames: [kube-system]
+          endpoints:
+            - port: http-metrics
+              scheme: http
 
-    # Enable deployment of prometheus-node-exporter
-    prometheus-node-exporter:
-      enabled: false
+
+
+    # Add kubeScheduler scrape
+    kubeScheduler:
+      # -- Enable KubeScheduler metrics scraping
+      enabled: true
+
+      # -- If your kube scheduler is not deployed as a pod, specify IPs it can be found on
+      endpoints: *ep
+      # If using kubeScheduler.endpoints only the port and targetPort are used
+      service:
+        # -- Enable service for KubeScheduler metrics scrape
+        enabled: true
+        # -- KubeScheduler service port
+        port: 10259
+        # -- KubeScheduler service target port
+        targetPort: 10259
+        # -- KubeScheduler service pod selector
+        selector:
+          component: kube-scheduler
+
+      # -- Spec for VMServiceScrape CRD is [here](https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec)
+      vmScrape:
+        spec:
+          jobLabel: jobLabel
+          namespaceSelector:
+            matchNames: [kube-system]
+          endpoints:
+            - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+              # bearerTokenSecret:
+              #   key: ""
+              port: http-metrics
+              scheme: https
+              tlsConfig:
+                caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                insecureSkipVerify: true
+              metricRelabelConfigs:
+                # Remove duplicate labels provided by k3s
+                - action: keep
+                  sourceLabels: ["__name__"]
+                  regex: "(apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|authenticated_user|authentication|disabled_metric|go|hidden_metric|kubernetes_build|kubernetes_feature|leader_election|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|registered_metric|rest_client|scheduler|scrape_duration|scrape_samples|scrape_series|workqueue)_(.+)"
+
+
+    kubeProxy:
+      enabled: false # Disabled because eBPF
 
     # Enable deployment of grafana
-    defaultDashboardsEnabled: false
+    # I chose to deploy this seperately and manage it myself
+    #   insetad of trusting the stack chart
     grafana:
       enabled: false
 
-    # Enable deployment of alertmanager
-    alertmanager:
-      enabled: false
+    ## install vm operator crds
+    crds:
+      enabled: true
 
-    # Prepared sets of default rules
-    # Adjust to what scraping functions you have enabled
-    # i.e. if you dont have kubeapisever setup & enabled, disable
-    #   the kubeApiserver rules below
-    defaultRules:
-      create: true
-      rules:
-        etcd: true
-        general: true
-        k8s: true
-        kubeApiserver: true
-        kubeApiserverAvailability: true
-        kubeApiserverBurnrate: true
-        kubeApiserverHistogram: true
-        kubeApiserverSlos: true
-        kubelet: true
-        kubePrometheusGeneral: true
-        kubePrometheusNodeRecording: true
-        kubernetesApps: true
-        kubernetesResources: true
-        kubernetesStorage: true
-        kubernetesSystem: true
-        kubeScheduler: false
-        kubeStateMetrics: true
-        network: true
-        node: true
-        vmagent: true
-        vmsingle: false
-        vmhealth: true
-        alertmanager: false
+    ## install prometheus operator crds
+    prometheus-operator-crds:
+      enabled: true
