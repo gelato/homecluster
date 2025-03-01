@@ -81,6 +81,17 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
+        pod:
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: "app.kubernetes.io/name"
+                      operator: In
+                      values:
+                        - jellyfin
+                topologyKey: "kubernetes.io/hostname"
     service:
       app:
         controller: lidarr
